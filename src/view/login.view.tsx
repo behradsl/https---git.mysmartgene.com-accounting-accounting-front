@@ -10,7 +10,7 @@ export default function LoginPage() {
       {/* Entire page container */}
       <div className=" flex flex-col items-center justify-center min-h-screen w-full">
         {/* Background image */}
-        <div className="fixed top-0 bottom-50  z-[-1]">
+        <div className="fixed top-0 bottom-50 max-w-lg z-[-1]">
           <Image
             src={"/Background pattern decorative.png"}
             alt=""
