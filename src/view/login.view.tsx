@@ -1,7 +1,34 @@
+'use client'
+
+import { useAuth } from "@/hooks/use-auth.hook";
 import Head from "next/head";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { login, user } = useAuth();
+  const router = useRouter();
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      await login(email, password);
+      router.push("/panel");
+    } catch (err) {
+      setError("Invalid credentials");
+    }
+  };
+
+  if (user) {
+    router.push("/panel");
+    return null;
+  }
   return (
     <>
       <Head>
@@ -46,6 +73,8 @@ export default function LoginPage() {
                   type="email"
                   id="email"
                   placeholder="Enter your email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                   className="w-full border-gray-300 rounded-lg p-2 border focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
@@ -60,6 +89,8 @@ export default function LoginPage() {
                   type="password"
                   id="password"
                   placeholder="Enter your password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
                   className="w-full border-gray-300 rounded-lg p-2 border focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
