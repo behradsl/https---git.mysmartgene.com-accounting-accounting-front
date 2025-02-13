@@ -5,6 +5,8 @@ import { DataTableRow } from "@/components/data-table.component";
 type Props = {};
 
 const PanelView = (props: Props) => {
+
+  
   const data: DataTableRow[] = [
     {
       MotId: "kjksf",
