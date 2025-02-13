@@ -1,71 +1,93 @@
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubItem,
-} from "@/components/ui/sidebar";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+"use client"
 
-const items = [
+import * as React from "react"
+import { ChevronDown, ChevronRight, Home, Settings, Users } from "lucide-react"
+
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+import { Sidebar, SidebarContent, SidebarHeader, SidebarTrigger, useSidebar } from "@/components/ui/sidebar"
+import { Card, CardContent } from "@/components/ui/card"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
+const menuItems = [
   {
-    title: "Home",
-    url: "#",
+    title: "Dashboard",
     icon: Home,
+    items: ["registries", "preview", "Metrics"],
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
+    title: "Users",
+    icon: Users,
+    items: ["Manage", "Roles", "Permissions"],
   },
 ]
 
-function SidebarApp() {
+export function AppSidebar() {
+  const { state } = useSidebar()
+
   return (
     <Sidebar>
-      <SidebarHeader />
-      <SidebarContent>
-        <SidebarMenu>
-          <Collapsible defaultOpen className="group/collapsible">
-            <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarMenuButton />
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <SidebarMenuSub>
-                  <SidebarMenuSubItem />
-                </SidebarMenuSub>
-              </CollapsibleContent>
-            </SidebarMenuItem>
-          </Collapsible>
-        </SidebarMenu>
-        <SidebarGroup />
-        <SidebarGroup />
+      <SidebarHeader className="flex flex-row items-center justify-between p-4">
+        <h2 className={cn("text-lg font-semibold", state === "collapsed" && "hidden")}>MENU</h2>
+        <SidebarTrigger />
+      </SidebarHeader>
+      <SidebarContent className="flex flex-col justify-between h-full">
+        <div>
+          {menuItems.map((item) => (
+            <CollapsibleMenuItem key={item.title} item={item} />
+          ))}
+        </div>
+        <UserCard />
       </SidebarContent>
-      <SidebarFooter />
     </Sidebar>
-  );
+  )
 }
 
-export default SidebarApp ;
+function CollapsibleMenuItem({ item }: { item: (typeof menuItems)[number] }) {
+  const { state } = useSidebar()
+  const [isOpen, setIsOpen] = React.useState(false)
+  const Icon = item.icon
+
+  return (
+    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+      <CollapsibleTrigger asChild>
+        <Button
+          variant="ghost"
+          className={cn("w-full justify-between px-4 py-2", state === "collapsed" && "justify-center")}
+        >
+          <div className="flex items-center gap-2">
+            <Icon className="h-5 w-5" />
+            <span className={cn(state === "collapsed" && "hidden")}>{item.title}</span>
+          </div>
+          {state !== "collapsed" && (isOpen ? <ChevronDown /> : <ChevronRight />)}
+        </Button>
+      </CollapsibleTrigger>
+      <CollapsibleContent className={cn(state === "collapsed" && "hidden")}>
+        <div className="space-y-1 px-8 py-2">
+          {item.items.map((subItem) => (
+            <Button key={subItem} variant="ghost" className="w-full justify-start">
+              {subItem}
+            </Button>
+          ))}
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+  )
+}
+
+function UserCard() {
+  return (
+    <Card className="m-4 p-3 flex items-center gap-3">
+      <Avatar>
+        <AvatarImage src="/placeholder-avatar.jpg" alt="User Avatar" />
+        <AvatarFallback>U</AvatarFallback>
+      </Avatar>
+      <div className="flex flex-col">
+        <span className="font-medium">John Doe</span>
+        <span className="text-sm text-gray-500">Admin</span>
+      </div>
+      
+    </Card>
+  )
+}
