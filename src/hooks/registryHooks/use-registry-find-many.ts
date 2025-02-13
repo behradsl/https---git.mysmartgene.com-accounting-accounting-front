@@ -1,17 +1,17 @@
 import useSWR from "swr";
 import fetcher from "@/utilities/fetcher";
 
-export function useAuth() {
+export function useRegistryFindMany() {
   const {
     data: user,
     error,
     mutate,
     isLoading,
-  } = useSWR(`/auth/user`, fetcher);
+  } = useSWR(`/registry/findMany`, fetcher);
 
   const login = async (username: string, password: string) => {
     try {
-      await fetcher("/auth/user/signin", "post", { username, password });
+      await fetcher("/registry/findMany", "post", { });
       mutate();
     } catch (err) {
       throw new Error("Invalid credentials");
