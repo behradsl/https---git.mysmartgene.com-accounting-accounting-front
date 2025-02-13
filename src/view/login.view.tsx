@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useAuth } from "@/hooks/use-auth.hook";
 import Head from "next/head";
@@ -25,10 +25,7 @@ export default function LoginPage() {
     }
   };
 
-  if (user) {
-    router.push("/panel");
-    return null;
-  }
+   
   return (
     <>
       <Head>
@@ -61,7 +58,10 @@ export default function LoginPage() {
             </div>
 
             {/* Form container */}
-            <form className="flex flex-col space-y-4 w-full p-8 ">
+            <form
+              onSubmit={handleLogin}
+              className="flex flex-col space-y-4 w-full p-8 "
+            >
               <div>
                 <label
                   className="block text-sm font-medium mb-1"
