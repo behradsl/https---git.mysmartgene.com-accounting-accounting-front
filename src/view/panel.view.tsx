@@ -1,8 +1,9 @@
 "use client";
 import DataTable from "@/components/data-table.component";
 import React, { useEffect, useState } from "react";
-import { DataTableRow } from "@/components/data-table.component";
+
 import api from "@/api";
+import { DataTableRow } from "@/types/dataTable.type";
 
 type Props = {};
 
@@ -59,6 +60,16 @@ const PanelView = (props: Props) => {
           : "",
         sampleStatus: registry.sampleStatus || "",
         sendSeries: registry.sendSeries || "",
+        createdAt: registry.createdAt
+          ? new Date(registry.createdAt).toISOString()
+          : "",
+        updatedAt: registry.createdAt
+          ? new Date(registry.createdAt).toISOString()
+          : "",
+
+         registryCreatedBy: registry.registryCreatedBy || "",
+        updatedBy: registry.registryUpdatedBy || "",
+
       }));
 
       setTableData(formattedData);

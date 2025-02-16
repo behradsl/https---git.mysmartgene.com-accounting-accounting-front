@@ -24,12 +24,12 @@ const menuItems = [
   {
     title: "Dashboard",
     icon: Home,
-    items: ["registries", "preview", "Metrics"],
+    items: ["registries", "previewed" ],
   },
   {
     title: "Users",
     icon: Users,
-    items: ["Manage", "Roles", "Permissions"],
+    items: ["Manage", "Permissions"],
   },
 ];
 
