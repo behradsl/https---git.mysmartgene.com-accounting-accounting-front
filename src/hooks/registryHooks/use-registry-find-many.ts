@@ -1,27 +1,22 @@
-import useSWR from "swr";
 import fetcher from "@/utilities/fetcher";
+import useSWR from "swr";
 
-export function useRegistryFindMany() {
+export function useRegistryFindMany() {  
   const {
-    data: user,
+    data: Registries,
     error,
     mutate,
     isLoading,
   } = useSWR(`/registry/findMany`, fetcher);
 
-  const login = async (username: string, password: string) => {
+  const allRegistries = async () => {
     try {
-      await fetcher("/registry/findMany", "post", { });
+      await fetcher("/registry/findMany", "get");
       mutate();
     } catch (err) {
-      throw new Error("Invalid credentials");
+      throw new Error("An error occurred!");
     }
   };
 
-  const logout = async () => {
-    await fetcher("/auth/user/signout", "post");
-    mutate(null);
-  };
-
-  return { user, error, login, logout, isLoading };
+  return { Registries, error, allRegistries, isLoading };
 }

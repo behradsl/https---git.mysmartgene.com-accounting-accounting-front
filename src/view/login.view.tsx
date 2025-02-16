@@ -1,16 +1,17 @@
 "use client";
 
-import { useAuth } from "@/hooks/use-auth.hook";
+import api from '@/api'
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function LoginPage() {
+
+function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { login, user } = useAuth();
+  const { login, user } = api.useAuth();
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -119,3 +120,5 @@ export default function LoginPage() {
     </>
   );
 }
+
+export default LoginPage;

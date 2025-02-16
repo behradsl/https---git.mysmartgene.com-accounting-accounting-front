@@ -106,6 +106,45 @@ export const columns: ColumnDef<DataTableRow>[] = [
     cell: ({ row }) => <Badge>{row.original?.settlementStatus}</Badge>,
   },
   {
+    id: "KoreaSendDate",
+    accessorKey: "KoreaSendDate",
+    header: "Korea Send Date",
+    cell: ({ row }) => {
+      const date = row.original.KoreaSendDate;
+      return date ? new Date(date).toLocaleDateString() : "-";
+    },
+  },
+  { id: "installmentOne", accessorKey: "installmentOne", header: "installmentOne ($)" },
+  {
+    id: "installmentOneDate",
+    accessorKey: "installmentOneDate",
+    header: "Installment One Date",
+    cell: ({ row }) => {
+      const date = row.original.installmentOneDate;
+      return date ? new Date(date).toLocaleDateString() : "-";
+    },
+  },
+  { id: "installmentTwo", accessorKey: "installmentTwo", header: "installmentTwo ($)" },
+  {
+    id: "installmentTwoDate",
+    accessorKey: "installmentTwoDate",
+    header: "Installment One Date",
+    cell: ({ row }) => {
+      const date = row.original.installmentOneDate;
+      return date ? new Date(date).toLocaleDateString() : "-";
+    },
+  },
+  { id: "installmentThree", accessorKey: "installmentThree", header: "installmentThree ($)" },
+  {
+    id: "installmentThreeDate",
+    accessorKey: "installmentThreeDate",
+    header: "Installment One Date",
+    cell: ({ row }) => {
+      const date = row.original.installmentOneDate;
+      return date ? new Date(date).toLocaleDateString() : "-";
+    },
+  },
+  {
     id: "invoiceStatus",
     accessorKey: "invoiceStatus",
     header: "Invoice Status",
