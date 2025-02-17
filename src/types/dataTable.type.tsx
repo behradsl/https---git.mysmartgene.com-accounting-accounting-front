@@ -68,6 +68,7 @@ export const columns: ColumnDef<DataTableRow>[] = [
   { id: "name", accessorKey: "name", header: "Name" },
   { id: "Laboratory", accessorKey: "Laboratory", header: "Laboratory" },
   { id: "serviceType", accessorKey: "serviceType", header: "Service Type" },
+  { id: "description", accessorKey: "description", header: "description" },
   {
     id: "kitType",
     accessorKey: "kitType",

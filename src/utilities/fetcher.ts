@@ -8,12 +8,12 @@ const api = axios.create({
   headers: { version: 1, "Content-Type": "application/json" },
 });
 
-const fetcher = async (
+const fetcher= async<T=any>  (
   url: string,
   method: "get" | "post" | "put" | "delete" = "get",
   data?: any
 ) => {
-  const res = await api.request({ url, method, data });
+  const res = await api.request<T>({ url, method, data });
   return res.data;
 };
 

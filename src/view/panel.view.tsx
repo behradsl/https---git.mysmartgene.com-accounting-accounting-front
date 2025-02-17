@@ -20,6 +20,7 @@ const PanelView = (props: Props) => {
         Laboratory: registry.Laboratory || "",
         serviceType: registry.serviceType || "",
         kitType: registry.kitType || "",
+
         urgentStatus: registry.urgentStatus || false,
         price: registry.price || 0,
         description: registry.description || "",
@@ -67,9 +68,8 @@ const PanelView = (props: Props) => {
           ? new Date(registry.createdAt).toISOString()
           : "",
 
-         registryCreatedBy: registry.registryCreatedBy || "",
+        registryCreatedBy: registry.registryCreatedBy || "",
         updatedBy: registry.registryUpdatedBy || "",
-
       }));
 
       setTableData(formattedData);

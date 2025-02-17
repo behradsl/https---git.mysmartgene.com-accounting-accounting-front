@@ -5,8 +5,10 @@ import { Card } from "./ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Button } from "./ui/button";
 import { LogOut } from "lucide-react";
+import { useUser } from "@/store/user.store";
 
 function UserCard() {
+    const currentUser = useUser(({user})=>(user))
     const { logout ,user } = useAuth();
     const router = useRouter();
     const [error, setError] = React.useState("");
@@ -18,6 +20,7 @@ function UserCard() {
         setError("logout failed!");
       }
     };
+    
   
     return (
       <Card className="m-4 p-3 flex items-center gap-3 justify-between">
@@ -27,8 +30,8 @@ function UserCard() {
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <span className="font-medium">John Doe</span>
-            <span className="text-sm text-gray-500">Admin</span>
+            <span className="font-medium">{currentUser?.name}</span>
+            <span className="text-sm text-gray-500">{currentUser?.position}</span>
           </div>
         </div>
         <Button variant="ghost" size="icon" onClick={handleLogout}>

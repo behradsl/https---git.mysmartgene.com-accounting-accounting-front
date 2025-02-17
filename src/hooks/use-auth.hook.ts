@@ -1,7 +1,7 @@
-
-
 import useSWR from "swr";
 import fetcher from "@/utilities/fetcher";
+import { useUser ,UserStoreType} from "@/store/user.store";
+
 
 export function useAuth() {
   const {
@@ -11,10 +11,16 @@ export function useAuth() {
     isLoading,
   } = useSWR(`/auth/user`, fetcher);
 
+  const { setUser } = useUser();
+
   const login = async (username: string, password: string) => {
     try {
-      await fetcher("/auth/user/signin", "post", { username, password });
+      const userInfo = await fetcher("/auth/user/signin", "post", {
+        username,
+        password,
+      });
       mutate();
+      setUser(userInfo);
     } catch (err) {
       throw new Error("Invalid credentials");
     }
@@ -23,7 +29,17 @@ export function useAuth() {
   const logout = async () => {
     await fetcher("/auth/user/signout", "post");
     mutate(null);
+    setUser(undefined);
   };
 
-  return { user, error, login, logout, isLoading };
+  const isLoggedIn = async () => {
+    const user = await fetcher<UserStoreType['user']>("/auth/user", "get");
+    mutate(null);
+    if (user?.id) setUser(user);
+    else setUser(undefined);
+
+    return user;
+  };
+
+  return { user, error, login, logout, isLoading, isLoggedIn };
 }
