@@ -19,17 +19,25 @@ import {
 } from "@/components/ui/sidebar";
 
 import UserCard from "./user-card.component";
+import { title } from "process";
+import Link from "next/link";
 
 const menuItems = [
   {
     title: "Dashboard",
     icon: Home,
-    items: ["registries", "previewed" ],
+    items: [
+      { title: "registries", href: "/panel/registries" },
+      { title: "previewed", href: "" },
+    ],
   },
   {
     title: "Users",
     icon: Users,
-    items: ["Manage", "Permissions"],
+    items: [
+      { title: "user management", href: "" },
+      { title: "permissions", href: "" },
+    ],
   },
 ];
 
@@ -51,8 +59,11 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent className="flex flex-col justify-between h-full">
         <div>
-          {menuItems.map((item) => (
-            <CollapsibleMenuItem key={item.title} item={item} />
+          {menuItems.map((item, idx) => (
+            <CollapsibleMenuItem
+              key={`menuItem-${idx}-${item.title}`}
+              item={item}
+            />
           ))}
         </div>
         <UserCard />
@@ -88,13 +99,14 @@ function CollapsibleMenuItem({ item }: { item: (typeof menuItems)[number] }) {
       </CollapsibleTrigger>
       <CollapsibleContent className={cn(state === "collapsed" && "hidden")}>
         <div className="space-y-1 px-8 py-2">
-          {item.items.map((subItem) => (
+          {item.items.map((subItem, idx) => (
             <Button
-              key={subItem}
+              asChild
+              key={`subItem-${idx}-${subItem.title}`}
               variant="ghost"
               className="w-full justify-start"
             >
-              {subItem}
+              <Link href={subItem.href}> {subItem.title}</Link>
             </Button>
           ))}
         </div>
