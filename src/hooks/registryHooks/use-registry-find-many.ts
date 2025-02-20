@@ -1,22 +1,8 @@
-import fetcher from "@/utilities/fetcher";
-import useSWR from "swr";
+import { useApiFetch } from "../api-hooks/use-api-fetch";
+import { RegistryType } from "./types/registry.type";
 
-export function useRegistryFindMany() {  
-  const {
-    data: Registries,
-    error,
-    mutate,
-    isLoading,
-  } = useSWR(`/registry/findMany`, fetcher);
+export function useRegistryFindMany() {
+  const { data: registries, error, isLoading } = useApiFetch<Partial<RegistryType>[]>("/registry/all");
 
-  const allRegistries = async () => {
-    try {
-      await fetcher("/registry/findMany", "get");
-      mutate();
-    } catch (err) {
-      throw new Error("An error occurred!");
-    }
-  };
-
-  return { Registries, error, allRegistries, isLoading };
+  return { registries, error, isLoading };
 }

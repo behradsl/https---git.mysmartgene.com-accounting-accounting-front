@@ -14,8 +14,8 @@ import {
 const AuthLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
   const router = useRouter();
-  const { user } = useUser();
-  const { isLoggedIn } = useAuth();
+  const { userData ,revalidate } = useAuth();
+  const {user } = useUser();
 
   const activePath = useMemo(() => {
     if (pathname.startsWith("/panel")) return "panel";
@@ -25,19 +25,19 @@ const AuthLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
   }, [pathname]);
 
   const checkUserAuthenticationStatus = useCallback(async () => {
-    const userData = await isLoggedIn();
-    console.log({userData});
     
-    if (!userData && activePath != "login") router.replace("/login");
+    await revalidate();
+    
+    if (!userData && activePath != "login") router.replace("/login"); 
 
     if (activePath === "login" && userData) router.replace("/panel");
-  }, [activePath, isLoggedIn]);
+  }, [activePath, userData]);
 
   useEffect(() => {
     checkUserAuthenticationStatus();
     console.log(activePath);
     
-  }, [activePath]);
+  }, [activePath,user]);
 
   // useEffect(() => {
   //   const source = cancelToken.source();
@@ -45,7 +45,7 @@ const AuthLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
   //   return () => source.cancel("Authentication check canceled ...");
   // }, [JSON.stringify(user || {}), getUserData]);
 
-  if (user) {
+  if (userData) {
     // if (["SUPERVISOR", "RECEPTION", "ADMIN"].includes(user.role))
     return <>{children}</>;
     //   if (

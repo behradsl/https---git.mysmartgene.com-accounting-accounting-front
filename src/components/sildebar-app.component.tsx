@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/sidebar";
 
 import UserCard from "./user-card.component";
-import { title } from "process";
+
 import Link from "next/link";
 
 const menuItems = [

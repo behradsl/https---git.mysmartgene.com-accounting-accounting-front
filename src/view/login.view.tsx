@@ -1,17 +1,17 @@
 "use client";
 
-import api from '@/api'
+import api from "@/api";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
-  const { login, user } = api.useAuth();
+  const { login, userData } = api.useAuth();
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -19,14 +19,13 @@ function LoginPage() {
     setError("");
 
     try {
-      await login(email, password);
+      await login(email, password, rememberMe);
       router.push("/panel");
     } catch (err) {
       setError("Invalid credentials");
     }
   };
 
-   
   return (
     <>
       <Head>
@@ -100,6 +99,7 @@ function LoginPage() {
                   <input
                     type="checkbox"
                     id="remember"
+                    onChange={() => setRememberMe(!rememberMe)}
                     className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                   />
                   <label htmlFor="remember" className="ml-2">

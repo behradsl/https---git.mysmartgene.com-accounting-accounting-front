@@ -9,7 +9,7 @@ export type SampleStatus =
   | "PENDING"
   | "SHIPMENT"
   | "SHIPPED"
-  | "RECEIVED_AT_LIBRARY"
+  | "RECEIVED_AT_laboratory"
   | "IN_TESTING"
   | "READY_FOR_DELIVERY"
   | "DELIVERED";
