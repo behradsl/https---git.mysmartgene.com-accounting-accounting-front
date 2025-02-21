@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   type ColumnFiltersState,
   flexRender,
@@ -8,33 +8,29 @@ import {
   getSortedRowModel,
   type SortingState,
   useReactTable,
-  type VisibilityState
-} from "@tanstack/react-table"
+  type VisibilityState,
+} from "@tanstack/react-table";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
-} from "@/components/ui/table"
+  TableRow,
+} from "@/components/ui/table";
 
-import { useState } from "react"
-
-import {
-  columns,
-  type DataTableRow
-} from "@/views/registry/registry-table-columns.data"
+import { useState } from "react";
+import { DataTableRow, registryColumns } from "./registry-table-columns.data";
 
 function RegistryTableView({ data }: { data: DataTableRow[] }) {
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = useState({})
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
     data,
-    columns,
+    columns: registryColumns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -47,9 +43,9 @@ function RegistryTableView({ data }: { data: DataTableRow[] }) {
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection
-    }
-  })
+      rowSelection,
+    },
+  });
   return (
     <Table>
       <TableHeader>
@@ -62,10 +58,10 @@ function RegistryTableView({ data }: { data: DataTableRow[] }) {
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
-                        header.getContext()
+                        header.getContext(),
                       )}
                 </TableHead>
-              )
+              );
             })}
           </TableRow>
         ))}
@@ -75,8 +71,7 @@ function RegistryTableView({ data }: { data: DataTableRow[] }) {
           table.getRowModel().rows.map((row) => (
             <TableRow
               key={row.id}
-              data-state={row.getIsSelected() && "selected"}
-            >
+              data-state={row.getIsSelected() && "selected"}>
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -86,14 +81,16 @@ function RegistryTableView({ data }: { data: DataTableRow[] }) {
           ))
         ) : (
           <TableRow>
-            <TableCell colSpan={columns.length} className='h-24 text-center'>
+            <TableCell
+              colSpan={registryColumns.length}
+              className='h-24 text-center'>
               No results.
             </TableCell>
           </TableRow>
         )}
       </TableBody>
     </Table>
-  )
+  );
 }
 
-export default RegistryTableView
+export default RegistryTableView;

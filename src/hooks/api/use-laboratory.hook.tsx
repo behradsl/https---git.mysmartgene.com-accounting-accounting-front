@@ -5,40 +5,31 @@ import type {
 import { useSwr } from "../use-swr.hook";
 import { useApiMutation } from "../use-api-mutation.hook";
 
-export function useCreateLaboratory(
-  newLaboratory: Omit<LaboratoryEntity, "id">,
-) {
+export function useCreateLaboratory() {
   const { trigger } = useApiMutation<Omit<LaboratoryEntity, "id">>(
     "post",
     "/laboratory/create",
-    newLaboratory,
   );
   return trigger;
 }
-export function useUpdateLaboratory(newLaboratory: LaboratoryEntity) {
+export function useUpdateLaboratory() {
   const { trigger } = useApiMutation<LaboratoryEntity>(
     "post",
     "/laboratory/update",
-    newLaboratory,
   );
   return trigger;
 }
 
-export function useCreateLaboratoryFormalPaymentInfo(
-  newFormalPayment: Omit<LaboratoryFormalPaymentInfoType, "id">,
-) {
+export function useCreateLaboratoryFormalPaymentInfo() {
   const { trigger } = useApiMutation<
     Omit<LaboratoryFormalPaymentInfoType, "id">
-  >("post", "/laboratory/create/payment-info", newFormalPayment);
+  >("post", "/laboratory/create/payment-info");
   return trigger;
 }
-export function useUpdateLaboratoryFormalPaymentInfo(
-  newFormalPayment: LaboratoryFormalPaymentInfoType,
-) {
+export function useUpdateLaboratoryFormalPaymentInfo() {
   const { trigger } = useApiMutation<LaboratoryFormalPaymentInfoType>(
     "post",
     "/laboratory/update/payment-info",
-    newFormalPayment,
   );
   return trigger;
 }

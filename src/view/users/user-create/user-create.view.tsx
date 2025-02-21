@@ -38,6 +38,7 @@ const formSchema = z.object({
 });
 
 const UserCreateView = (props: {}) => {
+  const {trigger:createUserCallback} = useCreateUser();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,9 +53,9 @@ const UserCreateView = (props: {}) => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const newUser = await useCreateUser({
+      const newUser = await createUserCallback({
         ...values,
-      })();
+      });
 
       toast.success("User saved.");
       router.push("/panel/users");

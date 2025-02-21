@@ -39,6 +39,7 @@ const formSchema = z.object({
 const UserUpdateView = () => {
   const { userId } = useParams();
   const router = useRouter();
+  const { trigger: updateUserCallback } = useUpdateUser();
   const { user } = useUserFindOne(userId as string);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -59,7 +60,10 @@ const UserUpdateView = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const newUser = await useUpdateUser({id:userId as string,...values})();
+      const newUser = await updateUserCallback({
+        id: userId as string,
+        ...values,
+      });
 
       router.push("/panel/users");
       form.reset();

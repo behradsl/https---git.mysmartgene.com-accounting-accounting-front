@@ -8,11 +8,12 @@ export function useUserFindMany() {
     data: users,
     error,
     isLoading,
+    mutate,
   } = useSwr<AxiosResponse<UserEntity[]>>("/user/all");
 
   console.log(users);
 
-  return { users, error, isLoading };
+  return { users, error, isLoading, mutate };
 }
 
 export function useUserFindOne(id: string) {
@@ -24,31 +25,23 @@ export function useUserFindOne(id: string) {
 
   return { user, error, isLoading };
 }
-export function useCreateUser(
-  newUser: Omit<UserEntity, "id" | "createdAt" | "updatedAt"> & {
-    password: string;
-  },
-) {
+export function useCreateUser() {
   const { trigger } = useApiMutation<
     Omit<UserEntity, "id" | "createdAt" | "updatedAt">
-  >("post", "/user/create", newUser);
-  return trigger;
+  >("post", "/user/create");
+  return { trigger };
 }
-export function useUpdateUser(
-  newUser: Partial<Omit<UserEntity, "createdAt" | "updatedAt">>,
-) {
-  const { trigger } = useApiMutation<Partial<Omit<UserEntity, "createdAt" | "updatedAt">>>(
-    "post",
-    "/user/update",
-    newUser,
-  );
-  return trigger;
+export function useUpdateUser() {
+  const { trigger } = useApiMutation<
+    Partial<Omit<UserEntity, "createdAt" | "updatedAt">>
+  >("post", "/user/update");
+  return { trigger };
 }
 
-export function useDeleteUser(userId: string) {
+export function useDeleteUser() {
   const { trigger } = useApiMutation<Pick<UserEntity, "id">>(
-    "delete",
-    `/user/delete/${userId}`,
+    "post",
+    `/user/delete`,
   );
-  return trigger;
+  return { trigger };
 }

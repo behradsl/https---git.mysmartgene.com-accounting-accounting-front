@@ -11,19 +11,17 @@ import {
 import { useSwr } from "../use-swr.hook";
 import type { AxiosResponse } from "axios";
 
-export function useCreateRegistry(newRegistry: Omit<RegistryEntity, "id">) {
+export function useCreateRegistry() {
   const { trigger } = useApiMutation<Omit<RegistryEntity, "id">>(
     "post",
     "/registry/create",
-    newRegistry,
   );
   return trigger;
 }
-export function useUpdateRegistry(newRegistry: RegistryEntity) {
+export function useUpdateRegistry() {
   const { trigger } = useApiMutation<RegistryEntity>(
     "post",
     "/registry/update",
-    newRegistry,
   );
   return trigger;
 }
@@ -63,13 +61,10 @@ export function useRegistryFieldAccessFindMany() {
 
   return { fieldAccesses, error, isLoading };
 }
-export function useRegistryUpsertFieldAccess(
-  newRegistry: Omit<RegistryFieldAccessType, "id">,
-) {
+export function useRegistryUpsertFieldAccess() {
   const { trigger } = useApiMutation<Omit<RegistryFieldAccessType, "id">>(
     "post",
     "setting/registry/access/assign",
-    newRegistry,
   );
   return trigger;
 }

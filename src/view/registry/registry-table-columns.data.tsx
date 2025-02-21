@@ -62,7 +62,7 @@ export type DataTableRow = {
   }
 }
 
-export const columns: ColumnDef<DataTableRow>[] = [
+export const registryColumns: ColumnDef<DataTableRow>[] = [
   { id: "MotId", accessorKey: "MotId", header: "MOT ID" },
   { id: "name", accessorKey: "name", header: "Name" },
   { id: "Laboratory", accessorKey: "Laboratory", header: "Laboratory" },

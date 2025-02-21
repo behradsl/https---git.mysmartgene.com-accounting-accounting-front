@@ -7,10 +7,9 @@ import { useEffect, useState } from "react";
 export function useApiMutation<T>(
   method: "post" | "put" | "delete",
   route: string,
-  payload?: T,
   config?: AxiosRequestConfig,
 ) {
-  const trigger = async () => {
+  const trigger = async (payload?: T) => {
     try {
       const response = await fetcher[method](route, payload as any, config);
 

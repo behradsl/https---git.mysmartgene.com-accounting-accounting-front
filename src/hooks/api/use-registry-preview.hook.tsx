@@ -23,20 +23,18 @@ export function useRegistryPreviewFindMany() {
   return { registries, error, isLoading };
 }
 
-export function useUpdatePreviewRegistry(newRegistry: RegistryEntity) {
+export function useUpdatePreviewRegistry() {
   const { trigger } = useApiMutation<RegistryEntity>(
     "post",
     "/registry/preview/update",
-    newRegistry,
   );
   return trigger;
 }
 
-export function useRegistryFinalize(id: string) {
+export function useRegistryFinalize() {
   const { trigger } = useApiMutation<string>(
     "post",
     "/registry/preview/finalize",
-    id,
   );
   return trigger;
 }

@@ -21,8 +21,21 @@ import {
 
 import { useState } from "react";
 import { userColumns, UsersDataTableRow } from "./users-table-columns.data";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useDeleteUser } from "@/hooks/api";
+import { useUser } from "@/store/user.store";
 
-function UsersTableView({ data }: { data: UsersDataTableRow[] }) {
+function UsersTableView({
+  data,
+  reloadUsersList,
+}: {
+  data: UsersDataTableRow[];
+  reloadUsersList: () => void;
+}) {
+  const { user } = useUser();
+  const router = useRouter();
+  const { trigger: userDeleteCallback } = useDeleteUser();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -30,7 +43,35 @@ function UsersTableView({ data }: { data: UsersDataTableRow[] }) {
 
   const table = useReactTable({
     data,
-    columns: userColumns,
+    columns: [
+      ...userColumns,
+      {
+        id: "actions",
+        accessorKey: "actions",
+        header: "",
+        cell: ({ row }) => (
+          <div className='flex gap-2 items-center justify-center'>
+            <Button
+              variant={"outline"}
+              onClick={() =>
+                router.push(`/panel/users/update/${row.original.id}`)
+              }>
+              Edit
+            </Button>
+            {user?.id === row.original.id ? null : (
+              <Button
+                variant={"destructive"}
+                onClick={async () => {
+                  await userDeleteCallback({ id: row.original.id });
+                  reloadUsersList();
+                }}>
+                Remove
+              </Button>
+            )}
+          </div>
+        ),
+      },
+    ],
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
