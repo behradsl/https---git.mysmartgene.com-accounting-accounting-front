@@ -1,15 +1,14 @@
-import { AppSidebar } from "@/components/app-sidebar.component"
-import { SidebarProvider } from "@/components/ui/sidebar"
-import { useEffect, useState, type FC, type PropsWithChildren } from "react"
-import UsersTableView from "./users-table.view"
-import type { UsersDataTableRow, userColumns } from "./users-table-columns.data"
-import { useRegistryPreviewFindMany, useUserFindMany } from "@/hooks/api"
+"use client";
+import { useEffect, useState } from "react";
+import UsersTableView from "./users-table.view";
+import type { UsersDataTableRow } from "./users-table-columns.data";
+import { useUserFindMany } from "@/hooks/api";
 
 interface UsersViewProps {}
 
 const UsersView = ({}: UsersViewProps) => {
-  const [tableData, setTableData] = useState<UsersDataTableRow[]>([])
-  const { users, error, isLoading } = useUserFindMany()
+  const [tableData, setTableData] = useState<UsersDataTableRow[]>([]);
+  const { users } = useUserFindMany();
 
   useEffect(() => {
     if (users?.data) {
@@ -20,23 +19,18 @@ const UsersView = ({}: UsersViewProps) => {
         phoneNumber: user.phoneNumber || "",
         position: user.position || "",
         createdAt: user.createdAt ? new Date(user.createdAt).toISOString() : "",
-        updatedAt: user.updatedAt ? new Date(user.updatedAt).toISOString() : ""
-      }))
+        updatedAt: user.updatedAt ? new Date(user.updatedAt).toISOString() : "",
+      }));
 
-      setTableData(formattedData)
+      setTableData(formattedData);
     }
-  }, [users?.data])
-
-  useEffect(() => {}, [])
+  }, [users?.data]);
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <main className='w-full'>
-        <UsersTableView data={tableData} />
-      </main>
-    </SidebarProvider>
-  )
-}
+    <main className='w-full'>
+      <UsersTableView data={tableData} />
+    </main>
+  );
+};
 
-export default UsersView
+export default UsersView;

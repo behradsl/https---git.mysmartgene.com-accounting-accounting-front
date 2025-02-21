@@ -1,43 +1,45 @@
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-import { Button } from "@/components/ui/button"
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Separator } from "@/components/ui/separator"
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
-} from "@/components/ui/select"
-import { toast } from "@/components/ui/toaster"
-import clsx from "clsx"
-import { AppSidebar } from "@/components/app-sidebar.component"
-import { SidebarProvider } from "@/components/ui/sidebar"
-import { UserPosition } from "@/types/user-entity.type"
-import { createUser, updateUser, useUserFindOne } from "@/hooks/api"
-import { navigate } from "astro:transitions/client"
-import { useEffect } from "react"
+  SelectValue,
+} from "@/components/ui/select";
+import { toast } from "@/components/ui/toaster";
+import { AppSidebar } from "@/components/app-sidebar.component";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { UserPosition } from "@/types/user-entity.type";
+import { useUpdateUser, useUserFindOne } from "@/hooks/api";
+import { useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2, {}),
   position: z.nativeEnum(UserPosition, {}),
-  phoneNumber: z.coerce.string({}).min(6, {}).max(17, {}),
+  phoneNumber: z.coerce.string({}).min(6, {}).max(17, {}).optional(),
   email: z.string({}).min(8, {}),
-  password: z.string({}).min(5, {})
-})
+  password: z.string({}).min(5, {}),
+});
 
-const UserUpdateView = ({ userId }: { userId: string }) => {
-  const { user } = useUserFindOne(userId)
+const UserUpdateView = () => {
+  const { userId } = useParams();
+  const router = useRouter();
+  const { user } = useUserFindOne(userId as string);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,28 +47,24 @@ const UserUpdateView = ({ userId }: { userId: string }) => {
       position: UserPosition.FINANCE_MANAGER,
       email: "",
       password: undefined,
-      phoneNumber: ""
-    }
-  })
+      phoneNumber: "",
+    },
+  });
 
   useEffect(() => {
-    ;(async () => {
-      form.reset({ ...user?.data, password: undefined })
-    })()
-  }, [user])
+    (async () => {
+      form.reset({ ...user?.data, password: undefined });
+    })();
+  }, [user]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const newUser = await updateUser({
-        id: userId,
-        ...values
-      })
+      const newUser = await useUpdateUser({id:userId as string,...values})();
 
-      toast.success("User saved.")
-      navigate("/panel/users")
-      form.reset()
+      router.push("/panel/users");
+      form.reset();
     } catch (error) {
-      toast.error((error as Error).message)
+      toast.error((error as Error).message);
     }
   }
 
@@ -80,8 +78,7 @@ const UserUpdateView = ({ userId }: { userId: string }) => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='spsace-y-8 flex flex-wrap justify-between gap-2.5 px-5'
-          >
+            className='spsace-y-8 flex flex-wrap justify-between gap-2.5 px-5'>
             <FormField
               control={form.control}
               name='name'
@@ -149,8 +146,7 @@ const UserUpdateView = ({ userId }: { userId: string }) => {
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir='rtl'
-                  >
+                    dir='rtl'>
                     <FormControl>
                       <SelectTrigger className='w-full'>
                         <SelectValue />
@@ -160,12 +156,15 @@ const UserUpdateView = ({ userId }: { userId: string }) => {
                       ref={(ref) =>
                         // temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(UserPosition).map((position) => (
-                        <SelectItem value={position}>{position}</SelectItem>
+                        <SelectItem
+                          key={`user-update-position-${position}`}
+                          value={position}>
+                          {position}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -184,7 +183,7 @@ const UserUpdateView = ({ userId }: { userId: string }) => {
         </Form>
       </main>
     </SidebarProvider>
-  )
-}
+  );
+};
 
-export default UserUpdateView
+export default UserUpdateView;

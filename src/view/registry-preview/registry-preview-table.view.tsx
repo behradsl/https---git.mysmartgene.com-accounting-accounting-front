@@ -20,9 +20,12 @@ import {
 } from "@/components/ui/table";
 
 import { useState } from "react";
-import { userColumns, UsersDataTableRow } from "./users-table-columns.data";
+import {
+  DataTableRow,
+  registryPreviewColumns,
+} from "./registry-preview-table-columns.data";
 
-function UsersTableView({ data }: { data: UsersDataTableRow[] }) {
+function RegistryTableView({ data }: { data: DataTableRow[] }) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -30,7 +33,7 @@ function UsersTableView({ data }: { data: UsersDataTableRow[] }) {
 
   const table = useReactTable({
     data,
-    columns: userColumns,
+    columns: registryPreviewColumns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -47,7 +50,7 @@ function UsersTableView({ data }: { data: UsersDataTableRow[] }) {
     },
   });
   return (
-    <Table className='w-full'>
+    <Table>
       <TableHeader className=''>
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow
@@ -84,7 +87,7 @@ function UsersTableView({ data }: { data: UsersDataTableRow[] }) {
         ) : (
           <TableRow>
             <TableCell
-              colSpan={userColumns.length}
+              colSpan={registryPreviewColumns.length}
               className='h-24 text-center'>
               No results.
             </TableCell>
@@ -95,4 +98,4 @@ function UsersTableView({ data }: { data: UsersDataTableRow[] }) {
   );
 }
 
-export default UsersTableView;
+export default RegistryTableView;

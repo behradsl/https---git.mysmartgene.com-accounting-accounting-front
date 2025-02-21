@@ -1,26 +1,27 @@
-"use client"
+"use client";
 
 // import api from "@/api"
-import { useState } from "react"
-import bgPatternImage from "@/assets/bg-pattern-decorative.png"
-import LogoImage from "@/assets/logomark.svg"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Button } from "@/components/ui/button"
-import { useAuth } from "@/hooks/api"
+import { useState } from "react";
+import bgPatternImage from "@/assets/bg-pattern-decorative.png";
+import LogoImage from "@/assets/logomark.svg";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/api";
+import Image from "next/image";
 
 function LoginPage() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [rememberMe, setRememberMe] = useState(false)
-  const { login } = useAuth()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    await login(email, password, rememberMe)
-  }
+    await login(email, password, rememberMe);
+  };
 
   return (
     <>
@@ -28,7 +29,13 @@ function LoginPage() {
       <div className='flex min-h-screen w-full flex-col items-center justify-center'>
         {/* Background image */}
         <div className='fixed top-1/12 z-[-1] max-w-7xl'>
-          <img {...bgPatternImage} alt='' className='w-full' />
+          <Image
+            src={bgPatternImage.src}
+            width={14000}
+            height={14000}
+            alt=''
+            className='w-full'
+          />
         </div>
 
         {/* Login contents container */}
@@ -37,7 +44,13 @@ function LoginPage() {
           <div className='flex w-full max-w-[360px] flex-col items-center'>
             {/* Header container */}
             <div className='mb-8 flex w-full flex-col items-center gap-3'>
-              <img {...LogoImage} alt='' className='size-12' />
+              <Image
+                src={LogoImage.src}
+                width={14000}
+                height={14000}
+                alt=''
+                className='size-12'
+              />
               <h2 className='text-center text-2xl font-bold'>
                 Log in to your account
               </h2>
@@ -51,8 +64,7 @@ function LoginPage() {
               <div>
                 <Label
                   className='mb-1 block text-sm font-medium'
-                  htmlFor='email'
-                >
+                  htmlFor='email'>
                   Email
                 </Label>
                 <Input
@@ -67,8 +79,7 @@ function LoginPage() {
               <div>
                 <Label
                   className='mb-1 block text-sm font-medium'
-                  htmlFor='password'
-                >
+                  htmlFor='password'>
                   Password
                 </Label>
                 <Input
@@ -101,7 +112,7 @@ function LoginPage() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default LoginPage
+export default LoginPage;

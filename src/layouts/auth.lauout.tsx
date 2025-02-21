@@ -1,6 +1,7 @@
 "use client";
 
-
+import { AppSidebar } from "@/components/app-sidebar.component";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { useAuth } from "@/hooks/api";
 import { useUser } from "@/store/user.store";
 import { usePathname, useRouter } from "next/navigation";
@@ -15,8 +16,8 @@ import {
 const AuthLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
   const router = useRouter();
-  const { data,revalidate } = useAuth();
-  const {user } = useUser();
+  const { revalidate } = useAuth();
+  const { user, setUser } = useUser();
 
   const activePath = useMemo(() => {
     if (pathname.startsWith("/panel")) return "panel";
@@ -26,19 +27,17 @@ const AuthLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
   }, [pathname]);
 
   const checkUserAuthenticationStatus = useCallback(async () => {
-    
-    await revalidate();
-    
-    if (!data?.data && activePath != "login") router.replace("/login"); 
+    const user = await revalidate();
+    setUser(user?.data);
 
-    if (activePath === "login" && data?.data) router.replace("/panel");
-  }, [activePath, data?.data]);
+    if (!user?.data && activePath != "login") router.replace("/login");
+
+    if (activePath === "login" && user?.data) router.replace("/panel");
+  }, [activePath]);
 
   useEffect(() => {
     checkUserAuthenticationStatus();
-    console.log(activePath);
-    
-  }, [activePath,user]);
+  }, [activePath, user?.id]);
 
   // useEffect(() => {
   //   const source = cancelToken.source();
@@ -46,9 +45,15 @@ const AuthLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
   //   return () => source.cancel("Authentication check canceled ...");
   // }, [JSON.stringify(user || {}), getUserData]);
 
-  if (data?.data) {
+  if (activePath === "login") return <>{children}</>;
+  else if (user?.id) {
     // if (["SUPERVISOR", "RECEPTION", "ADMIN"].includes(user.role))
-    return <>{children}</>;
+    return (
+      <SidebarProvider>
+        <AppSidebar />
+        {children}
+      </SidebarProvider>
+    );
     //   if (
     //     user.role === "CONSULTANT" &&
     //     ["dashboard", "patients", "contacts", "calendar"].includes(activePath)
@@ -61,7 +66,6 @@ const AuthLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
     //     return <>{children}</>;
     //   return <ErrorView type="forbidden" />;
   } else {
-    if (activePath === "login") return <>{children}</>;
     return <></>;
   }
 };

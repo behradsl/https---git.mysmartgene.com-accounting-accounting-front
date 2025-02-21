@@ -1,10 +1,10 @@
-import UsersView from "@/view/users/users-list/users.view";
+import UserUpdateView from "@/view/users/user-update/user-update.view";
 import React from "react";
 
 const Page = () => {
   return (
     <>
-      <UsersView />
+      <UserUpdateView />
     </>
   );
 };

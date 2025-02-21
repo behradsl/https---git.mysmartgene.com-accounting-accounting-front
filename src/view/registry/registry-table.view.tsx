@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import {
   type ColumnFiltersState,
   flexRender,
@@ -8,29 +8,33 @@ import {
   getSortedRowModel,
   type SortingState,
   useReactTable,
-  type VisibilityState,
-} from "@tanstack/react-table";
+  type VisibilityState
+} from "@tanstack/react-table"
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+  TableRow
+} from "@/components/ui/table"
 
-import { useState } from "react";
-import { userColumns, UsersDataTableRow } from "./users-table-columns.data";
+import { useState } from "react"
 
-function UsersTableView({ data }: { data: UsersDataTableRow[] }) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = useState({});
+import {
+  columns,
+  type DataTableRow
+} from "@/views/registry/registry-table-columns.data"
+
+function RegistryTableView({ data }: { data: DataTableRow[] }) {
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = useState({})
 
   const table = useReactTable({
     data,
-    columns: userColumns,
+    columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -43,16 +47,14 @@ function UsersTableView({ data }: { data: UsersDataTableRow[] }) {
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection,
-    },
-  });
+      rowSelection
+    }
+  })
   return (
-    <Table className='w-full'>
-      <TableHeader className=''>
+    <Table>
+      <TableHeader>
         {table.getHeaderGroups().map((headerGroup) => (
-          <TableRow
-            key={headerGroup.id}
-            className='!hover:bg-white data-[state=selected]:bg-white'>
+          <TableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => {
               return (
                 <TableHead key={header.id}>
@@ -60,10 +62,10 @@ function UsersTableView({ data }: { data: UsersDataTableRow[] }) {
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
-                        header.getContext(),
+                        header.getContext()
                       )}
                 </TableHead>
-              );
+              )
             })}
           </TableRow>
         ))}
@@ -73,7 +75,8 @@ function UsersTableView({ data }: { data: UsersDataTableRow[] }) {
           table.getRowModel().rows.map((row) => (
             <TableRow
               key={row.id}
-              data-state={row.getIsSelected() && "selected"}>
+              data-state={row.getIsSelected() && "selected"}
+            >
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -83,16 +86,14 @@ function UsersTableView({ data }: { data: UsersDataTableRow[] }) {
           ))
         ) : (
           <TableRow>
-            <TableCell
-              colSpan={userColumns.length}
-              className='h-24 text-center'>
+            <TableCell colSpan={columns.length} className='h-24 text-center'>
               No results.
             </TableCell>
           </TableRow>
         )}
       </TableBody>
     </Table>
-  );
+  )
 }
 
-export default UsersTableView;
+export default RegistryTableView
