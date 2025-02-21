@@ -1,6 +1,7 @@
 "use client";
 
-import { useAuth } from "@/hooks/use-auth.hook";
+
+import { useAuth } from "@/hooks/api";
 import { useUser } from "@/store/user.store";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -14,7 +15,7 @@ import {
 const AuthLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
   const router = useRouter();
-  const { userData ,revalidate } = useAuth();
+  const { data,revalidate } = useAuth();
   const {user } = useUser();
 
   const activePath = useMemo(() => {
@@ -28,10 +29,10 @@ const AuthLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
     
     await revalidate();
     
-    if (!userData && activePath != "login") router.replace("/login"); 
+    if (!data?.data && activePath != "login") router.replace("/login"); 
 
-    if (activePath === "login" && userData) router.replace("/panel");
-  }, [activePath, userData]);
+    if (activePath === "login" && data?.data) router.replace("/panel");
+  }, [activePath, data?.data]);
 
   useEffect(() => {
     checkUserAuthenticationStatus();
@@ -45,7 +46,7 @@ const AuthLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
   //   return () => source.cancel("Authentication check canceled ...");
   // }, [JSON.stringify(user || {}), getUserData]);
 
-  if (userData) {
+  if (data?.data) {
     // if (["SUPERVISOR", "RECEPTION", "ADMIN"].includes(user.role))
     return <>{children}</>;
     //   if (
