@@ -1,3 +1,5 @@
+'use client'
+
 import useSWR, { mutate } from "swr";
 import fetcher from "@/utilities/fetcher";
 import { useUser } from "@/store/user.store";

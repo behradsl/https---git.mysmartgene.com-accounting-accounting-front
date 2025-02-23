@@ -1,15 +1,15 @@
 import { AppSidebar } from "@/components/app-sidebar.component"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { useEffect, useState, type FC, type PropsWithChildren } from "react"
-import RegistryPreviewTableView from "./registry-preview-table.view"
-import type { DataTableRow } from "./registry-preview-table-columns.data"
-import { useRegistryPreviewFindMany } from "@/hooks/api"
+import RegistryTableView from "./registry-table.view"
+import type { DataTableRow } from "./registry-table-columns.data"
+import { useRegistryFindMany } from "@/hooks/api"
 
-interface RegistryPreviewViewProps {}
+interface RegistryViewProps {}
 
-const RegistryPreviewView = ({}: RegistryPreviewViewProps) => {
+const RegistryView = ({}: RegistryViewProps) => {
   const [tableData, setTableData] = useState<DataTableRow[]>([])
-  const { registries, error, isLoading } = useRegistryPreviewFindMany()
+  const { registries, error, isLoading } = useRegistryFindMany()
 
   useEffect(() => {
     if (registries?.data) {
@@ -83,11 +83,10 @@ const RegistryPreviewView = ({}: RegistryPreviewViewProps) => {
     <SidebarProvider>
       <AppSidebar />
       <main>
-        <div className=""></div>
-        <RegistryPreviewTableView data={tableData} />
+        <RegistryTableView data={tableData} />
       </main>
     </SidebarProvider>
   )
 }
 
-export default RegistryPreviewView
+export default RegistryView

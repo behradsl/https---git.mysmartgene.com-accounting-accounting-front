@@ -14,14 +14,14 @@ import type { AxiosResponse } from "axios";
 export function useCreateRegistry() {
   const { trigger } = useApiMutation<Omit<RegistryEntity, "id">>(
     "post",
-    "/registry/create",
+    "/registry/create"
   );
-  return trigger;
+  return { trigger };
 }
 export function useUpdateRegistry() {
   const { trigger } = useApiMutation<RegistryEntity>(
     "post",
-    "/registry/update",
+    "/registry/update"
   );
   return trigger;
 }
@@ -32,7 +32,7 @@ export function useRegistryFindMany() {
     isLoading,
     mutate,
   } = useSwr<AxiosResponse<Partial<RegistryEntityWithFieldAccess>[]>>(
-    "/registry/all",
+    "/registry/all"
   );
 
   return { registries, error, isLoading, mutate };
@@ -44,7 +44,7 @@ export function useRegistryFindOne(id: string) {
     error,
     isLoading,
   } = useSwr<AxiosResponse<Partial<RegistryEntityWithFieldAccess>>>(
-    `/registry/${id}`,
+    `/registry/${id}`
   );
 
   return { registry, error, isLoading };
@@ -56,7 +56,7 @@ export function useRegistryFieldAccessFindMany() {
     error,
     isLoading,
   } = useSwr<AxiosResponse<Partial<RegistryFieldAccessType>[]>>(
-    "setting/registry/access/all",
+    "setting/registry/access/all"
   );
 
   return { fieldAccesses, error, isLoading };
@@ -64,7 +64,7 @@ export function useRegistryFieldAccessFindMany() {
 export function useRegistryUpsertFieldAccess() {
   const { trigger } = useApiMutation<Omit<RegistryFieldAccessType, "id">>(
     "post",
-    "setting/registry/access/assign",
+    "setting/registry/access/assign"
   );
   return trigger;
 }

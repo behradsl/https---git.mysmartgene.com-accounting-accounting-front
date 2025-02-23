@@ -21,12 +21,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/components/ui/toaster";
-import clsx from "clsx";
 import { AppSidebar } from "@/components/app-sidebar.component";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { UserPosition } from "@/types/user-entity.type";
 import { useCreateUser } from "@/hooks/api";
-import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 
 const formSchema = z.object({

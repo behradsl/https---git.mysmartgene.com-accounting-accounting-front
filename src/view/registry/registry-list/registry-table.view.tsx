@@ -20,12 +20,21 @@ import {
 } from "@/components/ui/table";
 
 import { useState } from "react";
-import {
-  DataTableRow,
-  registryPreviewColumns,
-} from "./registry-preview-table-columns.data";
+import { DataTableRow, registryColumns } from "./registry-table-columns.data";
+import { useUser } from "@/store/user.store";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
-function RegistryTableView({ data }: { data: DataTableRow[] }) {
+function RegistryTableView({
+  data,
+  
+}: {
+  data: DataTableRow[];
+  
+}) {
+  const { user } = useUser();
+  const router = useRouter();
+
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -33,7 +42,26 @@ function RegistryTableView({ data }: { data: DataTableRow[] }) {
 
   const table = useReactTable({
     data,
-    columns: registryPreviewColumns,
+    columns: [
+      ...registryColumns,
+      {
+        id: "actions",
+        accessorKey: "actions",
+        header: "",
+        cell: ({ row }) => (
+          <div className="flex gap-2 items-center justify-center">
+            <Button
+              variant={"outline"}
+              onClick={() =>
+                router.push(`/panel/users/update/${row.original.id}`)
+              }
+            >
+              Edit
+            </Button>
+          </div>
+        ),
+      },
+    ],
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -50,12 +78,13 @@ function RegistryTableView({ data }: { data: DataTableRow[] }) {
     },
   });
   return (
-    <Table>
-      <TableHeader className=''>
+    <Table className="w-full">
+      <TableHeader className="">
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow
             key={headerGroup.id}
-            className='!hover:bg-white data-[state=selected]:bg-white'>
+            className="!hover:bg-white data-[state=selected]:bg-white"
+          >
             {headerGroup.headers.map((header) => {
               return (
                 <TableHead key={header.id}>
@@ -63,7 +92,7 @@ function RegistryTableView({ data }: { data: DataTableRow[] }) {
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
-                        header.getContext(),
+                        header.getContext()
                       )}
                 </TableHead>
               );
@@ -76,7 +105,8 @@ function RegistryTableView({ data }: { data: DataTableRow[] }) {
           table.getRowModel().rows.map((row) => (
             <TableRow
               key={row.id}
-              data-state={row.getIsSelected() && "selected"}>
+              data-state={row.getIsSelected() && "selected"}
+            >
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -87,8 +117,9 @@ function RegistryTableView({ data }: { data: DataTableRow[] }) {
         ) : (
           <TableRow>
             <TableCell
-              colSpan={registryPreviewColumns.length}
-              className='h-24 text-center'>
+              colSpan={registryColumns.length}
+              className="h-24 text-center"
+            >
               No results.
             </TableCell>
           </TableRow>

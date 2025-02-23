@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ChevronDown, ChevronRight, Home, Users } from "lucide-react"
+import { ChevronDown, ChevronRight, Home, Users ,Atom, Settings} from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -25,8 +25,8 @@ const menuItems = [
     title: "Dashboard",
     icon: Home,
     items: [
-      { title: "registries", href: "/panel/registry" },
-      { title: "previews", href: "/panel/registry/preview" }
+      { title: "registries", href: "/panel/registries" },
+      { title: "previews", href: "/panel/registries/preview" }
     ]
   },
   {
@@ -36,7 +36,14 @@ const menuItems = [
       { title: "user management", href: "/panel/users" },
       { title: "permissions", href: "/panel/users/permissions" }
     ]
-  }
+  },
+  {
+    title: "Laboratories",
+    icon:Atom ,
+    items: [
+      { title: "laboratory management", href: "/panel/laboratories" },
+    ]
+  },
 ]
 
 export function AppSidebar() {
@@ -53,7 +60,7 @@ export function AppSidebar() {
         >
           MENU
         </h2>
-        <SidebarTrigger />
+        {/* <SidebarTrigger /> */}
       </SidebarHeader>
       <SidebarContent className='flex h-full flex-col justify-between'>
         <div>

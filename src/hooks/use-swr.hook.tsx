@@ -1,3 +1,5 @@
+
+'use client'
 import fetcher from "@/utilities/fetcher"
 import useSWR from "swr"
 import { toast } from "sonner"
