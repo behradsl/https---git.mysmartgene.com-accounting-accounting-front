@@ -1,7 +1,3 @@
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-
-
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -27,65 +23,109 @@ import {
 import { toast } from "@/components/ui/toaster";
 import { AppSidebar } from "@/components/app-sidebar.component";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { UserPosition } from "@/types/user-entity.type";
-import { useUpdateRegistry, useUpdateUser, useUserFindOne } from "@/hooks/api";
-import { useEffect } from "react";
+import { useUpdateRegistry } from "@/hooks/api";
+
 import { useParams, useRouter } from "next/navigation";
+import {
+  InvoiceStatus,
+  SampleStatus,
+  SettlementStatus,
+} from "@/types/registry-entity.type";
+import { useLaboratoryFindMany } from "@/hooks/api/use-laboratory.hook";
+import { Switch } from "@/components/ui/switch";
 
 const formSchema = z.object({
-  name: z.string().min(2, {}),
-  position: z.nativeEnum(UserPosition, {}),
-  phoneNumber: z.coerce.string({}).min(6, {}).max(17, {}).optional(),
-  email: z.string({}).min(8, {}),
-  password: z.string({}).min(5, {}),
+  MotId: z.string().min(1, "Required"),
+  name: z.string().min(2, "Required"),
+  serviceType: z.string().min(1, "Required"),
+  kitType: z.string().min(1, "Required"),
+  urgentStatus: z.boolean().optional(),
+  price: z.string(),
+  description: z.string().optional(),
+  costumerRelationInfo: z.string().optional(),
+  KoreaSendDate: z.string().optional(),
+  resultReady: z.boolean().optional(),
+  resultReadyTime: z.string().optional(),
+  settlementStatus: z.nativeEnum(SettlementStatus, {}),
+  invoiceStatus: z.nativeEnum(InvoiceStatus, {}),
+  proformaSent: z.boolean().optional(),
+  proformaSentDate: z.string().optional(),
+  totalInvoiceAmount: z.string(),
+  installmentOne: z.string().optional(),
+  installmentOneDate: z.string().optional(),
+  installmentTwo: z.string().optional(),
+  installmentTwoDate: z.string().optional(),
+  installmentThree: z.string().optional(),
+  installmentThreeDate: z.string().optional(),
+  totalPaid: z.string(),
+  settlementDate: z.string().optional(),
+  officialInvoiceSent: z.boolean().optional(),
+  officialInvoiceSentDate: z.string().optional(),
+  sampleStatus: z.nativeEnum(SampleStatus, {}),
+  sendSeries: z.string(),
+  laboratoryId: z.string().min(1, "Required"),
 });
 
-const UserUpdateView = () => {
-  const { userId } = useParams();
+const RegistryUpdateView = () => {
+  const { laboratories } = useLaboratoryFindMany();
+  const { RegistryId } = useParams();
   const router = useRouter();
-  const { trigger: updateUserCallback } = useUpdateRegistry();
-  const { user } = useUserFindOne(userId as string);
+  const { trigger: updateRegistryCallback } = useUpdateRegistry();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      position: UserPosition.FINANCE_MANAGER,
-      email: "",
-      password: undefined,
-      phoneNumber: "",
+      MotId: "123abc",
+      name: "Test 1",
+      laboratoryId: "e0c44e6d-c01d-4aae-a15e-0792d54d29f7",
+      serviceType: "Service Type 1",
+      kitType: "Kit Type 1",
+      urgentStatus: true,
+      price: "100000",
+      description: "This is a registry",
+      costumerRelationInfo: "09391115840",
+      KoreaSendDate: "2025-02-01T00:00:00.000Z",
+      resultReady: false,
+      resultReadyTime: "2025-02-01T00:00:00.000Z",
+      settlementStatus: SettlementStatus.OVERDUE,
+      invoiceStatus: InvoiceStatus.ISSUED,
+      proformaSent: false,
+      proformaSentDate: "2025-02-01T00:00:00.000Z",
+      totalInvoiceAmount: "100000",
+      installmentOne: "100000",
+      installmentOneDate: "2025-02-01T00:00:00.000Z",
+      installmentTwo: "100000",
+      installmentTwoDate: "2025-02-01T00:00:00.000Z",
+      installmentThree: "100000",
+      installmentThreeDate: "2025-02-01T00:00:00.000Z",
+      totalPaid: "50000",
+      settlementDate: "2025-02-01T00:00:00.000Z",
+      officialInvoiceSent: false,
+      officialInvoiceSentDate: "2025-02-01T00:00:00.000Z",
+      sampleStatus: SampleStatus.DELIVERED,
+      sendSeries: "Series 123",
     },
   });
-
-  useEffect(() => {
-    (async () => {
-      form.reset({ ...user?.data, password: undefined });
-    })();
-  }, [user]);
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const newUser = await updateUserCallback({
-        id: userId as string,
+      const newRegistry = await updateRegistryCallback({
+        id: RegistryId as string,
         ...values,
       });
 
-      router.push("/panel/users");
+      router.push("/panel/registries");
       form.reset();
     } catch (error) {
       toast.error((error as Error).message);
     }
   }
 
-
-
-
-
-return (
+  return (
     <SidebarProvider>
       <AppSidebar />
       <main>
         <h2 className="mb-10 px-5 text-center text-lg font-semibold">
-          New Registry
+          Update Registry
         </h2>
         <Form {...form}>
           <form
@@ -534,4 +574,7 @@ return (
         </Form>
       </main>
     </SidebarProvider>
-  );}
+  );
+};
+
+export default RegistryUpdateView;

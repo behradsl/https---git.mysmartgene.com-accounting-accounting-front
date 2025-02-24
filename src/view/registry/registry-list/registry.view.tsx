@@ -96,7 +96,7 @@ const RegistryView = ({}: RegistryViewProps) => {
           </Button>
         </div> */}
       </div>
-      <RegistryTableView data={tableData} />
+      <RegistryTableView data={tableData} reloadRegistriesList={mutate} />
     </main>
   );
 };

@@ -55,8 +55,11 @@ function RegistryPreviewTableView({
           <div className="flex gap-2 items-center justify-center">
             <Button
               variant={"outline"}
-              onClick={() =>
+              onClick={() =>{
                 router.push(`/panel/registry/update/${row.original.id}`)
+                reloadRegistriesList();
+              }
+                
               }
             >
               Edit

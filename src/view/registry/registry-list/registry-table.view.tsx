@@ -24,7 +24,13 @@ import { DataTableRow, registryColumns } from "./registry-table-columns.data";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
-function RegistryTableView({ data }: { data: DataTableRow[] }) {
+function RegistryTableView({
+  data,
+  reloadRegistriesList,
+}: {
+  data: DataTableRow[];
+  reloadRegistriesList: () => void;
+}) {
   const router = useRouter();
 
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -44,9 +50,10 @@ function RegistryTableView({ data }: { data: DataTableRow[] }) {
           <div className="flex gap-2 items-center justify-center">
             <Button
               variant={"outline"}
-              onClick={() =>
-                router.push(`/panel/registry/update/${row.original.id}`)
-              }
+              onClick={() => {
+                router.push(`/panel/registries/update/${row.original.id}`);
+                reloadRegistriesList();
+              }}
             >
               Edit
             </Button>

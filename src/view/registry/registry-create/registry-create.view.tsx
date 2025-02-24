@@ -71,7 +71,7 @@ const formSchema = z.object({
 
 const RegistryCreateView = () => {
   const { laboratories } = useLaboratoryFindMany();
-  console.log(laboratories?.data);
+  
   
   const { trigger: createRegistryCallback } = useCreateRegistry();
   const router = useRouter();
