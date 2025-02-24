@@ -8,7 +8,7 @@ export type SampleStatus =
   | "PENDING"
   | "SHIPMENT"
   | "SHIPPED"
-  | "RECEIVED_AT_laboratory"
+  | "RECEIVED_AT_LABORATORY"
   | "IN_TESTING"
   | "READY_FOR_DELIVERY"
   | "DELIVERED";
@@ -18,7 +18,8 @@ export type DataTableRow = {
   MotId: string;
   name: string;
 
-  laboratoryId: string;
+  Laboratory: string;
+  
   serviceType: string;
   kitType: string;
   urgentStatus?: boolean;
@@ -66,7 +67,7 @@ export type DataTableRow = {
 export const registryColumns: ColumnDef<DataTableRow>[] = [
   { id: "MotId", accessorKey: "MotId", header: "MOT ID" },
   { id: "name", accessorKey: "name", header: "Name" },
-  { id: "laboratoryId", accessorKey: "laboratoryId", header: "Laboratory" },
+  { id: "Laboratory", accessorKey: "Laboratory", header: "Laboratory" },
   { id: "serviceType", accessorKey: "serviceType", header: "Service Type" },
   { id: "description", accessorKey: "description", header: "description" },
   {

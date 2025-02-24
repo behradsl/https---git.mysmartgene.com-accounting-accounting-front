@@ -18,7 +18,7 @@ export type PreviewDataTableRow = {
   MotId: string;
   name: string;
 
-  laboratoryId: string;
+  Laboratory: string;
   serviceType: string;
   kitType: string;
   urgentStatus?: boolean;
@@ -66,7 +66,7 @@ export type PreviewDataTableRow = {
 export const registryColumns: ColumnDef<PreviewDataTableRow>[] = [
   { id: "MotId", accessorKey: "MotId", header: "MOT ID" },
   { id: "name", accessorKey: "name", header: "Name" },
-  { id: "laboratoryId", accessorKey: "laboratoryId", header: "Laboratory" },
+  { id: "Laboratory", accessorKey: "Laboratory", header: "Laboratory" },
   { id: "serviceType", accessorKey: "serviceType", header: "Service Type" },
   { id: "description", accessorKey: "description", header: "description" },
   {

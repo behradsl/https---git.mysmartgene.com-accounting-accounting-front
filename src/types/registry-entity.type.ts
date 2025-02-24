@@ -6,6 +6,7 @@ export interface RegistryEntity {
   name: string;
 
   laboratoryId: string;
+  Laboratory?: { editable: boolean; value: { name: string } };
 
   serviceType: string;
   kitType: string;
@@ -77,6 +78,7 @@ export interface RegistryEntityWithFieldAccess {
   name: { editable: boolean; value: string };
 
   laboratoryId: { editable: boolean; value: string };
+  Laboratory?: { editable: boolean; value: { name: string } };
 
   serviceType: { editable: boolean; value: string };
   kitType: { editable: boolean; value: string };

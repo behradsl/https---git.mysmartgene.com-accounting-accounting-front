@@ -22,6 +22,7 @@ const RegistryPreviewView = ({}: RegistryViewProps) => {
           MotId: registry.MotId || "",
           name: registry.name || "",
           laboratoryId: registry.laboratoryId || "",
+          Laboratory:registry.Laboratory.name || "",
           serviceType: registry.serviceType || "",
           kitType: registry.kitType || "",
 

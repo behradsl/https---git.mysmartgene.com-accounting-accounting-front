@@ -4,6 +4,7 @@ import type {
 } from "@/types/laboratory-entity.type";
 import { useSwr } from "../use-swr.hook";
 import { useApiMutation } from "../use-api-mutation.hook";
+import { AxiosResponse } from "axios";
 
 export function useCreateLaboratory() {
   const { trigger } = useApiMutation<Omit<LaboratoryEntity, "id">>(
@@ -39,12 +40,12 @@ export function useLaboratoryFindMany() {
     data: laboratories,
     error,
     isLoading,
-  } = useSwr<LaboratoryEntity[]>("/laboratory/all");
+  } = useSwr<AxiosResponse<LaboratoryEntity[]>>("/laboratory/all");
 
   return { laboratories, error, isLoading };
 }
 
-export function useUserFindOne(id: string) {
+export function useLaboratoryFindOne(id: string) {
   const {
     data: laboratory,
     error,

@@ -5,7 +5,7 @@ import RegistryTableView from "./registry-table.view";
 
 import { useRegistryFindMany } from "@/hooks/api";
 import { DataTableRow } from "./registry-table-columns.data";
-import { mutate } from "swr";
+
 // import { Button } from "@/components/ui/button";
 // import Link from "next/link";
 
@@ -14,6 +14,7 @@ interface RegistryViewProps {}
 const RegistryView = ({}: RegistryViewProps) => {
   const [tableData, setTableData] = useState<DataTableRow[]>([]);
   const { registries, mutate } = useRegistryFindMany();
+  
 
   useEffect(() => {
     if (registries?.data) {
@@ -23,6 +24,7 @@ const RegistryView = ({}: RegistryViewProps) => {
           MotId: registry.MotId?.value || "",
           name: registry.name?.value || "",
           laboratoryId: registry.laboratoryId?.value || "",
+          Laboratory:registry.Laboratory.value.name || "",
           serviceType: registry.serviceType?.value || "",
           kitType: registry.kitType?.value || "",
 

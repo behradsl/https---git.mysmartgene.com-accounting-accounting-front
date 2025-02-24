@@ -21,7 +21,6 @@ import {
 
 import { useState } from "react";
 import { DataTableRow, registryColumns } from "./registry-table-columns.data";
-import { useUser } from "@/store/user.store";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 

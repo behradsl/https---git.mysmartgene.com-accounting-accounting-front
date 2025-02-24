@@ -23,7 +23,7 @@ export function useUpdateRegistry() {
     "post",
     "/registry/update"
   );
-  return trigger;
+  return {trigger};
 }
 export function useRegistryFindMany() {
   const {

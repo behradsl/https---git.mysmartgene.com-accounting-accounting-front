@@ -1,5 +1,8 @@
-"use client";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
+
+"use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -14,21 +17,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { toast } from "@/components/ui/toaster";
-import { AppSidebar } from "@/components/app-sidebar.component";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { useCreateRegistry } from "@/hooks/api";
-import { useRouter } from "next/navigation";
-import {
-  InvoiceStatus,
-  SampleStatus,
-  SettlementStatus,
-} from "@/types/registry-entity.type";
-import { Switch } from "@/components/ui/switch";
-import {
-  useLaboratoryFindMany,
-  useLaboratoryFindOne,
-} from "@/hooks/api/use-laboratory.hook";
 import {
   Select,
   SelectContent,
@@ -36,96 +24,63 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "@/components/ui/toaster";
+import { AppSidebar } from "@/components/app-sidebar.component";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { UserPosition } from "@/types/user-entity.type";
+import { useUpdateRegistry, useUpdateUser, useUserFindOne } from "@/hooks/api";
+import { useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
 
 const formSchema = z.object({
-  MotId: z.string().min(1, "Required"),
-  name: z.string().min(2, "Required"),
-  serviceType: z.string().min(1, "Required"),
-  kitType: z.string().min(1, "Required"),
-  urgentStatus: z.boolean().optional(),
-  price: z.string(),
-  description: z.string().optional(),
-  costumerRelationInfo: z.string().optional(),
-  KoreaSendDate: z.string().optional(),
-  resultReady: z.boolean().optional(),
-  resultReadyTime: z.string().optional(),
-  settlementStatus: z.nativeEnum(SettlementStatus, {}),
-  invoiceStatus: z.nativeEnum(InvoiceStatus, {}),
-  proformaSent: z.boolean().optional(),
-  proformaSentDate: z.string().optional(),
-  totalInvoiceAmount: z.string(),
-  installmentOne: z.string().optional(),
-  installmentOneDate: z.string().optional(),
-  installmentTwo: z.string().optional(),
-  installmentTwoDate: z.string().optional(),
-  installmentThree: z.string().optional(),
-  installmentThreeDate: z.string().optional(),
-  totalPaid: z.string(),
-  settlementDate: z.string().optional(),
-  officialInvoiceSent: z.boolean().optional(),
-  officialInvoiceSentDate: z.string().optional(),
-  sampleStatus: z.nativeEnum(SampleStatus, {}),
-  sendSeries: z.string(),
-  laboratoryId: z.string().min(1, "Required"),
+  name: z.string().min(2, {}),
+  position: z.nativeEnum(UserPosition, {}),
+  phoneNumber: z.coerce.string({}).min(6, {}).max(17, {}).optional(),
+  email: z.string({}).min(8, {}),
+  password: z.string({}).min(5, {}),
 });
 
-const RegistryCreateView = () => {
-  const { laboratories } = useLaboratoryFindMany();
-  console.log(laboratories?.data);
-  
-  const { trigger: createRegistryCallback } = useCreateRegistry();
+const UserUpdateView = () => {
+  const { userId } = useParams();
   const router = useRouter();
-
+  const { trigger: updateUserCallback } = useUpdateRegistry();
+  const { user } = useUserFindOne(userId as string);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      MotId: "123abc",
-      name: "Test 1",
-      laboratoryId: "e0c44e6d-c01d-4aae-a15e-0792d54d29f7",
-      serviceType: "Service Type 1",
-      kitType: "Kit Type 1",
-      urgentStatus: true,
-      price: "100000",
-      description: "This is a registry",
-      costumerRelationInfo: "09391115840",
-      KoreaSendDate: "2025-02-01T00:00:00.000Z",
-      resultReady: false,
-      resultReadyTime: "2025-02-01T00:00:00.000Z",
-      settlementStatus: SettlementStatus.OVERDUE,
-      invoiceStatus: InvoiceStatus.ISSUED,
-      proformaSent: false,
-      proformaSentDate: "2025-02-01T00:00:00.000Z",
-      totalInvoiceAmount: "100000",
-      installmentOne: "100000",
-      installmentOneDate: "2025-02-01T00:00:00.000Z",
-      installmentTwo: "100000",
-      installmentTwoDate: "2025-02-01T00:00:00.000Z",
-      installmentThree: "100000",
-      installmentThreeDate: "2025-02-01T00:00:00.000Z",
-      totalPaid: "50000",
-      settlementDate: "2025-02-01T00:00:00.000Z",
-      officialInvoiceSent: false,
-      officialInvoiceSentDate: "2025-02-01T00:00:00.000Z",
-      sampleStatus: SampleStatus.DELIVERED,
-      sendSeries: "Series 123",
+      name: "",
+      position: UserPosition.FINANCE_MANAGER,
+      email: "",
+      password: undefined,
+      phoneNumber: "",
     },
   });
 
+  useEffect(() => {
+    (async () => {
+      form.reset({ ...user?.data, password: undefined });
+    })();
+  }, [user]);
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const newRegistry = await createRegistryCallback({
+      const newUser = await updateUserCallback({
+        id: userId as string,
         ...values,
       });
 
-      toast.success("registry saved.");
-      router.push("/panel/registries/preview");
+      router.push("/panel/users");
       form.reset();
     } catch (error) {
       toast.error((error as Error).message);
     }
   }
 
-  return (
+
+
+
+
+return (
     <SidebarProvider>
       <AppSidebar />
       <main>
@@ -579,7 +534,4 @@ const RegistryCreateView = () => {
         </Form>
       </main>
     </SidebarProvider>
-  );
-};
-
-export default RegistryCreateView;
+  );}
