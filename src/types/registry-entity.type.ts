@@ -115,7 +115,7 @@ export interface RegistryEntityWithFieldAccess {
 
   settlementDate?: { editable: boolean; value: string };
 
-  officialInvoiceSent?: boolean;
+  officialInvoiceSent?: { editable: boolean; value: boolean };
   officialInvoiceSentDate?: { editable: boolean; value: string };
 
   sampleStatus: { editable: boolean; value: SettlementStatus };

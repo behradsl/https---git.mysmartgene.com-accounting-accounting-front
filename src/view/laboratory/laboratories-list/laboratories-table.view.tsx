@@ -20,23 +20,22 @@ import {
 } from "@/components/ui/table";
 
 import { useState } from "react";
-import {
-  PreviewDataTableRow,
-  registryColumns,
-} from "./registry-preview-table-columns.data";
+import { userColumns, UsersDataTableRow } from "./laboratories-table-columns.data";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useRegistryFinalize } from "@/hooks/api";
+import { useDeleteUser } from "@/hooks/api";
+import { useUser } from "@/store/user.store";
 
-function RegistryPreviewTableView({
+function UsersTableView({
   data,
-  reloadRegistriesList,
+  reloadUsersList,
 }: {
-  data: PreviewDataTableRow[];
-  reloadRegistriesList: () => void;
+  data: UsersDataTableRow[];
+  reloadUsersList: () => void;
 }) {
+  const { user } = useUser();
   const router = useRouter();
-  const { trigger: RegistryFinalizeCallback } = useRegistryFinalize();
+  const { trigger: userDeleteCallback } = useDeleteUser();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -45,35 +44,30 @@ function RegistryPreviewTableView({
   const table = useReactTable({
     data,
     columns: [
-      ...registryColumns,
-
+      ...userColumns,
       {
         id: "actions",
         accessorKey: "actions",
         header: "",
         cell: ({ row }) => (
-          <div className="flex gap-2 items-center justify-center">
+          <div className='flex gap-2 items-center justify-center'>
             <Button
               variant={"outline"}
-              onClick={() =>{
-                router.push(`/panel/registries/preview/update/${row.original.id}`)
-                reloadRegistriesList();
-              }
-                
-              }
-            >
+              onClick={() =>
+                router.push(`/panel/users/update/${row.original.id}`)
+              }>
               Edit
             </Button>
-
-            <Button
-              variant={"destructive"}
-              onClick={async () => {
-                await RegistryFinalizeCallback({ id: row.original.id });
-                reloadRegistriesList();
-              }}
-            >
-              Finalize
-            </Button>
+            {user?.id === row.original.id ? null : (
+              <Button
+                variant={"destructive"}
+                onClick={async () => {
+                  await userDeleteCallback({ id: row.original.id });
+                  reloadUsersList();
+                }}>
+                Remove
+              </Button>
+            )}
           </div>
         ),
       },
@@ -94,10 +88,12 @@ function RegistryPreviewTableView({
     },
   });
   return (
-    <Table>
-      <TableHeader>
+    <Table className='w-full'>
+      <TableHeader className=''>
         {table.getHeaderGroups().map((headerGroup) => (
-          <TableRow key={headerGroup.id}>
+          <TableRow
+            key={headerGroup.id}
+            className='!hover:bg-white data-[state=selected]:bg-white'>
             {headerGroup.headers.map((header) => {
               return (
                 <TableHead key={header.id}>
@@ -105,7 +101,7 @@ function RegistryPreviewTableView({
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
-                        header.getContext()
+                        header.getContext(),
                       )}
                 </TableHead>
               );
@@ -118,8 +114,7 @@ function RegistryPreviewTableView({
           table.getRowModel().rows.map((row) => (
             <TableRow
               key={row.id}
-              data-state={row.getIsSelected() && "selected"}
-            >
+              data-state={row.getIsSelected() && "selected"}>
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -130,9 +125,8 @@ function RegistryPreviewTableView({
         ) : (
           <TableRow>
             <TableCell
-              colSpan={registryColumns.length}
-              className="h-24 text-center"
-            >
+              colSpan={userColumns.length}
+              className='h-24 text-center'>
               No results.
             </TableCell>
           </TableRow>
@@ -142,4 +136,4 @@ function RegistryPreviewTableView({
   );
 }
 
-export default RegistryPreviewTableView;
+export default UsersTableView;

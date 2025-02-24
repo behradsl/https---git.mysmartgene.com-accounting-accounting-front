@@ -18,63 +18,63 @@ const RegistryPreviewView = ({}: RegistryViewProps) => {
     if (registries?.data) {
       const formattedData: PreviewDataTableRow[] = registries.data?.map(
         (registry: any) => ({
-          id: registry.id,
-          MotId: registry.MotId || "",
-          name: registry.name || "",
-          laboratoryId: registry.laboratoryId || "",
+          id: registry.id.value,
+          MotId: registry.MotId.value || "",
+          name: registry.name.value || "",
+          laboratoryId: registry.laboratoryId.value || "",
           Laboratory:registry.Laboratory.name || "",
-          serviceType: registry.serviceType || "",
-          kitType: registry.kitType || "",
+          serviceType: registry.serviceType.value || "",
+          kitType: registry.kitType.value || "",
 
-          urgentStatus: registry.urgentStatus || false,
-          price: registry.price || 0,
-          description: registry.description || "",
-          costumerRelationInfo: registry.costumerRelationInfo || "",
-          KoreaSendDate: registry.KoreaSendDate
-            ? new Date(registry.KoreaSendDate).toISOString()
+          urgentStatus: registry.urgentStatus.value || false,
+          price: registry.price.value || 0,
+          description: registry.description.value || "",
+          costumerRelationInfo: registry.costumerRelationInfo.value || "",
+          KoreaSendDate: registry.KoreaSendDate.value
+            ? new Date(registry.KoreaSendDate.value).toISOString()
             : "",
-          resultReady: registry.resultReady || false,
-          resultReadyTime: registry.resultReadyTime
-            ? new Date(registry.resultReadyTime).toISOString()
+          resultReady: registry.resultReady.value || false,
+          resultReadyTime: registry.resultReadyTime.value
+            ? new Date(registry.resultReadyTime.value).toISOString()
             : "",
-          settlementStatus: registry.settlementStatus || "",
-          invoiceStatus: registry.invoiceStatus || "",
-          proformaSent: registry.proformaSent || false,
-          proformaSentDate: registry.proformaSentDate
-            ? new Date(registry.proformaSentDate).toISOString()
+          settlementStatus: registry.settlementStatus.value || "",
+          invoiceStatus: registry.invoiceStatus.value || "",
+          proformaSent: registry.proformaSent.value || false,
+          proformaSentDate: registry.proformaSentDate.value
+            ? new Date(registry.proformaSentDate.value).toISOString()
             : "",
-          totalInvoiceAmount: registry.totalInvoiceAmount || 0,
-          installmentOne: registry.installmentOne || 0,
-          installmentOneDate: registry.installmentOneDate
-            ? new Date(registry.installmentOneDate).toISOString()
+          totalInvoiceAmount: registry.totalInvoiceAmount.value || 0,
+          installmentOne: registry.installmentOne.value || 0,
+          installmentOneDate: registry.installmentOneDate.value
+            ? new Date(registry.installmentOneDate.value).toISOString()
             : "",
-          installmentTwo: registry.installmentTwo || 0,
-          installmentTwoDate: registry.installmentTwoDate
-            ? new Date(registry.installmentTwoDate).toISOString()
+          installmentTwo: registry.installmentTwo.value || 0,
+          installmentTwoDate: registry.installmentTwoDate.value
+            ? new Date(registry.installmentTwoDate.value).toISOString()
             : "",
-          installmentThree: registry.installmentThree || 0,
-          installmentThreeDate: registry.installmentThreeDate
-            ? new Date(registry.installmentThreeDate).toISOString()
+          installmentThree: registry.installmentThree.value || 0,
+          installmentThreeDate: registry.installmentThreeDate.value
+            ? new Date(registry.installmentThreeDate.value).toISOString()
             : "",
-          totalPaid: registry.totalPaid || 0,
-          settlementDate: registry.settlementDate
-            ? new Date(registry.settlementDate).toISOString()
+          totalPaid: registry.totalPaid.value || 0,
+          settlementDate: registry.settlementDate.value
+            ? new Date(registry.settlementDate.value).toISOString()
             : "",
-          officialInvoiceSent: registry.officialInvoiceSent || false,
-          officialInvoiceSentDate: registry.officialInvoiceSentDate
-            ? new Date(registry.officialInvoiceSentDate).toISOString()
+          officialInvoiceSent: registry.officialInvoiceSent.value || false,
+          officialInvoiceSentDate: registry.officialInvoiceSentDate.value
+            ? new Date(registry.officialInvoiceSentDate.value).toISOString()
             : "",
-          sampleStatus: registry.sampleStatus || "",
-          sendSeries: registry.sendSeries || "",
-          createdAt: registry.createdAt
-            ? new Date(registry.createdAt).toISOString()
+          sampleStatus: registry.sampleStatus.value || "",
+          sendSeries: registry.sendSeries.value || "",
+          createdAt: registry.createdAt.value
+            ? new Date(registry.createdAt.value).toISOString()
             : "",
-          updatedAt: registry.createdAt
-            ? new Date(registry.createdAt).toISOString()
+          updatedAt: registry.createdAt.value
+            ? new Date(registry.createdAt.value).toISOString()
             : "",
 
-          registryCreatedBy: registry.registryCreatedBy || "",
-          updatedBy: registry.registryUpdatedBy || "",
+          registryCreatedBy: registry.registryCreatedBy.value || "",
+          updatedBy: registry.registryUpdatedBy.value || "",
         })
       );
 

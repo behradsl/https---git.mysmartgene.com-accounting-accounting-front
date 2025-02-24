@@ -8,7 +8,7 @@ export function useRegistryPreviewFindOne(id: string) {
     data: registry,
     error,
     isLoading,
-  } = useSwr<Partial<RegistryEntity>>(`/registry/preview/${id}`);
+  } = useSwr<AxiosResponse<Partial<RegistryEntityWithFieldAccess>>>(`/registry/preview/${id}`);
 
   return { registry, error, isLoading };
 }
@@ -29,7 +29,7 @@ export function useUpdatePreviewRegistry() {
     "post",
     "/registry/preview/update"
   );
-  return trigger;
+  return {trigger};
 }
 
 export function useRegistryFinalize() {
