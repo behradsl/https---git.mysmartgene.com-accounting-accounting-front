@@ -25,14 +25,7 @@ import { useUser } from "@/store/user.store";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
-function RegistryTableView({
-  data,
-  
-}: {
-  data: DataTableRow[];
-  
-}) {
-  const { user } = useUser();
+function RegistryTableView({ data }: { data: DataTableRow[] }) {
   const router = useRouter();
 
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -53,7 +46,7 @@ function RegistryTableView({
             <Button
               variant={"outline"}
               onClick={() =>
-                router.push(`/panel/users/update/${row.original.id}`)
+                router.push(`/panel/registry/update/${row.original.id}`)
               }
             >
               Edit

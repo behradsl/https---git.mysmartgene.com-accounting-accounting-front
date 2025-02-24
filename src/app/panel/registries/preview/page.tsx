@@ -1,12 +1,13 @@
 
 
-import RegistryView from "@/view/registry/registry-list/registry.view";
+
+import RegistryPreviewView from "@/view/registry-preview/registry-preview-list/registry-preview.view";
 import React from "react";
 
 const Page = () => {
   return (
     <>
-      <RegistryView />
+      <RegistryPreviewView />
     </>
   );
 };

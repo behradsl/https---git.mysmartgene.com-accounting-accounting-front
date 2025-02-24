@@ -1,4 +1,4 @@
-import type { RegistryEntity } from "@/types/registry-entity.type";
+import type { RegistryEntity, RegistryEntityWithFieldAccess } from "@/types/registry-entity.type";
 import { useApiDownload, useApiMutation } from "../use-api-mutation.hook";
 import { useSwr } from "../use-swr.hook";
 import type { AxiosResponse } from "axios";
@@ -18,30 +18,31 @@ export function useRegistryPreviewFindMany() {
     data: registries,
     error,
     isLoading,
-  } = useSwr<AxiosResponse<Partial<RegistryEntity>[]>>("/registry/preview/all");
+    mutate,
+  } = useSwr<AxiosResponse<Partial<RegistryEntityWithFieldAccess>[]>>("/registry/preview/all");
 
-  return { registries, error, isLoading };
+  return { registries, error, isLoading ,mutate };
 }
 
 export function useUpdatePreviewRegistry() {
   const { trigger } = useApiMutation<RegistryEntity>(
     "post",
-    "/registry/preview/update",
+    "/registry/preview/update"
   );
   return trigger;
 }
 
 export function useRegistryFinalize() {
-  const { trigger } = useApiMutation<string>(
+  const { trigger } = useApiMutation<Pick<RegistryEntity, "id">>(
     "post",
-    "/registry/preview/finalize",
+    "/registry/preview/finalize"
   );
-  return trigger;
+  return { trigger };
 }
 
 export function useRegistryPreviewExportAll() {
   const { data, error, isLoading } = useApiDownload(
-    "/registry/preview/export/all",
+    "/registry/preview/export/all"
   );
   return { data, error, isLoading };
 }

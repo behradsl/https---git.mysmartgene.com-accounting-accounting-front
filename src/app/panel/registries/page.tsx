@@ -1,6 +1,6 @@
-
-import RegistryView from "@/view/registry/registry.view";
 import React from "react";
+
+import RegistryView from "@/view/registry/registry-list/registry.view";
 
 const Page = () => {
   return (

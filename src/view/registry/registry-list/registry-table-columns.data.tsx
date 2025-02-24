@@ -18,7 +18,7 @@ export type DataTableRow = {
   MotId: string;
   name: string;
 
-  Laboratory: string;
+  laboratoryId: string;
   serviceType: string;
   kitType: string;
   urgentStatus?: boolean;
@@ -66,7 +66,7 @@ export type DataTableRow = {
 export const registryColumns: ColumnDef<DataTableRow>[] = [
   { id: "MotId", accessorKey: "MotId", header: "MOT ID" },
   { id: "name", accessorKey: "name", header: "Name" },
-  { id: "Laboratory", accessorKey: "Laboratory", header: "Laboratory" },
+  { id: "laboratoryId", accessorKey: "laboratoryId", header: "Laboratory" },
   { id: "serviceType", accessorKey: "serviceType", header: "Service Type" },
   { id: "description", accessorKey: "description", header: "description" },
   {

@@ -76,7 +76,7 @@ export interface RegistryEntityWithFieldAccess {
   MotId: { editable: boolean; value: string };
   name: { editable: boolean; value: string };
 
-  Laboratory: { editable: boolean; value: string };
+  laboratoryId: { editable: boolean; value: string };
 
   serviceType: { editable: boolean; value: string };
   kitType: { editable: boolean; value: string };
