@@ -8,7 +8,7 @@ export function useRegistryPreviewFindOne(id: string) {
     data: registry,
     error,
     isLoading,
-  } = useSwr<AxiosResponse<Partial<RegistryEntityWithFieldAccess>>>(`/registry/preview/${id}`);
+  } = useSwr<AxiosResponse<Partial<RegistryEntity>>>(`/registry/preview/${id}`);
 
   return { registry, error, isLoading };
 }
@@ -19,7 +19,7 @@ export function useRegistryPreviewFindMany() {
     error,
     isLoading,
     mutate,
-  } = useSwr<AxiosResponse<Partial<RegistryEntityWithFieldAccess>[]>>("/registry/preview/all");
+  } = useSwr<AxiosResponse<Partial<RegistryEntity>[]>>("/registry/preview/all");
 
   return { registries, error, isLoading ,mutate };
 }

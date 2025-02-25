@@ -23,16 +23,19 @@ import {
 import { toast } from "@/components/ui/toaster";
 import { AppSidebar } from "@/components/app-sidebar.component";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { useUpdateRegistry } from "@/hooks/api";
+import { useRegistryFindOne, useUpdateRegistry } from "@/hooks/api";
 
 import { useParams, useRouter } from "next/navigation";
 import {
   InvoiceStatus,
+  RegistryEntity,
+  RegistryEntityWithFieldAccess,
   SampleStatus,
   SettlementStatus,
 } from "@/types/registry-entity.type";
 import { useLaboratoryFindMany } from "@/hooks/api/use-laboratory.hook";
 import { Switch } from "@/components/ui/switch";
+import { useCallback, useEffect } from "react";
 
 const formSchema = z.object({
   MotId: z.string().min(1, "Required"),
@@ -69,43 +72,66 @@ const formSchema = z.object({
 const RegistryUpdateView = () => {
   const { laboratories } = useLaboratoryFindMany();
   const { RegistryId } = useParams();
+  const registryIdString = Array.isArray(RegistryId)
+    ? RegistryId[0]
+    : RegistryId || "";
+
+  const { registry } = useRegistryFindOne(registryIdString);
   const router = useRouter();
   const { trigger: updateRegistryCallback } = useUpdateRegistry();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      MotId: "123abc",
-      name: "Test 1",
-      laboratoryId: "e0c44e6d-c01d-4aae-a15e-0792d54d29f7",
-      serviceType: "Service Type 1",
-      kitType: "Kit Type 1",
-      urgentStatus: true,
-      price: "100000",
-      description: "This is a registry",
-      costumerRelationInfo: "09391115840",
-      KoreaSendDate: "2025-02-01T00:00:00.000Z",
-      resultReady: false,
-      resultReadyTime: "2025-02-01T00:00:00.000Z",
-      settlementStatus: SettlementStatus.OVERDUE,
-      invoiceStatus: InvoiceStatus.ISSUED,
-      proformaSent: false,
-      proformaSentDate: "2025-02-01T00:00:00.000Z",
-      totalInvoiceAmount: "100000",
-      installmentOne: "100000",
-      installmentOneDate: "2025-02-01T00:00:00.000Z",
-      installmentTwo: "100000",
-      installmentTwoDate: "2025-02-01T00:00:00.000Z",
-      installmentThree: "100000",
-      installmentThreeDate: "2025-02-01T00:00:00.000Z",
-      totalPaid: "50000",
-      settlementDate: "2025-02-01T00:00:00.000Z",
-      officialInvoiceSent: false,
-      officialInvoiceSentDate: "2025-02-01T00:00:00.000Z",
-      sampleStatus: SampleStatus.DELIVERED,
-      sendSeries: "Series 123",
+      // MotId: "",
+      // name: "Test 1",
+      // laboratoryId: "e0c44e6d-c01d-4aae-a15e-0792d54d29f7",
+      // serviceType: "Service Type 1",
+      // kitType: "Kit Type 1",
+      // urgentStatus: true,
+      // price: "100000",
+      // description: "This is a registry",
+      // costumerRelationInfo: "09391115840",
+      // KoreaSendDate: "2025-02-01T00:00:00.000Z",
+      // resultReady: false,
+      // resultReadyTime: "2025-02-01T00:00:00.000Z",
+      // settlementStatus: SettlementStatus.OVERDUE,
+      // invoiceStatus: InvoiceStatus.ISSUED,
+      // proformaSent: false,
+      // proformaSentDate: "2025-02-01T00:00:00.000Z",
+      // totalInvoiceAmount: "100000",
+      // installmentOne: "100000",
+      // installmentOneDate: "2025-02-01T00:00:00.000Z",
+      // installmentTwo: "100000",
+      // installmentTwoDate: "2025-02-01T00:00:00.000Z",
+      // installmentThree: "100000",
+      // installmentThreeDate: "2025-02-01T00:00:00.000Z",
+      // totalPaid: "50000",
+      // settlementDate: "2025-02-01T00:00:00.000Z",
+      // officialInvoiceSent: false,
+      // officialInvoiceSentDate: "2025-02-01T00:00:00.000Z",
+      // sampleStatus: SampleStatus.DELIVERED,
+      // sendSeries: "Series 123",
     },
   });
+  const formattedRegistries = useCallback(() => {
+    const formattedRegistriesObject: Record<string, any> = {};
+    Object.entries(registry?.data || {}).forEach(
+      ([registryKey, registryValue]) => {
+        formattedRegistriesObject[
+          registryKey as keyof RegistryEntityWithFieldAccess
+        ] = registryValue.value;
+      }
+    );
+    console.log({ formattedRegistriesObject });
+
+    form.reset(formattedRegistriesObject);
+    return formattedRegistriesObject as RegistryEntity;
+  }, [registry?.data]);
+
+  useEffect(() => {
+    formattedRegistries();
+  }, [registry?.data]);
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const newRegistry = await updateRegistryCallback({

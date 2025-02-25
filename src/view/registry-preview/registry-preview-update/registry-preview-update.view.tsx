@@ -23,7 +23,11 @@ import {
 import { toast } from "@/components/ui/toaster";
 import { AppSidebar } from "@/components/app-sidebar.component";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { useRegistryPreviewFindOne, useUpdatePreviewRegistry, useUpdateRegistry } from "@/hooks/api";
+import {
+  useRegistryPreviewFindOne,
+  useUpdatePreviewRegistry,
+  useUpdateRegistry,
+} from "@/hooks/api";
 
 import { useParams, useRouter } from "next/navigation";
 import {
@@ -73,7 +77,9 @@ const RegistryPreviewUpdateView = () => {
   const { laboratories } = useLaboratoryFindMany();
   const { RegistryId } = useParams();
 
-  const registryIdString = Array.isArray(RegistryId) ? RegistryId[0] : RegistryId || "";
+  const registryIdString = Array.isArray(RegistryId)
+    ? RegistryId[0]
+    : RegistryId || "";
 
   const { registry } = useRegistryPreviewFindOne(registryIdString);
   const router = useRouter();
@@ -113,21 +119,12 @@ const RegistryPreviewUpdateView = () => {
       // sendSeries: "Series 123",
     },
   });
-  const formattedRegistries = useCallback(()=>{
-    const formattedRegistriesObject:Record<string,any> = {}
-  Object.entries(registry?.data || {}).forEach(([registryKey,registryValue])=>{
-    formattedRegistriesObject[registryKey as keyof RegistryEntityWithFieldAccess] = registryValue.value
-  })
-  console.log({formattedRegistriesObject});
-  
-  form.reset(formattedRegistriesObject);
-  return formattedRegistriesObject as RegistryEntity
-  } , [registry?.data])
-
   useEffect(() => {
-    formattedRegistries();
-  }, [registry?.data])
-  
+    (async () => {
+      form.reset(registry?.data);
+    })();
+  }, [registry?.data]);
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const newRegistry = await updatePreviewRegistryCallback({
