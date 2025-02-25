@@ -350,7 +350,18 @@ const RegistryPreviewUpdateView = () => {
                 <FormItem className="w-full md:w-5/12">
                   <FormLabel>Settlement Status</FormLabel>
                   <FormControl>
-                    <Input autoComplete="off" {...field} />
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Settlement Status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Object.values(SettlementStatus).map((status) => (
+                          <SelectItem key={status} value={status}>
+                            {status.replace(/_/g, " ")}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -363,7 +374,18 @@ const RegistryPreviewUpdateView = () => {
                 <FormItem className="w-full md:w-5/12">
                   <FormLabel>Invoice Status</FormLabel>
                   <FormControl>
-                    <Input autoComplete="off" {...field} />
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Invoice Status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Object.values(InvoiceStatus).map((status) => (
+                          <SelectItem key={status} value={status}>
+                            {status.replace(/_/g, " ")}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -563,7 +585,18 @@ const RegistryPreviewUpdateView = () => {
                 <FormItem className="w-full md:w-5/12">
                   <FormLabel>Sample Status</FormLabel>
                   <FormControl>
-                    <Input autoComplete="off" {...field} />
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Sample Status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Object.values(SampleStatus).map((status) => (
+                          <SelectItem key={status} value={status}>
+                            {status.replace(/_/g, " ")}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
