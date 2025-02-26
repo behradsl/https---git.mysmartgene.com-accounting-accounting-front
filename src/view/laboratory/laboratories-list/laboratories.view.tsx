@@ -15,7 +15,7 @@ const LaboratoriesView = () => {
   useEffect(() => {
     if (laboratories?.data) {
       const formattedData: LaboratoriesDataTableRow[] = laboratories.data?.map(
-        (laboratory:any) => ({
+        (laboratory: any) => ({
           id: laboratory?.id || "",
           name: laboratory?.name || "",
           type: laboratory?.type || LaboratoriesType.LABORATORY,
@@ -28,8 +28,7 @@ const LaboratoriesView = () => {
           fax: laboratory?.fax || "",
 
           accountManagerId: laboratory?.accountManagerId || "",
-          accountManager:laboratory?.accountManager ||"",
-          
+          accountManager: laboratory?.accountManager || "",
 
           createdAt: laboratory?.createdAt
             ? new Date(laboratory.createdAt).toISOString()
@@ -42,8 +41,6 @@ const LaboratoriesView = () => {
 
           LaboratoryFormalPaymentInfo:
             laboratory?.LaboratoryFormalPaymentInfo || "",
-
-          
         })
       );
 

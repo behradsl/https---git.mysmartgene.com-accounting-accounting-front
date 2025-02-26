@@ -81,9 +81,7 @@ const UpdateLaboratoryFormalPaymentInfoView = () => {
         </h2>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit, (data, e) =>
-              console.log({ data })
-            )}
+            onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-8 flex flex-wrap justify-between gap-2.5 px-5"
           >
             <FormField

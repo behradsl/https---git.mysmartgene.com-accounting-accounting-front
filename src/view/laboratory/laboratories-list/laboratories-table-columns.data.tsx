@@ -147,14 +147,14 @@ export const LaboratoryColumns: ColumnDef<LaboratoriesDataTableRow>[] = [
     header: "Formal Payment Info",
     cell: ({ row }) => {
       const href = row?.original.LaboratoryFormalPaymentInfo
-        ? `laboratories/laboratories-formal-payment-info/update/${row.original?.id}`
-        : `laboratories/laboratories-formal-payment-info/create/${row.original?.id}`;
+        ? `laboratories/laboratories-formal-payment-info/${row.original?.id}`
+        : `laboratories/laboratories-formal-payment-info/update/${row.original?.id}`;
 
         console.log(href);
         
       return (
         <Button asChild>
-          <a href={href}>{row?.original.LaboratoryFormalPaymentInfo ? "Edit" : "Add"}</a>
+          <a href={href}>{row?.original.LaboratoryFormalPaymentInfo ? "View" : "Add"}</a>
         </Button>
       );
     },

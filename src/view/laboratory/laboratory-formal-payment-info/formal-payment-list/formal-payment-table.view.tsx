@@ -23,18 +23,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import {
-  LaboratoriesDataTableRow,
-  LaboratoryColumns,
-} from "./laboratories-table-columns.data";
-
-function LaboratoriesTableView({
-  data,
-  reloadUsersList,
-}: {
-  data: LaboratoriesDataTableRow[];
-  reloadUsersList: () => void;
-}) {
+  PaymentInfoColumns,
+  PaymentInfoDataTableRow,
   
+} from "./formal-payment-table-columns.data";
+
+function LaboratoriesTableView({ data }: { data: PaymentInfoDataTableRow[] }) {
   const router = useRouter();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -44,7 +38,7 @@ function LaboratoriesTableView({
   const table = useReactTable({
     data,
     columns: [
-      ...LaboratoryColumns,
+      ...PaymentInfoColumns,
       {
         id: "actions",
         accessorKey: "actions",
@@ -54,7 +48,9 @@ function LaboratoriesTableView({
             <Button
               variant={"outline"}
               onClick={() =>
-                router.push(`/panel/laboratories/update/${row.original.id}`)
+                router.push(
+                  `/panel/laboratories/laboratories-formal-payment-info/update/${row.original.laboratoryId}`
+                )
               }
             >
               Edit
@@ -118,7 +114,7 @@ function LaboratoriesTableView({
         ) : (
           <TableRow>
             <TableCell
-              colSpan={LaboratoryColumns.length}
+              colSpan={PaymentInfoColumns.length}
               className="h-24 text-center"
             >
               No results.
