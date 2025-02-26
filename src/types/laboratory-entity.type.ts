@@ -14,16 +14,19 @@ export interface LaboratoryEntity {
 }
 
 export interface LaboratoryFormalPaymentInfoType {
-  id: string;
-  laboratoryId: string;
-  legalEntityName: string;
-  economicNumber: string;
-  nationalId: string;
-  fullAddress: string;
-  province: string;
-  city: string;
-  registrationNumber: string;
-  postalCode: string;
+  name:string;
+  LaboratoryFormalPaymentInfo?: {
+    id:string;
+    laboratoryId: string;
+    legalEntityName: string;
+    economicNumber: string;
+    nationalId: string;
+    fullAddress: string;
+    province: string;
+    city: string;
+    registrationNumber: string;
+    postalCode: string;
+  };
 }
 
 export enum LaboratoriesType {

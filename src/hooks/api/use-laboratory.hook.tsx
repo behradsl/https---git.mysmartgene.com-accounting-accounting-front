@@ -23,16 +23,41 @@ export function useUpdateLaboratory() {
 
 export function useCreateLaboratoryFormalPaymentInfo() {
   const { trigger } = useApiMutation<
-    Omit<LaboratoryFormalPaymentInfoType, "id">
-  >("post", "/laboratory/create/payment-info");
-  return { trigger };
+    Omit<LaboratoryFormalPaymentInfoType["LaboratoryFormalPaymentInfo"], "id">
+  >("post", "/laboratory/payment-info/create");
+
+  return async (
+    data: Omit<
+      LaboratoryFormalPaymentInfoType["LaboratoryFormalPaymentInfo"],
+      "id"
+    >
+  ) => {
+    return await trigger(data);
+  };
 }
+
 export function useUpdateLaboratoryFormalPaymentInfo() {
-  const { trigger } = useApiMutation<LaboratoryFormalPaymentInfoType>(
-    "post",
-    "/laboratory/update/payment-info"
-  );
-  return { trigger };
+  const { trigger } = useApiMutation<
+    Omit<LaboratoryFormalPaymentInfoType["LaboratoryFormalPaymentInfo"] , "id">
+  >("post", "/laboratory/payment-info/update");
+
+  return async (
+    data: 
+      Omit<LaboratoryFormalPaymentInfoType["LaboratoryFormalPaymentInfo"] , "id">
+  ) => {
+    return await trigger(data);
+  };
+}
+
+
+export function useLaboratoryFormalPaymentInfoFind(id: string) {
+  const {
+    data: paymentInfo,
+    error,
+    isLoading,
+  } = useSwr<AxiosResponse<LaboratoryFormalPaymentInfoType>>(`/laboratory/payment-info/${id}`);
+
+  return { paymentInfo, error, isLoading };
 }
 
 export function useLaboratoryFindMany() {
