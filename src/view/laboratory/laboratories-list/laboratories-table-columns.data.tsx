@@ -1,70 +1,162 @@
-import { type ColumnDef } from "@tanstack/react-table"
-import type { UserPosition } from "@/types/user-entity.type"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { LaboratoriesType, PaymentType } from "@/types/laboratory-entity.type";
+import { type ColumnDef } from "@tanstack/react-table";
 
-export type SettlementStatus = "SETTLED" | "PENDING" | "OVERDUE"
-export type InvoiceStatus = "ISSUED" | "NOT_ISSUED"
-export type SampleStatus =
-  | "PENDING"
-  | "SHIPMENT"
-  | "SHIPPED"
-  | "RECEIVED_AT_laboratory"
-  | "IN_TESTING"
-  | "READY_FOR_DELIVERY"
-  | "DELIVERED"
+export type LaboratoriesDataTableRow = {
+  id: string;
+  name: string;
+  type: LaboratoriesType;
+  code: string | null;
+  address: string | null;
+  contactName: string | null;
+  phoneNumber: string | null;
+  email: string | null;
+  paymentType: PaymentType;
+  fax: string | null;
 
-export type UsersDataTableRow = {
-  id: string
-  email: string
-  // LaboratoryAccountManager: { id: string }[]
-  // LaboratoryCreatedBy: { id: string }[]
-  // RegistryCreatedBy: { id: string }[]
-  // RegistryUpdatedBy: { id: string }[]
-  phoneNumber: string
-  name: string
-  position: UserPosition
-  createdAt: string
-  removedAt?: null
-}
+  accountManager: { name: string; position: string };
 
-export const userColumns: ColumnDef<UsersDataTableRow>[] = [
+  createdAt: string;
+  updatedAt: string;
+  createdBy: { name: string; position: string };
+
+  LaboratoryFormalPaymentInfo: { id: string };
+
+ 
+};
+
+export const LaboratoryColumns: ColumnDef<LaboratoriesDataTableRow>[] = [
   {
     id: "name",
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) => (
-      <div className='w-20 font-semibold'>{row.original.name}</div>
-    )
+      <div className="w-20 font-semibold">{row.original.name}</div>
+    ),
+  },
+  {
+    id: "type",
+    accessorKey: "type",
+    header: "Type",
+    cell: ({ row }) => (
+      <div className="w-20 font-semibold">{row.original.type}</div>
+    ),
+  },
+  {
+    id: "code",
+    accessorKey: "code",
+    header: "Code",
+    cell: ({ row }) => (
+      <div className="w-20 font-semibold">{row.original.code}</div>
+    ),
+  },
+  {
+    id: "address",
+    accessorKey: "address",
+    header: "Address",
+    cell: ({ row }) => (
+      <div className="w-20 font-semibold">{row.original.address}</div>
+    ),
+  },
+  {
+    id: "contactName",
+    accessorKey: "contactName",
+    header: "Contact Name",
+    cell: ({ row }) => (
+      <div className="w-20 font-semibold">{row.original.contactName}</div>
+    ),
   },
   {
     id: "Email",
     accessorKey: "email",
     header: "Email",
     cell: ({ row }) => (
-      <div className='w-20 font-semibold'>{row.original.email}</div>
-    )
+      <div className="w-20 font-semibold">{row.original.email}</div>
+    ),
   },
   {
     id: "phoneNumber",
     accessorKey: "phoneNumber",
     header: "Phone Number",
     cell: ({ row }) => (
-      <div className='w-20 font-semibold'>{row.original.phoneNumber}</div>
-    )
+      <div className="w-20 font-semibold">{row.original.phoneNumber}</div>
+    ),
   },
   {
-    id: "position",
-    accessorKey: "position",
-    header: "Position",
+    id: "fax",
+    accessorKey: "fax",
+    header: "Fax",
     cell: ({ row }) => (
-      <div className='w-20 font-semibold'>{row.original.position}</div>
-    )
+      <div className="w-20 font-semibold">{row.original.fax}</div>
+    ),
+  },
+  {
+    id: "accounting manager",
+    accessorKey: "accounting manager",
+    header: "accounting manager",
+    cell: ({ row }) => {
+      return row.original?.accountManager ? (
+        <Card className="w-56">
+          <CardContent>{row.original.accountManager.name}</CardContent>
+        </Card>
+      ) : (
+        "-"
+      );
+    },
   },
   {
     id: "createdAt",
     accessorKey: "createdAt",
-    header: "Created At",
-    cell: ({ row }) => (
-      <div className='w-20 font-semibold'>{row.original.createdAt}</div>
-    )
-  }
-]
+    header: "created at",
+    cell: ({ row }) => {
+      const date = row.original.createdAt;
+      return date ? new Date(date).toLocaleDateString() : "-";
+    },
+  },
+
+  {
+    id: "updatedAt",
+    accessorKey: "updatedAt",
+    header: "updated at",
+    cell: ({ row }) => {
+      const date = row.original.updatedAt;
+      return date ? new Date(date).toLocaleDateString() : "-";
+    },
+  },
+
+  {
+    id: "CreatedBy",
+    accessorKey: "CreatedBy",
+    header: "Created By",
+    cell: ({ row }) => {
+      
+      return row.original?.createdBy ? (
+        <Card className="w-56">
+          <CardContent>{row.original.createdBy.name}</CardContent>
+        </Card>
+      ) : (
+        "-"
+      );
+    },
+  },
+
+  {
+    id: "formalPaymentInfo",
+    accessorKey: "formalPaymentInfo",
+    header: "Formal Payment Info",
+    cell: ({ row }) => {
+      const paymentInfo = row.original?.LaboratoryFormalPaymentInfo;
+      const href = paymentInfo
+        ? `laboratories/formal-payment-info/update/${paymentInfo.id}`
+        : "laboratories/formal-payment-info/create";
+  
+      return (
+        <Button asChild>
+          <a href={href}>{paymentInfo ? "Edit" : "Add"}</a>
+        </Button>
+      );
+    },
+  },
+  
+];

@@ -20,24 +20,22 @@ import {
 } from "@/components/ui/table";
 
 import { useState } from "react";
+import { userColumns, UsersDataTableRow } from "./formal-payment-info-table-columns.data";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useDeleteUser } from "@/hooks/api";
 import { useUser } from "@/store/user.store";
-import {
-  LaboratoriesDataTableRow,
-  LaboratoryColumns,
-} from "./laboratories-table-columns.data";
 
-function LaboratoriesTableView({
+function FormalPaymentInfoTableView({
   data,
   reloadUsersList,
 }: {
-  data: LaboratoriesDataTableRow[];
+  data: UsersDataTableRow[];
   reloadUsersList: () => void;
 }) {
   const { user } = useUser();
   const router = useRouter();
+  const { trigger: userDeleteCallback } = useDeleteUser();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -46,21 +44,30 @@ function LaboratoriesTableView({
   const table = useReactTable({
     data,
     columns: [
-      ...LaboratoryColumns,
+      ...userColumns,
       {
         id: "actions",
         accessorKey: "actions",
         header: "",
         cell: ({ row }) => (
-          <div className="flex gap-2 items-center justify-center">
+          <div className='flex gap-2 items-center justify-center'>
             <Button
               variant={"outline"}
               onClick={() =>
-                router.push(`/panel/laboratories/update/${row.original.id}`)
-              }
-            >
+                router.push(`/panel/users/update/${row.original.id}`)
+              }>
               Edit
             </Button>
+            {user?.id === row.original.id ? null : (
+              <Button
+                variant={"destructive"}
+                onClick={async () => {
+                  await userDeleteCallback({ id: row.original.id });
+                  reloadUsersList();
+                }}>
+                Remove
+              </Button>
+            )}
           </div>
         ),
       },
@@ -81,13 +88,12 @@ function LaboratoriesTableView({
     },
   });
   return (
-    <Table className="w-full">
-      <TableHeader className="">
+    <Table className='w-full'>
+      <TableHeader className=''>
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow
             key={headerGroup.id}
-            className="!hover:bg-white data-[state=selected]:bg-white"
-          >
+            className='!hover:bg-white data-[state=selected]:bg-white'>
             {headerGroup.headers.map((header) => {
               return (
                 <TableHead key={header.id}>
@@ -95,7 +101,7 @@ function LaboratoriesTableView({
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
-                        header.getContext()
+                        header.getContext(),
                       )}
                 </TableHead>
               );
@@ -108,8 +114,7 @@ function LaboratoriesTableView({
           table.getRowModel().rows.map((row) => (
             <TableRow
               key={row.id}
-              data-state={row.getIsSelected() && "selected"}
-            >
+              data-state={row.getIsSelected() && "selected"}>
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -120,9 +125,8 @@ function LaboratoriesTableView({
         ) : (
           <TableRow>
             <TableCell
-              colSpan={LaboratoryColumns.length}
-              className="h-24 text-center"
-            >
+              colSpan={userColumns.length}
+              className='h-24 text-center'>
               No results.
             </TableCell>
           </TableRow>
@@ -132,4 +136,4 @@ function LaboratoriesTableView({
   );
 }
 
-export default LaboratoriesTableView;
+export default FormalPaymentInfoTableView;

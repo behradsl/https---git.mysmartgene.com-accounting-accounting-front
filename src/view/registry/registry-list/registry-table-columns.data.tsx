@@ -74,9 +74,7 @@ export const registryColumns: ColumnDef<DataTableRow>[] = [
     id: "kitType",
     accessorKey: "kitType",
     header: "Kit Type",
-    cell: ({ row }) => {
-      console.log(row);
-    },
+    
   },
   {
     id: "urgentStatus",

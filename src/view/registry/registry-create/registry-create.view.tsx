@@ -219,10 +219,10 @@ const RegistryCreateView = () => {
                     >
                       {(laboratories?.data ?? []).map((laboratory) => (
                         <SelectItem
-                          key={`laboratory-id-${laboratory.id}`}
-                          value={laboratory.id}
+                          key={`laboratory-id-${laboratory?.id}`}
+                          value={laboratory?.id ?? ""}
                         >
-                          {laboratory.name}
+                          {laboratory?.name}
                         </SelectItem>
                       ))}
                     </SelectContent>

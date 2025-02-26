@@ -1,18 +1,16 @@
 export interface LaboratoryEntity {
   id: string;
   name: string;
-  type: string | null;
+  type: LaboratoriesType;
   code: string | null;
   address: string | null;
   contactName: string | null;
   phoneNumber: string | null;
   email: string | null;
-  paymentType: string | null;
+  paymentType: PaymentType;
   fax: string | null;
 
-  accountManagerId: string | null;
-
-  UserIdCreatedBy: string | null;
+  accountManagerId: string;
 }
 
 export interface LaboratoryFormalPaymentInfoType {
@@ -26,4 +24,15 @@ export interface LaboratoryFormalPaymentInfoType {
   city: string;
   registrationNumber: string;
   postalCode: string;
+}
+
+export enum LaboratoriesType {
+  "LABORATORY" = "LABORATORY",
+  "RESEARCH_CENTER" = "RESEARCH_CENTER",
+  "INDIVIDUAL" = "INDIVIDUAL",
+}
+
+export enum PaymentType {
+  "FORMAL" = "FORMAL",
+  "INFORMAL" = "INFORMAL",
 }
