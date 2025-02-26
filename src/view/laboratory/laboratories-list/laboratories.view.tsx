@@ -57,7 +57,7 @@ const LaboratoriesView = () => {
         <h2 className="font-semibold text-xl">Laboratories List</h2>
         <div>
           <Button asChild variant={"default"}>
-            <Link href={`/panel/users/create`}>Create Laboratory</Link>
+            <Link href={`/panel/laboratories/create`}>Create Laboratory</Link>
           </Button>
         </div>
       </div>

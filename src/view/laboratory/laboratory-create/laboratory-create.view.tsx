@@ -208,7 +208,7 @@ const LaboratoryCreateView = (props: {}) => {
                 
                 return (
                   <FormItem className="w-full md:w-5/12">
-                    <FormLabel>Laboratory</FormLabel>
+                    <FormLabel>Account Manager</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       value={field.value || ""}
@@ -217,7 +217,7 @@ const LaboratoryCreateView = (props: {}) => {
                     >
                       <FormControl>
                         <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select a laboratory" />
+                          <SelectValue placeholder="Select Account Manager" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent
@@ -229,7 +229,7 @@ const LaboratoryCreateView = (props: {}) => {
                       >
                         {(users?.data ?? []).map((user) => (
                           <SelectItem
-                            key={`laboratory-id-${user.id}`}
+                            key={`user-id-${user.id}`}
                             value={user.id}
                           >
                             {user.name}

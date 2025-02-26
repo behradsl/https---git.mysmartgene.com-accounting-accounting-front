@@ -23,49 +23,54 @@ import {
 import { toast } from "@/components/ui/toaster";
 import { AppSidebar } from "@/components/app-sidebar.component";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { UserPosition } from "@/types/user-entity.type";
-import { useUpdateUser, useUserFindOne } from "@/hooks/api";
+
 import { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { LaboratoriesType, PaymentType } from "@/types/laboratory-entity.type";
+import { useLaboratoryFindOne, useUpdateLaboratory } from "@/hooks/api/use-laboratory.hook";
+import { useUserFindMany } from "@/hooks/api";
 
 const formSchema = z.object({
-  name: z.string().min(2, {}),
-  position: z.nativeEnum(UserPosition, {}),
-  phoneNumber: z.coerce.string({}).min(6, {}).max(17, {}).optional(),
-  email: z.string({}).min(8, {}),
-  password: z.string({}).min(5, {}),
+   name: z.string().min(2, {}),
+    type: z.nativeEnum(LaboratoriesType, {}),
+    code: z.string().nullable(),
+    address: z.string().nullable(),
+    contactName: z.string().nullable(),
+    phoneNumber: z.string().nullable(),
+    email: z.string().nullable(),
+    paymentType: z.nativeEnum(PaymentType, {}),
+    fax: z.string().nullable(),
+  
+    accountManagerId: z.string().min(1, "Required"),
 });
 
 const LaboratoryUpdateView = () => {
-  const { userId } = useParams();
+  const { users } = useUserFindMany();
+  const { laboratoryId } = useParams();
   const router = useRouter();
-  const { trigger: updateUserCallback } = useUpdateUser();
-  const { user } = useUserFindOne(userId as string);
+  const { trigger: updateLaboratoryCallback } = useUpdateLaboratory();
+  const { laboratory } = useLaboratoryFindOne(laboratoryId as string);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      position: UserPosition.FINANCE_MANAGER,
-      email: "",
-      password: undefined,
-      phoneNumber: "",
+      
     },
   });
 
   useEffect(() => {
     (async () => {
-      form.reset({ ...user?.data, password: undefined });
+      form.reset({ ...laboratory?.data });
     })();
-  }, [user]);
+  }, [laboratory]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const newUser = await updateUserCallback({
-        id: userId as string,
+      const newUser = await updateLaboratoryCallback({
+        id: laboratoryId as string,
         ...values,
       });
 
-      router.push("/panel/users");
+      router.push("/panel/laboratories");
       form.reset();
     } catch (error) {
       toast.error((error as Error).message);
@@ -76,38 +81,102 @@ const LaboratoryUpdateView = () => {
     <SidebarProvider>
       <AppSidebar />
       <main>
-        <h2 className='mb-10 px-5 text-center text-lg font-semibold'>
-          update User
+        <h2 className="mb-10 px-5 text-center text-lg font-semibold">
+          New Laboratory
         </h2>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='spsace-y-8 flex flex-wrap justify-between gap-2.5 px-5'>
+            className="space-y-8 flex flex-wrap justify-between gap-2.5 px-5"
+          >
+            {/* Name Field */}
             <FormField
               control={form.control}
-              name='name'
+              name="name"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>name</FormLabel>
+                <FormItem className="w-full md:w-5/12">
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder='' autoComplete='off' {...field} />
+                    <Input placeholder="" autoComplete="off" {...field}  />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
+            {/* Code Field */}
             <FormField
               control={form.control}
-              name='phoneNumber'
+              name="code"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>phoneNumber</FormLabel>
+                <FormItem className="w-full md:w-5/12">
+                  <FormLabel>Code</FormLabel>
+                  <FormControl>
+                    <Input placeholder="" autoComplete="off" {...field} value={field.value ?? ""} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Address Field */}
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem className="w-full md:w-5/12">
+                  <FormLabel>Address</FormLabel>
+                  <FormControl>
+                    <Input placeholder="" autoComplete="off" {...field} value={field.value ?? ""} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Contact Name Field */}
+            <FormField
+              control={form.control}
+              name="contactName"
+              render={({ field }) => (
+                <FormItem className="w-full md:w-5/12">
+                  <FormLabel>Contact Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="" autoComplete="off" {...field} value={field.value ?? ""} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Phone Number Field */}
+            <FormField
+              control={form.control}
+              name="phoneNumber"
+              render={({ field }) => (
+                <FormItem className="w-full md:w-5/12">
+                  <FormLabel>Phone Number</FormLabel>
+                  <FormControl>
+                    <Input placeholder="" autoComplete="off" {...field} value={field.value ?? ""} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Email Field */}
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="w-full md:w-5/12">
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder=''
-                      inputMode='numeric'
-                      autoComplete='off'
+                      placeholder=""
+                      autoComplete="off"
                       {...field}
+                      value={field.value ?? ""} 
                     />
                   </FormControl>
                   <FormMessage />
@@ -115,71 +184,130 @@ const LaboratoryUpdateView = () => {
               )}
             />
 
+            {/* Fax Field */}
             <FormField
               control={form.control}
-              name='email'
+              name="fax"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>email</FormLabel>
+                <FormItem className="w-full md:w-5/12">
+                  <FormLabel>Fax</FormLabel>
                   <FormControl>
-                    <Input placeholder='' autoComplete='off' {...field} />
+                    <Input placeholder="" autoComplete="off" {...field} value={field.value ?? ""}  />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>password</FormLabel>
-                  <FormControl>
-                    <Input autoComplete='off' type='password' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='position'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Position</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        // temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(UserPosition).map((position) => (
-                        <SelectItem
-                          key={`user-update-position-${position}`}
-                          value={position}>
-                          {position}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Separator className='mx-auto my-2 w-8/12 opacity-0' />
 
-            <div className='flex w-full justify-end'>
-              <Button type='submit' className='mx-auto w-full max-w-2xs'>
+            {/* Account Manager ID Field */}
+            <FormField
+              control={form.control}
+              name="accountManagerId"
+              render={({ field }) => {
+                
+                return (
+                  <FormItem className="w-full md:w-5/12">
+                    <FormLabel>Account Manager</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value || ""}
+                      dir="rtl"
+                      
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select Account Manager" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent
+                        ref={(ref) =>
+                          ref?.addEventListener("touchend", (e) =>
+                            e.preventDefault()
+                          )
+                        }
+                      >
+                        {(users?.data ?? []).map((user) => (
+                          <SelectItem
+                            key={`user-id-${user.id}`}
+                            value={user.id}
+                          >
+                            {user.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+
+            {/* Type (Enum) Field */}
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => {
+                return (
+                  <FormItem className="w-full md:w-5/12">
+                    <FormLabel>Laboratory Type</FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Laboratory Type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {Object.values(LaboratoriesType).map((type) => (
+                            <SelectItem key={type} value={type}>
+                              {type.replace(/_/g, " ")}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+
+            {/* Payment Type (Enum) Field */}
+            <FormField
+              control={form.control}
+              name="paymentType"
+              render={({ field }) => {
+                return (
+                  <FormItem className="w-full md:w-5/12">
+                    <FormLabel>payment Type</FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Laboratory Payment Type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {Object.values(PaymentType).map((type) => (
+                            <SelectItem key={type} value={type}>
+                              {type.replace(/_/g, " ")}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+
+            <Separator className="mx-auto my-2 w-8/12 opacity-0" />
+
+            <div className="flex w-full justify-end">
+              <Button type="submit" className="mx-auto w-full max-w-2xs">
                 Save
               </Button>
             </div>

@@ -51,7 +51,7 @@ export function useLaboratoryFindOne(id: string) {
     data: laboratory,
     error,
     isLoading,
-  } = useSwr<LaboratoryEntity>(`/laboratory/${id}`);
+  } = useSwr<AxiosResponse<LaboratoryEntity>>(`/laboratory/${id}`);
 
   return { laboratory, error, isLoading };
 }

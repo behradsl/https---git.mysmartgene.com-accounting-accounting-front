@@ -22,8 +22,6 @@ import {
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useDeleteUser } from "@/hooks/api";
-import { useUser } from "@/store/user.store";
 import {
   LaboratoriesDataTableRow,
   LaboratoryColumns,
@@ -36,7 +34,7 @@ function LaboratoriesTableView({
   data: LaboratoriesDataTableRow[];
   reloadUsersList: () => void;
 }) {
-  const { user } = useUser();
+  
   const router = useRouter();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
