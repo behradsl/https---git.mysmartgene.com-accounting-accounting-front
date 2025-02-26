@@ -61,12 +61,12 @@ const CreateLaboratoryFormalPaymentInfoView = () => {
   //     form.reset({ ...laboratory?.data });
   //   })();
   // }, [laboratory]);
+  const createLaboratoryFormalPaymentInfo =
+  useCreateLaboratoryFormalPaymentInfo();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const createLaboratoryFormalPaymentInfo =
-        useCreateLaboratoryFormalPaymentInfo();
-
+      
       const newPaymentInfo = await createLaboratoryFormalPaymentInfo({
         laboratoryId: laboratoryId as string,
         ...values,
