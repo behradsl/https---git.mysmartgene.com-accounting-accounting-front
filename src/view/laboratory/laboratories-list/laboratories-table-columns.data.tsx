@@ -32,7 +32,7 @@ export const LaboratoryColumns: ColumnDef<LaboratoriesDataTableRow>[] = [
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) => (
-      <div className="w-20 font-semibold">{row.original.name}</div>
+      <div className="  font-semibold">{row.original.name}</div>
     ),
   },
   {
@@ -40,7 +40,7 @@ export const LaboratoryColumns: ColumnDef<LaboratoriesDataTableRow>[] = [
     accessorKey: "type",
     header: "Type",
     cell: ({ row }) => (
-      <div className="w-20 font-semibold">{row.original.type}</div>
+      <div className="  font-semibold">{row.original.type}</div>
     ),
   },
   {
@@ -48,7 +48,7 @@ export const LaboratoryColumns: ColumnDef<LaboratoriesDataTableRow>[] = [
     accessorKey: "code",
     header: "Code",
     cell: ({ row }) => (
-      <div className="w-20 font-semibold">{row.original.code}</div>
+      <div className="  font-semibold">{row.original.code}</div>
     ),
   },
   {
@@ -56,7 +56,7 @@ export const LaboratoryColumns: ColumnDef<LaboratoriesDataTableRow>[] = [
     accessorKey: "address",
     header: "Address",
     cell: ({ row }) => (
-      <div className="w-20 font-semibold">{row.original.address}</div>
+      <div className="  font-semibold">{row.original.address}</div>
     ),
   },
   {
@@ -64,7 +64,7 @@ export const LaboratoryColumns: ColumnDef<LaboratoriesDataTableRow>[] = [
     accessorKey: "contactName",
     header: "Contact Name",
     cell: ({ row }) => (
-      <div className="w-20 font-semibold">{row.original.contactName}</div>
+      <div className="  font-semibold">{row.original.contactName}</div>
     ),
   },
   {
@@ -72,7 +72,7 @@ export const LaboratoryColumns: ColumnDef<LaboratoriesDataTableRow>[] = [
     accessorKey: "email",
     header: "Email",
     cell: ({ row }) => (
-      <div className="w-20 font-semibold">{row.original.email}</div>
+      <div className="  font-semibold">{row.original.email}</div>
     ),
   },
   {
@@ -80,7 +80,7 @@ export const LaboratoryColumns: ColumnDef<LaboratoriesDataTableRow>[] = [
     accessorKey: "phoneNumber",
     header: "Phone Number",
     cell: ({ row }) => (
-      <div className="w-20 font-semibold">{row.original.phoneNumber}</div>
+      <div className="  font-semibold">{row.original.phoneNumber}</div>
     ),
   },
   {
@@ -88,7 +88,7 @@ export const LaboratoryColumns: ColumnDef<LaboratoriesDataTableRow>[] = [
     accessorKey: "fax",
     header: "Fax",
     cell: ({ row }) => (
-      <div className="w-20 font-semibold">{row.original.fax}</div>
+      <div className="  font-semibold">{row.original.fax}</div>
     ),
   },
   {
@@ -148,7 +148,7 @@ export const LaboratoryColumns: ColumnDef<LaboratoriesDataTableRow>[] = [
     cell: ({ row }) => {
       const href = row?.original.LaboratoryFormalPaymentInfo
         ? `laboratories/laboratories-formal-payment-info/${row.original?.id}`
-        : `laboratories/laboratories-formal-payment-info/update/${row.original?.id}`;
+        : `laboratories/laboratories-formal-payment-info/create/${row.original?.id}`;
 
         console.log(href);
         

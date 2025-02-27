@@ -28,7 +28,6 @@ const formSchema = z.object({
   fullAddress: z.string().nullable(),
   province: z.string().nullable(),
   city: z.string().nullable(),
-  email: z.string().nullable(),
   registrationNumber: z.string().nullable(),
   postalCode: z.string().nullable(),
 });
@@ -50,7 +49,6 @@ const CreateLaboratoryFormalPaymentInfoView = () => {
       fullAddress: "somewhere",
       province: "tehran",
       city: "tehran",
-      email: "something@something.com",
       registrationNumber: "123",
       postalCode: "123",
     },
@@ -129,24 +127,7 @@ const CreateLaboratoryFormalPaymentInfoView = () => {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
-                  <FormLabel>Address</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder=""
-                      autoComplete="off"
-                      {...field}
-                      value={field.value ?? ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            
 
             <FormField
               control={form.control}

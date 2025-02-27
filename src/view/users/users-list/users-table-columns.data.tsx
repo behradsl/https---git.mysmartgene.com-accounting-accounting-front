@@ -34,7 +34,7 @@ export const userColumns: ColumnDef<UsersDataTableRow>[] = [
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) => (
-      <div className='w-20 font-semibold'>{row.original.name}</div>
+      <div className='  font-semibold'>{row.original.name}</div>
     )
   },
   {
@@ -42,7 +42,7 @@ export const userColumns: ColumnDef<UsersDataTableRow>[] = [
     accessorKey: "email",
     header: "Email",
     cell: ({ row }) => (
-      <div className='w-20 font-semibold'>{row.original.email}</div>
+      <div className='  font-semibold'>{row.original.email}</div>
     )
   },
   {
@@ -50,7 +50,7 @@ export const userColumns: ColumnDef<UsersDataTableRow>[] = [
     accessorKey: "phoneNumber",
     header: "Phone Number",
     cell: ({ row }) => (
-      <div className='w-20 font-semibold'>{row.original.phoneNumber}</div>
+      <div className='  font-semibold'>{row.original.phoneNumber}</div>
     )
   },
   {
@@ -58,7 +58,7 @@ export const userColumns: ColumnDef<UsersDataTableRow>[] = [
     accessorKey: "position",
     header: "Position",
     cell: ({ row }) => (
-      <div className='w-20 font-semibold'>{row.original.position}</div>
+      <div className='  font-semibold'>{row.original.position}</div>
     )
   },
   {
@@ -66,7 +66,7 @@ export const userColumns: ColumnDef<UsersDataTableRow>[] = [
     accessorKey: "createdAt",
     header: "Created At",
     cell: ({ row }) => (
-      <div className='w-20 font-semibold'>{row.original.createdAt}</div>
+      <div className='  font-semibold'>{row.original.createdAt}</div>
     )
   }
 ]

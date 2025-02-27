@@ -19,7 +19,7 @@ export const PaymentInfoColumns: ColumnDef<PaymentInfoDataTableRow>[] = [
     accessorKey: "name",
     header: "Laboratory Name",
     cell: ({ row }) => (
-      <div className="w-20 font-semibold">{row.original.name}</div>
+      <div className="  font-semibold">{row.original.name}</div>
     ),
   },
   {
@@ -27,7 +27,7 @@ export const PaymentInfoColumns: ColumnDef<PaymentInfoDataTableRow>[] = [
     accessorKey: "registrationNumber",
     header: "Registration Number",
     cell: ({ row }) => (
-      <div className="w-20 font-semibold">
+      <div className="  font-semibold">
         {row.original.registrationNumber}
       </div>
     ),
@@ -37,7 +37,7 @@ export const PaymentInfoColumns: ColumnDef<PaymentInfoDataTableRow>[] = [
     accessorKey: "legalEntityName",
     header: "Legal Entity Name",
     cell: ({ row }) => (
-      <div className="w-20 font-semibold">{row.original.legalEntityName}</div>
+      <div className="  font-semibold">{row.original.legalEntityName}</div>
     ),
   },
   {
@@ -45,7 +45,7 @@ export const PaymentInfoColumns: ColumnDef<PaymentInfoDataTableRow>[] = [
     accessorKey: "economicNumber",
     header: "Economic Number",
     cell: ({ row }) => (
-      <div className="w-20 font-semibold">{row.original.economicNumber}</div>
+      <div className="  font-semibold">{row.original.economicNumber}</div>
     ),
   },
   {
@@ -53,7 +53,7 @@ export const PaymentInfoColumns: ColumnDef<PaymentInfoDataTableRow>[] = [
     accessorKey: "nationalId", // Fixed: No space in the key
     header: "National ID",
     cell: ({ row }) => (
-      <div className="w-20 font-semibold">{row.original.nationalId}</div>
+      <div className="  font-semibold">{row.original.nationalId}</div>
     ),
   },
   {
@@ -61,7 +61,7 @@ export const PaymentInfoColumns: ColumnDef<PaymentInfoDataTableRow>[] = [
     accessorKey: "postalCode",
     header: "Postal Code",
     cell: ({ row }) => (
-      <div className="w-20 font-semibold">{row.original.postalCode}</div>
+      <div className="  font-semibold">{row.original.postalCode}</div>
     ),
   },
   {
@@ -69,7 +69,7 @@ export const PaymentInfoColumns: ColumnDef<PaymentInfoDataTableRow>[] = [
     accessorKey: "fullAddress",
     header: "Full Address",
     cell: ({ row }) => (
-      <div className="w-20 font-semibold">{row.original.fullAddress}</div>
+      <div className="  font-semibold">{row.original.fullAddress}</div>
     ),
   },
   {
@@ -77,7 +77,7 @@ export const PaymentInfoColumns: ColumnDef<PaymentInfoDataTableRow>[] = [
     accessorKey: "province",
     header: "Province",
     cell: ({ row }) => (
-      <div className="w-20 font-semibold">{row.original.province}</div>
+      <div className="  font-semibold">{row.original.province}</div>
     ),
   },
   {
@@ -85,7 +85,7 @@ export const PaymentInfoColumns: ColumnDef<PaymentInfoDataTableRow>[] = [
     accessorKey: "city",
     header: "City",
     cell: ({ row }) => (
-      <div className="w-20 font-semibold">{row.original.city}</div>
+      <div className="  font-semibold">{row.original.city}</div>
     ),
   },
 ];

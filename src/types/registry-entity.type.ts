@@ -130,7 +130,7 @@ export interface RegistryFieldAccessType {
   access: AccessType;
 }
 export enum AccessType {
-  "EDITABLE",
-  "VISIBLE",
-  "HIDDEN",
+  "EDITABLE" = "EDITABLE",
+  "VISIBLE" = "VISIBLE",
+  "HIDDEN" = "HIDDEN",
 }

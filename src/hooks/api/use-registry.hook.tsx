@@ -66,7 +66,7 @@ export function useRegistryUpsertFieldAccess() {
     "post",
     "setting/registry/access/assign"
   );
-  return trigger;
+  return {trigger};
 }
 
 export function useRegistryImportXlsx() {
