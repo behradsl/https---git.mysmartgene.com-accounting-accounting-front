@@ -143,22 +143,21 @@ const RegistryPreviewUpdateView = () => {
     <SidebarProvider>
       <AppSidebar />
       <main>
-        <h2 className="mb-10 px-5 text-center text-lg font-semibold">
+        <h2 className='mb-10 px-5 text-center text-lg font-semibold'>
           Update Registry
         </h2>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-6 flex flex-wrap justify-between gap-2.5 px-5"
-          >
+            className='space-y-6 flex flex-wrap justify-between gap-2.5 px-5'>
             <FormField
               control={form.control}
-              name="MotId"
+              name='MotId'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>MOT ID</FormLabel>
                   <FormControl>
-                    <Input autoComplete="off" {...field} />
+                    <Input autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -167,12 +166,12 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="name"
+              name='name'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input autoComplete="off" {...field} />
+                    <Input autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -181,12 +180,12 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="serviceType"
+              name='serviceType'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Service Type</FormLabel>
                   <FormControl>
-                    <Input autoComplete="off" {...field} />
+                    <Input autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -195,12 +194,12 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="kitType"
+              name='kitType'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Kit Type</FormLabel>
                   <FormControl>
-                    <Input autoComplete="off" {...field} />
+                    <Input autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -209,36 +208,35 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="laboratoryId"
+              name='laboratoryId'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Laboratory</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select a laboratory" />
+                      <SelectTrigger className='w-full'>
+                        <SelectValue placeholder='Select a laboratory' />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         // Temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
-                      {(laboratories?.data ?? []).map((laboratory) => (
-                        <SelectItem
-                          key={`laboratory-id-${laboratory?.id}`}
-                          value={laboratory?.id ?? ""}
-                        >
-                          {laboratory?.name}
-                        </SelectItem>
-                      ))}
+                      }>
+                      {(laboratories?.data ?? []).map((laboratory) =>
+                        laboratory ? (
+                          <SelectItem
+                            key={`laboratory-id-${laboratory.id}`}
+                            value={laboratory.id}>
+                            {laboratory.name}
+                          </SelectItem>
+                        ) : null,
+                      )}
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -248,12 +246,12 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="price"
+              name='price'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Price</FormLabel>
                   <FormControl>
-                    <Input type="string" autoComplete="off" {...field} />
+                    <Input type='string' autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -261,9 +259,9 @@ const RegistryPreviewUpdateView = () => {
             />
             <FormField
               control={form.control}
-              name="urgentStatus"
+              name='urgentStatus'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Urgent Status</FormLabel>
                   <FormControl>
                     <Switch
@@ -277,12 +275,12 @@ const RegistryPreviewUpdateView = () => {
             />
             <FormField
               control={form.control}
-              name="description"
+              name='description'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Input type="string" autoComplete="off" {...field} />
+                    <Input type='string' autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -290,12 +288,12 @@ const RegistryPreviewUpdateView = () => {
             />
             <FormField
               control={form.control}
-              name="costumerRelationInfo"
+              name='costumerRelationInfo'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Customer Relation Info</FormLabel>
                   <FormControl>
-                    <Input autoComplete="off" {...field} />
+                    <Input autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -303,12 +301,12 @@ const RegistryPreviewUpdateView = () => {
             />
             <FormField
               control={form.control}
-              name="KoreaSendDate"
+              name='KoreaSendDate'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Korea Send Date</FormLabel>
                   <FormControl>
-                    <Input type="string" autoComplete="off" {...field} />
+                    <Input type='string' autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -316,9 +314,9 @@ const RegistryPreviewUpdateView = () => {
             />
             <FormField
               control={form.control}
-              name="resultReady"
+              name='resultReady'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Result Ready</FormLabel>
                   <FormControl>
                     <Switch
@@ -332,12 +330,12 @@ const RegistryPreviewUpdateView = () => {
             />
             <FormField
               control={form.control}
-              name="resultReadyTime"
+              name='resultReadyTime'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Result Ready Time</FormLabel>
                   <FormControl>
-                    <Input type="string" autoComplete="off" {...field} />
+                    <Input type='string' autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -345,14 +343,14 @@ const RegistryPreviewUpdateView = () => {
             />
             <FormField
               control={form.control}
-              name="settlementStatus"
+              name='settlementStatus'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Settlement Status</FormLabel>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select Settlement Status" />
+                        <SelectValue placeholder='Select Settlement Status' />
                       </SelectTrigger>
                       <SelectContent>
                         {Object.values(SettlementStatus).map((status) => (
@@ -369,14 +367,14 @@ const RegistryPreviewUpdateView = () => {
             />
             <FormField
               control={form.control}
-              name="invoiceStatus"
+              name='invoiceStatus'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Invoice Status</FormLabel>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select Invoice Status" />
+                        <SelectValue placeholder='Select Invoice Status' />
                       </SelectTrigger>
                       <SelectContent>
                         {Object.values(InvoiceStatus).map((status) => (
@@ -393,9 +391,9 @@ const RegistryPreviewUpdateView = () => {
             />
             <FormField
               control={form.control}
-              name="proformaSent"
+              name='proformaSent'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Proforma Sent</FormLabel>
                   <FormControl>
                     <Switch
@@ -409,12 +407,12 @@ const RegistryPreviewUpdateView = () => {
             />
             <FormField
               control={form.control}
-              name="proformaSentDate"
+              name='proformaSentDate'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Proforma Sent Date</FormLabel>
                   <FormControl>
-                    <Input type="string" autoComplete="off" {...field} />
+                    <Input type='string' autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -423,12 +421,12 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="totalInvoiceAmount"
+              name='totalInvoiceAmount'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Total Invoice Amount</FormLabel>
                   <FormControl>
-                    <Input type="string" autoComplete="off" {...field} />
+                    <Input type='string' autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -437,12 +435,12 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="installmentOne"
+              name='installmentOne'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Installment One</FormLabel>
                   <FormControl>
-                    <Input type="string" autoComplete="off" {...field} />
+                    <Input type='string' autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -451,12 +449,12 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="installmentOneDate"
+              name='installmentOneDate'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Installment One Date</FormLabel>
                   <FormControl>
-                    <Input type="string" autoComplete="off" {...field} />
+                    <Input type='string' autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -465,12 +463,12 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="installmentTwo"
+              name='installmentTwo'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Installment Two</FormLabel>
                   <FormControl>
-                    <Input type="string" autoComplete="off" {...field} />
+                    <Input type='string' autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -479,12 +477,12 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="installmentTwoDate"
+              name='installmentTwoDate'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Installment Two Date</FormLabel>
                   <FormControl>
-                    <Input type="string" autoComplete="off" {...field} />
+                    <Input type='string' autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -493,12 +491,12 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="installmentThree"
+              name='installmentThree'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Installment Three</FormLabel>
                   <FormControl>
-                    <Input type="string" autoComplete="off" {...field} />
+                    <Input type='string' autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -507,12 +505,12 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="installmentThreeDate"
+              name='installmentThreeDate'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Installment Three Date</FormLabel>
                   <FormControl>
-                    <Input type="string" autoComplete="off" {...field} />
+                    <Input type='string' autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -521,12 +519,12 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="totalPaid"
+              name='totalPaid'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Total Paid</FormLabel>
                   <FormControl>
-                    <Input type="string" autoComplete="off" {...field} />
+                    <Input type='string' autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -535,12 +533,12 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="settlementDate"
+              name='settlementDate'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Settlement Date</FormLabel>
                   <FormControl>
-                    <Input type="string" autoComplete="off" {...field} />
+                    <Input type='string' autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -549,9 +547,9 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="officialInvoiceSent"
+              name='officialInvoiceSent'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Official Invoice Sent</FormLabel>
                   <FormControl>
                     <Switch
@@ -566,12 +564,12 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="officialInvoiceSentDate"
+              name='officialInvoiceSentDate'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Official Invoice Sent Date</FormLabel>
                   <FormControl>
-                    <Input type="string" autoComplete="off" {...field} />
+                    <Input type='string' autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -580,14 +578,14 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="sampleStatus"
+              name='sampleStatus'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Sample Status</FormLabel>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select Sample Status" />
+                        <SelectValue placeholder='Select Sample Status' />
                       </SelectTrigger>
                       <SelectContent>
                         {Object.values(SampleStatus).map((status) => (
@@ -605,21 +603,21 @@ const RegistryPreviewUpdateView = () => {
 
             <FormField
               control={form.control}
-              name="sendSeries"
+              name='sendSeries'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Send Series</FormLabel>
                   <FormControl>
-                    <Input autoComplete="off" {...field} />
+                    <Input autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <Separator className="my-10" />
+            <Separator className='my-10' />
 
-            <Button type="submit" className="w-full md:w-2/12">
+            <Button type='submit' className='w-full md:w-2/12'>
               Submit
             </Button>
           </form>
