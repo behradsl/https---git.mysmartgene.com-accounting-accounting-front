@@ -22,8 +22,6 @@ import {
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useDeleteUser } from "@/hooks/api";
-import { useUser } from "@/store/user.store";
 import { PermissionsColumns, PermissionsDataTableRow } from "./permissions-table-columns.data";
 
 function PermissionsTableView({
@@ -52,7 +50,7 @@ function PermissionsTableView({
             <Button
               variant={"outline"}
               onClick={() =>
-                router.push(`/panel/users/permissions/assign`)
+                router.push(`/panel/users/permissions/assign/${row.original.position}`)
               }>
               Edit
             </Button>
@@ -99,8 +97,8 @@ function PermissionsTableView({
         ))}
       </TableHeader>
       <TableBody>
-        {table.getRowModel().rows?.length ? (
-          table.getRowModel().rows.map((row) => (
+        
+          {table.getRowModel().rows.map((row) => (
             <TableRow
               key={row.id}
               data-state={row.getIsSelected() && "selected"}>
@@ -110,16 +108,8 @@ function PermissionsTableView({
                 </TableCell>
               ))}
             </TableRow>
-          ))
-        ) : (
-          <TableRow>
-            <TableCell
-              colSpan={PermissionsColumns.length}
-              className='h-24 text-center'>
-              No results.
-            </TableCell>
-          </TableRow>
-        )}
+          ))}
+         
       </TableBody>
     </Table>
   );

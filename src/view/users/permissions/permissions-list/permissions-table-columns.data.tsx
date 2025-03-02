@@ -1,12 +1,9 @@
 import { type ColumnDef } from "@tanstack/react-table";
-import { Card, CardContent } from "@/components/ui/card";
+
 import { Badge } from "@/components/ui/badge";
 import type { UserPosition } from "@/types/user-entity.type";
 import clsx from "clsx";
 import { AccessType } from "@/types/registry-entity.type";
-import { access } from "fs";
-
-
 
 export const registryFields = [
   "MotId",
@@ -45,7 +42,7 @@ export const registryFields = [
 ];
 
 export type PermissionsDataTableRow = {
-  position: string;
+  position: UserPosition;
   MotId: AccessType;
   name: AccessType;
   Laboratory: AccessType;
@@ -79,7 +76,6 @@ export type PermissionsDataTableRow = {
   updatedAt: AccessType;
   registryCreatedBy: AccessType;
   registryUpdatedBy: AccessType;
-  
 };
 
 const getAccessBadgeColor = (access: AccessType) => {

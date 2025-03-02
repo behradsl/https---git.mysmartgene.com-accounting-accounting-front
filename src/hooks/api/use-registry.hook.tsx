@@ -10,6 +10,7 @@ import {
 } from "../use-api-mutation.hook";
 import { useSwr } from "../use-swr.hook";
 import type { AxiosResponse } from "axios";
+import { UserPosition } from "@/types/user-entity.type";
 
 export function useCreateRegistry() {
   const { trigger } = useApiMutation<Omit<RegistryEntity, "id">>(
@@ -61,8 +62,22 @@ export function useRegistryFieldAccessFindMany() {
 
   return { fieldAccesses, error, isLoading };
 }
+
+export function useRegistryFieldAccessFindByPosition(position:string) {
+  const {
+    data: fieldAccesses,
+    error,
+    isLoading,
+  } = useSwr<AxiosResponse<Partial<RegistryFieldAccessType>[]>>(
+    `setting/registry/access/find/${position}`
+  );
+
+  return { fieldAccesses, error, isLoading };
+}
+
+
 export function useRegistryUpsertFieldAccess() {
-  const { trigger } = useApiMutation<Omit<RegistryFieldAccessType, "id">>(
+  const { trigger } = useApiMutation<Omit<RegistryFieldAccessType, "id">[]>(
     "post",
     "setting/registry/access/assign"
   );
