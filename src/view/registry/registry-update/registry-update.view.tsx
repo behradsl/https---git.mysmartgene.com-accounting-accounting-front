@@ -161,7 +161,7 @@ const RegistryUpdateView = () => {
               control={form.control}
               name="MotId"
               render={({ field }) => {
-                const isEditable = registry?.data?.MotId?.editable ?? true;
+                const isEditable = registry?.data?.MotId?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>MOT ID</FormLabel>
@@ -182,7 +182,7 @@ const RegistryUpdateView = () => {
               control={form.control}
               name="name"
               render={({ field }) => {
-                const isEditable = registry?.data?.name?.editable ?? true;
+                const isEditable = registry?.data?.name?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Name</FormLabel>
@@ -204,7 +204,7 @@ const RegistryUpdateView = () => {
               name="serviceType"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.serviceType?.editable ?? true;
+                  registry?.data?.serviceType?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Service Type</FormLabel>
@@ -225,7 +225,7 @@ const RegistryUpdateView = () => {
               control={form.control}
               name="kitType"
               render={({ field }) => {
-                const isEditable = registry?.data?.kitType?.editable ?? true;
+                const isEditable = registry?.data?.kitType?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Kit Type</FormLabel>
@@ -247,7 +247,7 @@ const RegistryUpdateView = () => {
               name="laboratoryId"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.laboratoryId?.editable ?? true;
+                  registry?.data?.laboratoryId?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Laboratory</FormLabel>
@@ -289,7 +289,7 @@ const RegistryUpdateView = () => {
               control={form.control}
               name="price"
               render={({ field }) => {
-                const isEditable = registry?.data?.price?.editable ?? true;
+                const isEditable = registry?.data?.price?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Price</FormLabel>
@@ -312,7 +312,7 @@ const RegistryUpdateView = () => {
               name="urgentStatus"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.urgentStatus?.editable ?? true;
+                  registry?.data?.urgentStatus?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Urgent Status</FormLabel>
@@ -334,7 +334,7 @@ const RegistryUpdateView = () => {
               name="description"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.description?.editable ?? true;
+                  registry?.data?.description?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Description</FormLabel>
@@ -357,7 +357,7 @@ const RegistryUpdateView = () => {
               name="costumerRelationInfo"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.costumerRelationInfo?.editable ?? true;
+                  registry?.data?.costumerRelationInfo?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Customer Relation Info</FormLabel>
@@ -379,7 +379,7 @@ const RegistryUpdateView = () => {
               name="KoreaSendDate"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.KoreaSendDate?.editable ?? true;
+                  registry?.data?.KoreaSendDate?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Korea Send Date</FormLabel>
@@ -402,7 +402,7 @@ const RegistryUpdateView = () => {
               name="resultReady"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.resultReady?.editable ?? true;
+                  registry?.data?.resultReady?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Result Ready</FormLabel>
@@ -424,7 +424,7 @@ const RegistryUpdateView = () => {
               name="resultReadyTime"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.resultReadyTime?.editable ?? true;
+                  registry?.data?.resultReadyTime?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Result Ready Time</FormLabel>
@@ -447,7 +447,7 @@ const RegistryUpdateView = () => {
               name="settlementStatus"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data.settlementStatus?.editable ?? true;
+                  registry?.data.settlementStatus?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Settlement Status</FormLabel>
@@ -479,7 +479,7 @@ const RegistryUpdateView = () => {
               name="invoiceStatus"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data.invoiceStatus?.editable ?? true;
+                  registry?.data.invoiceStatus?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Invoice Status</FormLabel>
@@ -512,7 +512,7 @@ const RegistryUpdateView = () => {
               name="proformaSent"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.proformaSent?.editable ?? true;
+                  registry?.data?.proformaSent?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Proforma Sent</FormLabel>
@@ -534,7 +534,7 @@ const RegistryUpdateView = () => {
               name="proformaSentDate"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.proformaSentDate?.editable ?? true;
+                  registry?.data?.proformaSentDate?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Proforma Sent Date</FormLabel>
@@ -557,7 +557,7 @@ const RegistryUpdateView = () => {
               name="totalInvoiceAmount"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.totalInvoiceAmount?.editable ?? true;
+                  registry?.data?.totalInvoiceAmount?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Total Invoice Amount</FormLabel>
@@ -580,7 +580,7 @@ const RegistryUpdateView = () => {
               name="installmentOne"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.installmentOne?.editable ?? true;
+                  registry?.data?.installmentOne?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Installment One</FormLabel>
@@ -603,7 +603,7 @@ const RegistryUpdateView = () => {
               name="installmentOneDate"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.installmentOneDate?.editable ?? true;
+                  registry?.data?.installmentOneDate?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Installment One Date</FormLabel>
@@ -626,7 +626,7 @@ const RegistryUpdateView = () => {
               name="installmentTwo"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.installmentTwo?.editable ?? true;
+                  registry?.data?.installmentTwo?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Installment Two</FormLabel>
@@ -649,7 +649,7 @@ const RegistryUpdateView = () => {
               name="installmentTwoDate"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.installmentTwoDate?.editable ?? true;
+                  registry?.data?.installmentTwoDate?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Installment Two Date</FormLabel>
@@ -672,7 +672,7 @@ const RegistryUpdateView = () => {
               name="installmentThree"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.installmentThree?.editable ?? true;
+                  registry?.data?.installmentThree?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Installment Three</FormLabel>
@@ -695,7 +695,7 @@ const RegistryUpdateView = () => {
               name="installmentThreeDate"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.installmentThreeDate?.editable ?? true;
+                  registry?.data?.installmentThreeDate?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Installment Three Date</FormLabel>
@@ -717,7 +717,7 @@ const RegistryUpdateView = () => {
               control={form.control}
               name="totalPaid"
               render={({ field }) => {
-                const isEditable = registry?.data?.totalPaid?.editable ?? true;
+                const isEditable = registry?.data?.totalPaid?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Total Paid</FormLabel>
@@ -740,7 +740,7 @@ const RegistryUpdateView = () => {
               name="settlementDate"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.settlementDate?.editable ?? true;
+                  registry?.data?.settlementDate?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Settlement Date</FormLabel>
@@ -763,7 +763,7 @@ const RegistryUpdateView = () => {
               name="officialInvoiceSent"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.officialInvoiceSent?.editable ?? true;
+                  registry?.data?.officialInvoiceSent?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Official Invoice Sent</FormLabel>
@@ -784,7 +784,7 @@ const RegistryUpdateView = () => {
               name="officialInvoiceSentDate"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data?.officialInvoiceSentDate?.editable ?? true;
+                  registry?.data?.officialInvoiceSentDate?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Official Invoice Sent Date</FormLabel>
@@ -807,7 +807,7 @@ const RegistryUpdateView = () => {
               name="sampleStatus"
               render={({ field }) => {
                 const isEditable =
-                  registry?.data.sampleStatus?.editable ?? true;
+                  registry?.data.sampleStatus?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Sample Status</FormLabel>
@@ -839,7 +839,7 @@ const RegistryUpdateView = () => {
               control={form.control}
               name="sendSeries"
               render={({ field }) => {
-                const isEditable = registry?.data?.sendSeries?.editable ?? true;
+                const isEditable = registry?.data?.sendSeries?.editable ?? false;
                 return (
                   <FormItem className="w-full md:w-5/12">
                     <FormLabel>Send Series</FormLabel>

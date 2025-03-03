@@ -84,7 +84,7 @@ export const registryColumns: ColumnDef<DataTableRow>[] = [
       row.getValue("urgentStatus") ? (
         <Badge variant="destructive">Urgent</Badge>
       ) : (
-        "Normal"
+        ""
       ),
   },
   { id: "price", accessorKey: "price", header: "Price ($)" },

@@ -20,16 +20,16 @@ const RegistryView = ({}: RegistryViewProps) => {
     if (registries?.data) {
       const formattedData: DataTableRow[] = registries.data?.map(
         (registry: any) => ({
-          id: registry.id.value,
+          id: registry.id?.value,
           MotId: registry.MotId?.value || "",
           name: registry.name?.value || "",
           laboratoryId: registry.laboratoryId?.value || "",
-          Laboratory:registry.Laboratory.value.name || "",
+          Laboratory:registry.Laboratory?.value.name || "",
           serviceType: registry.serviceType?.value || "",
           kitType: registry.kitType?.value || "",
 
           urgentStatus: registry.urgentStatus?.value || false,
-          price: registry.price?.value || 0,
+          price: registry.price?.value || "",
           description: registry.description?.value || "",
           costumerRelationInfo: registry.costumerRelationInfo?.value || "",
           KoreaSendDate: registry.KoreaSendDate?.value
@@ -45,20 +45,20 @@ const RegistryView = ({}: RegistryViewProps) => {
           proformaSentDate: registry.proformaSentDate?.value
             ? new Date(registry.proformaSentDate?.value).toISOString()
             : "",
-          totalInvoiceAmount: registry.totalInvoiceAmount?.value || 0,
-          installmentOne: registry.installmentOne?.value || 0,
+          totalInvoiceAmount: registry.totalInvoiceAmount?.value || "",
+          installmentOne: registry.installmentOne?.value || "",
           installmentOneDate: registry.installmentOneDate?.value
             ? new Date(registry.installmentOneDate?.value).toISOString()
             : "",
-          installmentTwo: registry.installmentTwo?.value || 0,
+          installmentTwo: registry.installmentTwo?.value || "",
           installmentTwoDate: registry.installmentTwoDate?.value
             ? new Date(registry.installmentTwoDate?.value).toISOString()
             : "",
-          installmentThree: registry.installmentThree?.value || 0,
+          installmentThree: registry.installmentThree?.value || "",
           installmentThreeDate: registry.installmentThreeDate?.value
             ? new Date(registry.installmentThreeDate?.value).toISOString()
             : "",
-          totalPaid: registry.totalPaid?.value || 0,
+          totalPaid: registry.totalPaid?.value || "",
           settlementDate: registry.settlementDate?.value
             ? new Date(registry.settlementDate?.value).toISOString()
             : "",
