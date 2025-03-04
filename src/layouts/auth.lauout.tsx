@@ -1,6 +1,6 @@
 "use client";
 
-import { AppSidebar } from "@/components/app-sidebar.component";
+import AppSidebar from "@/components/app-sidebar/app.sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { useAuth } from "@/hooks/api";
 import { useUser } from "@/store/user.store";
@@ -50,8 +50,7 @@ const AuthLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
     // if (["SUPERVISOR", "RECEPTION", "ADMIN"].includes(user.role))
     return (
       <SidebarProvider>
-        <AppSidebar />
-        {children}
+        <AppSidebar>{children}</AppSidebar>
       </SidebarProvider>
     );
     //   if (

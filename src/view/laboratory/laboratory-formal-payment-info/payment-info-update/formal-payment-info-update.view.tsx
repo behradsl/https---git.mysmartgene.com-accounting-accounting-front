@@ -15,8 +15,6 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
 import { toast } from "@/components/ui/toaster";
-import { AppSidebar } from "@/components/app-sidebar.component";
-import { SidebarProvider } from "@/components/ui/sidebar";
 
 import { useParams, useRouter } from "next/navigation";
 import {
@@ -39,7 +37,7 @@ const formSchema = z.object({
 const UpdateLaboratoryFormalPaymentInfoView = () => {
   const { laboratoryId } = useParams();
   const { paymentInfo } = useLaboratoryFormalPaymentInfoFind(
-    laboratoryId as string
+    laboratoryId as string,
   );
 
   const router = useRouter();
@@ -57,8 +55,6 @@ const UpdateLaboratoryFormalPaymentInfoView = () => {
   const updateLaboratoryFormalPaymentInfo =
     useUpdateLaboratoryFormalPaymentInfo();
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-
     try {
       const newPaymentInfo = await updateLaboratoryFormalPaymentInfo({
         laboratoryId: laboratoryId as string,
@@ -73,27 +69,25 @@ const UpdateLaboratoryFormalPaymentInfoView = () => {
   }
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
+    <>
       <main>
-        <h2 className="mb-10 px-5 text-center text-lg font-semibold">
+        <h2 className='mb-10 px-5 text-center text-lg font-semibold'>
           New Payment Info
         </h2>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 flex flex-wrap justify-between gap-2.5 px-5"
-          >
+            className='space-y-8 flex flex-wrap justify-between gap-2.5 px-5'>
             <FormField
               control={form.control}
-              name="legalEntityName"
+              name='legalEntityName'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>legal Entity Name</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder=""
-                      autoComplete="off"
+                      placeholder=''
+                      autoComplete='off'
                       {...field}
                       value={field.value ?? ""}
                     />
@@ -105,14 +99,14 @@ const UpdateLaboratoryFormalPaymentInfoView = () => {
 
             <FormField
               control={form.control}
-              name="economicNumber"
+              name='economicNumber'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>economic Number</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder=""
-                      autoComplete="off"
+                      placeholder=''
+                      autoComplete='off'
                       {...field}
                       value={field.value ?? ""}
                     />
@@ -124,14 +118,14 @@ const UpdateLaboratoryFormalPaymentInfoView = () => {
 
             <FormField
               control={form.control}
-              name="fullAddress"
+              name='fullAddress'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>full Address</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder=""
-                      autoComplete="off"
+                      placeholder=''
+                      autoComplete='off'
                       {...field}
                       value={field.value ?? ""}
                     />
@@ -142,14 +136,14 @@ const UpdateLaboratoryFormalPaymentInfoView = () => {
             />
             <FormField
               control={form.control}
-              name="province"
+              name='province'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>province</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder=""
-                      autoComplete="off"
+                      placeholder=''
+                      autoComplete='off'
                       {...field}
                       value={field.value ?? ""}
                     />
@@ -160,14 +154,14 @@ const UpdateLaboratoryFormalPaymentInfoView = () => {
             />
             <FormField
               control={form.control}
-              name="city"
+              name='city'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>city</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder=""
-                      autoComplete="off"
+                      placeholder=''
+                      autoComplete='off'
                       {...field}
                       value={field.value ?? ""}
                     />
@@ -179,14 +173,14 @@ const UpdateLaboratoryFormalPaymentInfoView = () => {
 
             <FormField
               control={form.control}
-              name="nationalId"
+              name='nationalId'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>national Id</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder=""
-                      autoComplete="off"
+                      placeholder=''
+                      autoComplete='off'
                       {...field}
                       value={field.value ?? ""}
                     />
@@ -197,14 +191,14 @@ const UpdateLaboratoryFormalPaymentInfoView = () => {
             />
             <FormField
               control={form.control}
-              name="postalCode"
+              name='postalCode'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Postal Code</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder=""
-                      autoComplete="off"
+                      placeholder=''
+                      autoComplete='off'
                       {...field}
                       value={field.value ?? ""}
                     />
@@ -216,14 +210,14 @@ const UpdateLaboratoryFormalPaymentInfoView = () => {
 
             <FormField
               control={form.control}
-              name="registrationNumber"
+              name='registrationNumber'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>registration Number</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder=""
-                      autoComplete="off"
+                      placeholder=''
+                      autoComplete='off'
                       {...field}
                       value={field.value ?? ""}
                     />
@@ -233,17 +227,17 @@ const UpdateLaboratoryFormalPaymentInfoView = () => {
               )}
             />
 
-            <Separator className="mx-auto my-2 w-8/12 opacity-0" />
+            <Separator className='mx-auto my-2 w-8/12 opacity-0' />
 
-            <div className="flex w-full justify-end">
-              <Button type="submit" className="mx-auto w-full max-w-2xs">
+            <div className='flex w-full justify-end'>
+              <Button type='submit' className='mx-auto w-full max-w-2xs'>
                 Save
               </Button>
             </div>
           </form>
         </Form>
       </main>
-    </SidebarProvider>
+    </>
   );
 };
 

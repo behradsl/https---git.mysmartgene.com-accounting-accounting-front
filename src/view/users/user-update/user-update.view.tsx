@@ -21,8 +21,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/components/ui/toaster";
-import { AppSidebar } from "@/components/app-sidebar.component";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import { UserPosition } from "@/types/user-entity.type";
 import { useUpdateUser, useUserFindOne } from "@/hooks/api";
 import { useEffect } from "react";
@@ -73,8 +71,7 @@ const UserUpdateView = () => {
   }
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
+    <>
       <main>
         <h2 className='mb-10 px-5 text-center text-lg font-semibold'>
           update User
@@ -186,7 +183,7 @@ const UserUpdateView = () => {
           </form>
         </Form>
       </main>
-    </SidebarProvider>
+    </>
   );
 };
 

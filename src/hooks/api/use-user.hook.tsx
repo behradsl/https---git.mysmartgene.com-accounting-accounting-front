@@ -11,8 +11,6 @@ export function useUserFindMany() {
     mutate,
   } = useSwr<AxiosResponse<UserEntity[]>>("/user/all");
 
-  console.log(users);
-
   return { users, error, isLoading, mutate };
 }
 

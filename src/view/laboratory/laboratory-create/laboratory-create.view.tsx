@@ -21,8 +21,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/components/ui/toaster";
-import { AppSidebar } from "@/components/app-sidebar.component";
-import { SidebarProvider } from "@/components/ui/sidebar";
 
 import { useRouter } from "next/navigation";
 import { LaboratoriesType, PaymentType } from "@/types/laboratory-entity.type";
@@ -79,26 +77,24 @@ const LaboratoryCreateView = (props: {}) => {
   }
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
+    <>
       <main>
-        <h2 className="mb-10 px-5 text-center text-lg font-semibold">
+        <h2 className='mb-10 px-5 text-center text-lg font-semibold'>
           New Laboratory
         </h2>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 flex flex-wrap justify-between gap-2.5 px-5"
-          >
+            className='space-y-8 flex flex-wrap justify-between gap-2.5 px-5'>
             {/* Name Field */}
             <FormField
               control={form.control}
-              name="name"
+              name='name'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="" autoComplete="off" {...field}  />
+                    <Input placeholder='' autoComplete='off' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -108,12 +104,17 @@ const LaboratoryCreateView = (props: {}) => {
             {/* Code Field */}
             <FormField
               control={form.control}
-              name="code"
+              name='code'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Code</FormLabel>
                   <FormControl>
-                    <Input placeholder="" autoComplete="off" {...field} value={field.value ?? ""} />
+                    <Input
+                      placeholder=''
+                      autoComplete='off'
+                      {...field}
+                      value={field.value ?? ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -123,12 +124,17 @@ const LaboratoryCreateView = (props: {}) => {
             {/* Address Field */}
             <FormField
               control={form.control}
-              name="address"
+              name='address'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Address</FormLabel>
                   <FormControl>
-                    <Input placeholder="" autoComplete="off" {...field} value={field.value ?? ""} />
+                    <Input
+                      placeholder=''
+                      autoComplete='off'
+                      {...field}
+                      value={field.value ?? ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -138,12 +144,17 @@ const LaboratoryCreateView = (props: {}) => {
             {/* Contact Name Field */}
             <FormField
               control={form.control}
-              name="contactName"
+              name='contactName'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Contact Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="" autoComplete="off" {...field} value={field.value ?? ""} />
+                    <Input
+                      placeholder=''
+                      autoComplete='off'
+                      {...field}
+                      value={field.value ?? ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -153,12 +164,17 @@ const LaboratoryCreateView = (props: {}) => {
             {/* Phone Number Field */}
             <FormField
               control={form.control}
-              name="phoneNumber"
+              name='phoneNumber'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Phone Number</FormLabel>
                   <FormControl>
-                    <Input placeholder="" autoComplete="off" {...field} value={field.value ?? ""} />
+                    <Input
+                      placeholder=''
+                      autoComplete='off'
+                      {...field}
+                      value={field.value ?? ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -168,16 +184,16 @@ const LaboratoryCreateView = (props: {}) => {
             {/* Email Field */}
             <FormField
               control={form.control}
-              name="email"
+              name='email'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder=""
-                      autoComplete="off"
+                      placeholder=''
+                      autoComplete='off'
                       {...field}
-                      value={field.value ?? ""} 
+                      value={field.value ?? ""}
                     />
                   </FormControl>
                   <FormMessage />
@@ -188,12 +204,17 @@ const LaboratoryCreateView = (props: {}) => {
             {/* Fax Field */}
             <FormField
               control={form.control}
-              name="fax"
+              name='fax'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Fax</FormLabel>
                   <FormControl>
-                    <Input placeholder="" autoComplete="off" {...field} value={field.value ?? ""}  />
+                    <Input
+                      placeholder=''
+                      autoComplete='off'
+                      {...field}
+                      value={field.value ?? ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -203,35 +224,30 @@ const LaboratoryCreateView = (props: {}) => {
             {/* Account Manager ID Field */}
             <FormField
               control={form.control}
-              name="accountManagerId"
+              name='accountManagerId'
               render={({ field }) => {
-                
                 return (
-                  <FormItem className="w-full md:w-5/12">
+                  <FormItem className='w-full md:w-5/12'>
                     <FormLabel>Account Manager</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       value={field.value || ""}
-                      dir="rtl"
-                      
-                    >
+                      dir='rtl'>
                       <FormControl>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select Account Manager" />
+                        <SelectTrigger className='w-full'>
+                          <SelectValue placeholder='Select Account Manager' />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent
                         ref={(ref) =>
                           ref?.addEventListener("touchend", (e) =>
-                            e.preventDefault()
+                            e.preventDefault(),
                           )
-                        }
-                      >
+                        }>
                         {(users?.data ?? []).map((user) => (
                           <SelectItem
                             key={`user-id-${user.id}`}
-                            value={user.id}
-                          >
+                            value={user.id}>
                             {user.name}
                           </SelectItem>
                         ))}
@@ -246,18 +262,17 @@ const LaboratoryCreateView = (props: {}) => {
             {/* Type (Enum) Field */}
             <FormField
               control={form.control}
-              name="type"
+              name='type'
               render={({ field }) => {
                 return (
-                  <FormItem className="w-full md:w-5/12">
+                  <FormItem className='w-full md:w-5/12'>
                     <FormLabel>Laboratory Type</FormLabel>
                     <FormControl>
                       <Select
                         onValueChange={field.onChange}
-                        value={field.value}
-                      >
+                        value={field.value}>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select Laboratory Type" />
+                          <SelectValue placeholder='Select Laboratory Type' />
                         </SelectTrigger>
                         <SelectContent>
                           {Object.values(LaboratoriesType).map((type) => (
@@ -277,18 +292,17 @@ const LaboratoryCreateView = (props: {}) => {
             {/* Payment Type (Enum) Field */}
             <FormField
               control={form.control}
-              name="paymentType"
+              name='paymentType'
               render={({ field }) => {
                 return (
-                  <FormItem className="w-full md:w-5/12">
+                  <FormItem className='w-full md:w-5/12'>
                     <FormLabel>payment Type</FormLabel>
                     <FormControl>
                       <Select
                         onValueChange={field.onChange}
-                        value={field.value}
-                      >
+                        value={field.value}>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select Laboratory Payment Type" />
+                          <SelectValue placeholder='Select Laboratory Payment Type' />
                         </SelectTrigger>
                         <SelectContent>
                           {Object.values(PaymentType).map((type) => (
@@ -305,17 +319,17 @@ const LaboratoryCreateView = (props: {}) => {
               }}
             />
 
-            <Separator className="mx-auto my-2 w-8/12 opacity-0" />
+            <Separator className='mx-auto my-2 w-8/12 opacity-0' />
 
-            <div className="flex w-full justify-end">
-              <Button type="submit" className="mx-auto w-full max-w-2xs">
+            <div className='flex w-full justify-end'>
+              <Button type='submit' className='mx-auto w-full max-w-2xs'>
                 Save
               </Button>
             </div>
           </form>
         </Form>
       </main>
-    </SidebarProvider>
+    </>
   );
 };
 

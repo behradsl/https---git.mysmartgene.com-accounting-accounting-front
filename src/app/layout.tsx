@@ -4,7 +4,6 @@ import "./globals.css";
 import AuthLayout from "@/layouts/auth.lauout";
 import { Toaster } from "@/components/ui/sonner";
 
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -25,10 +24,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AuthLayout>{children}</AuthLayout>
         <Toaster />
       </body>

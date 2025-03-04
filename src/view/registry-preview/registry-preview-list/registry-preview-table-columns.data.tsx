@@ -1,6 +1,5 @@
-import { type ColumnDef } from "@tanstack/react-table";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { dataTableColumnGenerator } from "@/components/table/table-editable-column-generator";
+
 
 export type SettlementStatus = "SETTLED" | "PENDING" | "OVERDUE";
 export type InvoiceStatus = "ISSUED" | "NOT_ISSUED";
@@ -63,164 +62,42 @@ export type PreviewDataTableRow = {
   };
 };
 
-export const registryColumns: ColumnDef<PreviewDataTableRow>[] = [
-  { id: "MotId", accessorKey: "MotId", header: "MOT ID" },
-  { id: "name", accessorKey: "name", header: "Name" },
-  { id: "Laboratory", accessorKey: "Laboratory", header: "Laboratory" },
-  { id: "serviceType", accessorKey: "serviceType", header: "Service Type" },
-  { id: "description", accessorKey: "description", header: "description" },
-  {
-    id: "kitType",
-    accessorKey: "kitType",
-    header: "Kit Type",
-    cell: ({ row }) => {
-      console.log(row);
-    },
-  },
-  {
-    id: "urgentStatus",
-    accessorKey: "urgentStatus",
-    header: "Urgent",
-    cell: ({ row }) =>
-      row.getValue("urgentStatus") ? (
-        <Badge variant="destructive">Urgent</Badge>
-      ) : (
-        "Normal"
-      ),
-  },
-  { id: "price", accessorKey: "price", header: "Price ($)" },
+const data: Parameters<
+  typeof dataTableColumnGenerator<PreviewDataTableRow>
+>[0] = [
+  { id: "MotId", title: "MOT ID", dataType: "text" },
+  { id: "name", title: "Name", dataType: "text" },
+  { id: "Laboratory", title: "Laboratory", dataType: "select" },
+  { id: "kitType", title: "Kit Type", dataType: "text" },
+  { id: "UrgentStatus", title: "Urgent Status", dataType: "switch" },
+  { id: "proformaSent", title: "Urgent Status", dataType: "switch" },
+  { id: "resultReady", title: "Urgent Status", dataType: "switch" },
+  { id: "officialInvoiceSent", title: "Urgent Status", dataType: "switch" },
+  { id: "price", title: "price", dataType: "number" },
   {
     id: "costumerRelationInfo",
-    accessorKey: "costumerRelationInfo",
-    header: "Customer Info",
-    cell: ({ row }) =>
-      row.original?.costumerRelationInfo ? (
-        <Card className="w-56">
-          <CardContent>{row.original.costumerRelationInfo}</CardContent>
-        </Card>
-      ) : (
-        "-"
-      ),
+    title: "Costumer Relation Info",
+    dataType: "text",
   },
-  {
-    id: "settlementStatus",
-    accessorKey: "settlementStatus",
-    header: "Settlement Status",
-    cell: ({ row }) => <Badge>{row.original?.settlementStatus}</Badge>,
-  },
-  {
-    id: "KoreaSendDate",
-    accessorKey: "KoreaSendDate",
-    header: "Korea Send Date",
-    cell: ({ row }) => {
-      const date = row.original.KoreaSendDate;
-      return date ? new Date(date).toLocaleDateString() : "-";
-    },
-  },
-  {
-    id: "installmentOne",
-    accessorKey: "installmentOne",
-    header: "installmentOne ($)",
-  },
-  {
-    id: "installmentOneDate",
-    accessorKey: "installmentOneDate",
-    header: "Installment One Date",
-    cell: ({ row }) => {
-      const date = row.original.installmentOneDate;
-      return date ? new Date(date).toLocaleDateString() : "-";
-    },
-  },
-  {
-    id: "installmentTwo",
-    accessorKey: "installmentTwo",
-    header: "installmentTwo ($)",
-  },
-  {
-    id: "installmentTwoDate",
-    accessorKey: "installmentTwoDate",
-    header: "Installment One Date",
-    cell: ({ row }) => {
-      const date = row.original.installmentOneDate;
-      return date ? new Date(date).toLocaleDateString() : "-";
-    },
-  },
-  {
-    id: "installmentThree",
-    accessorKey: "installmentThree",
-    header: "installmentThree ($)",
-  },
+  { id: "settlementStatus", title: "Settlement Status", dataType: "text" },
+  { id: "KoreaSendDate", title: "Korea Send Date", dataType: "date" },
+  { id: "installmentOne", title: "Installment One ($)", dataType: "text" },
+  { id: "installmentOneDate", title: "Installment One Date", dataType: "date" },
+  { id: "installmentTwo", title: "Installment Two ($)", dataType: "text" },
+  { id: "installmentTwoDate", title: "Installment Two Date", dataType: "date" },
+  { id: "installmentThree", title: "Installment Three ($)", dataType: "text" },
   {
     id: "installmentThreeDate",
-    accessorKey: "installmentThreeDate",
-    header: "Installment One Date",
-    cell: ({ row }) => {
-      const date = row.original.installmentOneDate;
-      return date ? new Date(date).toLocaleDateString() : "-";
-    },
+    title: "Installment Three Date",
+    dataType: "date",
   },
-  {
-    id: "invoiceStatus",
-    accessorKey: "invoiceStatus",
-    header: "Invoice Status",
-    cell: ({ row }) => <Badge>{row.original?.invoiceStatus}</Badge>,
-  },
-  {
-    id: "sampleStatus",
-    accessorKey: "sampleStatus",
-    header: "Sample Status",
-    cell: ({ row }) => <Badge>{row.original?.sampleStatus}</Badge>,
-  },
-  { id: "sendSeries", accessorKey: "sendSeries", header: "Send Series" },
-
-  {
-    id: "createdAt",
-    accessorKey: "createdAt",
-    header: "created at",
-    cell: ({ row }) => {
-      const date = row.original.createdAt;
-      return date ? new Date(date).toLocaleDateString() : "-";
-    },
-  },
-
-  {
-    id: "updatedAt",
-    accessorKey: "updatedAt",
-    header: "updated at",
-    cell: ({ row }) => {
-      const date = row.original.updatedAt;
-      return date ? new Date(date).toLocaleDateString() : "-";
-    },
-  },
-
-  {
-    id: "registry registryCreatedBy",
-    accessorKey: "registry registryCreatedBy",
-    header: "registry Created By",
-    cell: ({ row }) => {
-      if (row.original.registryCreatedBy === undefined)
-        console.log(row.original);
-
-      return row.original?.registryCreatedBy ? (
-        <Card className="w-56">
-          <CardContent>{row.original.registryCreatedBy.name}</CardContent>
-        </Card>
-      ) : (
-        "-"
-      );
-    },
-  },
-  {
-    id: "registryUpdatedBy",
-    accessorKey: "registryUpdatedBy",
-    header: "registry Updated By",
-    cell: ({ row }) =>
-      row.original?.updatedBy ? (
-        <Card className="w-56">
-          <CardContent>{row.original.updatedBy.name}</CardContent>
-        </Card>
-      ) : (
-        "-"
-      ),
-  },
+  { id: "invoiceStatus", title: "Invoice Status", dataType: "select" },
+  { id: "sampleStatus", title: "Sample Status", dataType: "select" },
+  { id: "sendSeries", title: "Send Series", dataType: "text" },
+  { id: "createdAt", title: "Created At", dataType: "date" },
+  { id: "updatedAt", title: "Updated At", dataType: "date" },
+  { id: "registryCreatedBy", title: "Registry Created By", dataType: "user" },
+  { id: "registryUpdatedBy", title: "Registry Updated By", dataType: "user" },
 ];
+
+export const registryColumns = dataTableColumnGenerator(data);

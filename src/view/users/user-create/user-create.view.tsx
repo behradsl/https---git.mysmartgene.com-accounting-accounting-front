@@ -21,8 +21,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/components/ui/toaster";
-import { AppSidebar } from "@/components/app-sidebar.component";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import { UserPosition } from "@/types/user-entity.type";
 import { useCreateUser } from "@/hooks/api";
 import { useRouter } from "next/navigation";
@@ -36,7 +34,7 @@ const formSchema = z.object({
 });
 
 const UserCreateView = (props: {}) => {
-  const {trigger:createUserCallback} = useCreateUser();
+  const { trigger: createUserCallback } = useCreateUser();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -64,8 +62,7 @@ const UserCreateView = (props: {}) => {
   }
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
+    <>
       <main>
         <h2 className='mb-10 px-5 text-center text-lg font-semibold'>
           New User
@@ -177,7 +174,7 @@ const UserCreateView = (props: {}) => {
           </form>
         </Form>
       </main>
-    </SidebarProvider>
+    </>
   );
 };
 

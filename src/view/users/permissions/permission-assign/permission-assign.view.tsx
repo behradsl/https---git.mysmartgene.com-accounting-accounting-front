@@ -21,8 +21,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/components/ui/toaster";
-import { AppSidebar } from "@/components/app-sidebar.component";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import { UserPosition } from "@/types/user-entity.type";
 import {
   useRegistryFieldAccessFindByPosition,
@@ -77,7 +75,7 @@ const PermissionAssignView = () => {
   const { positionName } = useParams();
   const { trigger: assignPermissionCallBack } = useRegistryUpsertFieldAccess();
   const { fieldAccesses } = useRegistryFieldAccessFindByPosition(
-    positionName as string
+    positionName as string,
   );
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -95,7 +93,7 @@ const PermissionAssignView = () => {
 
       const formattedFieldAccesses = fieldAccessMap
         ? {
-            position:UserPosition[positionName as keyof typeof UserPosition],
+            position: UserPosition[positionName as keyof typeof UserPosition],
             MotId: fieldAccessMap.MotId || AccessType.HIDDEN,
             name: fieldAccessMap.name || AccessType.HIDDEN,
             Laboratory: fieldAccessMap.Laboratory || AccessType.HIDDEN,
@@ -151,7 +149,7 @@ const PermissionAssignView = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const fields = Object.keys(values).filter(
-        (value) => value !== "position"
+        (value) => value !== "position",
       );
       const permissions = fields.map((field) => {
         const permissionToAssign = {
@@ -174,26 +172,24 @@ const PermissionAssignView = () => {
   }
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
+    <>
       <main>
-        <h2 className="mb-10 px-5 text-center text-lg font-semibold">
+        <h2 className='mb-10 px-5 text-center text-lg font-semibold'>
           New Permission
         </h2>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-6 flex flex-wrap justify-between gap-2.5 px-5"
-          >
+            className='space-y-6 flex flex-wrap justify-between gap-2.5 px-5'>
             <FormField
               control={form.control}
-              name="position"
+              name='position'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Position</FormLabel>
                   <FormControl>
                     <Input
-                      autoComplete="off"
+                      autoComplete='off'
                       defaultValue={positionName}
                       {...field}
                       disabled
@@ -205,32 +201,29 @@ const PermissionAssignView = () => {
             />
             <FormField
               control={form.control}
-              name="MotId"
+              name='MotId'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>MOT ID</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -243,32 +236,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="name"
+              name='name'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Name</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -281,32 +271,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="serviceType"
+              name='serviceType'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Service Type</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -319,32 +306,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="kitType"
+              name='kitType'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Kit Type</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -357,32 +341,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="Laboratory"
+              name='Laboratory'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Laboratory</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -395,32 +376,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="price"
+              name='price'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Price</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -432,32 +410,29 @@ const PermissionAssignView = () => {
             />
             <FormField
               control={form.control}
-              name="urgentStatus"
+              name='urgentStatus'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Urgent Status</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -469,32 +444,29 @@ const PermissionAssignView = () => {
             />
             <FormField
               control={form.control}
-              name="description"
+              name='description'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Description</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -506,32 +478,29 @@ const PermissionAssignView = () => {
             />
             <FormField
               control={form.control}
-              name="costumerRelationInfo"
+              name='costumerRelationInfo'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Customer Relation Info</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -543,32 +512,29 @@ const PermissionAssignView = () => {
             />
             <FormField
               control={form.control}
-              name="KoreaSendDate"
+              name='KoreaSendDate'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Korea Send Date</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -580,32 +546,29 @@ const PermissionAssignView = () => {
             />
             <FormField
               control={form.control}
-              name="resultReady"
+              name='resultReady'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Result Ready</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -617,32 +580,29 @@ const PermissionAssignView = () => {
             />
             <FormField
               control={form.control}
-              name="resultReadyTime"
+              name='resultReadyTime'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Result Ready Time</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -654,32 +614,29 @@ const PermissionAssignView = () => {
             />
             <FormField
               control={form.control}
-              name="settlementStatus"
+              name='settlementStatus'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Settlement Status</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -691,32 +648,29 @@ const PermissionAssignView = () => {
             />
             <FormField
               control={form.control}
-              name="invoiceStatus"
+              name='invoiceStatus'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Invoice Status</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -728,32 +682,29 @@ const PermissionAssignView = () => {
             />
             <FormField
               control={form.control}
-              name="proformaSent"
+              name='proformaSent'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Proforma Sent</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -765,32 +716,29 @@ const PermissionAssignView = () => {
             />
             <FormField
               control={form.control}
-              name="proformaSentDate"
+              name='proformaSentDate'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Proforma Sent Date</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -803,32 +751,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="totalInvoiceAmount"
+              name='totalInvoiceAmount'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Total Invoice Amount</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -841,32 +786,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="installmentOne"
+              name='installmentOne'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Installment One</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -879,32 +821,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="installmentOneDate"
+              name='installmentOneDate'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Installment One Date</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -917,32 +856,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="installmentTwo"
+              name='installmentTwo'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Installment Two</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -955,32 +891,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="installmentTwoDate"
+              name='installmentTwoDate'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Installment Two Date</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -993,32 +926,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="installmentThree"
+              name='installmentThree'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Installment Three</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -1031,32 +961,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="installmentThreeDate"
+              name='installmentThreeDate'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Installment Three Date</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -1069,32 +996,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="totalPaid"
+              name='totalPaid'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Total Paid</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -1107,32 +1031,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="settlementDate"
+              name='settlementDate'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Settlement Date</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -1145,32 +1066,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="officialInvoiceSent"
+              name='officialInvoiceSent'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Official Invoice Sent</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -1183,32 +1101,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="officialInvoiceSentDate"
+              name='officialInvoiceSentDate'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Official Invoice Sent Date</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -1221,32 +1136,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="sampleStatus"
+              name='sampleStatus'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Sample Status</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -1259,32 +1171,29 @@ const PermissionAssignView = () => {
 
             <FormField
               control={form.control}
-              name="sendSeries"
+              name='sendSeries'
               render={({ field }) => (
-                <FormItem className="w-full md:w-5/12">
+                <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Send Series</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir="rtl"
-                  >
+                    dir='rtl'>
                     <FormControl>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className='w-full'>
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault()
+                          e.preventDefault(),
                         )
-                      }
-                    >
+                      }>
                       {Object.keys(AccessType).map((access) => (
                         <SelectItem
                           key={`user-update-position-${access}`}
-                          value={access}
-                        >
+                          value={access}>
                           {access}
                         </SelectItem>
                       ))}
@@ -1295,15 +1204,15 @@ const PermissionAssignView = () => {
               )}
             />
 
-            <Separator className="my-10" />
+            <Separator className='my-10' />
 
-            <Button type="submit" className="w-full md:w-2/12">
+            <Button type='submit' className='w-full md:w-2/12'>
               Submit
             </Button>
           </form>
         </Form>
       </main>
-    </SidebarProvider>
+    </>
   );
 };
 

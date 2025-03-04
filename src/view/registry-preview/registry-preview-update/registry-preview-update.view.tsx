@@ -21,8 +21,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/components/ui/toaster";
-import { AppSidebar } from "@/components/app-sidebar.component";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import {
   useRegistryPreviewFindOne,
   useUpdatePreviewRegistry,
@@ -40,6 +38,7 @@ import {
 import { useLaboratoryFindMany } from "@/hooks/api/use-laboratory.hook";
 import { Switch } from "@/components/ui/switch";
 import { useCallback, useEffect } from "react";
+import DatePicker from "@/components/ui/datepicker";
 
 const formSchema = z.object({
   MotId: z.string().min(1, "Required"),
@@ -132,7 +131,7 @@ const RegistryPreviewUpdateView = () => {
         ...values,
       });
 
-      router.push("/panel/registries/preview");
+      router.push("/panel/registries/staged");
       form.reset();
     } catch (error) {
       toast.error((error as Error).message);
@@ -140,8 +139,7 @@ const RegistryPreviewUpdateView = () => {
   }
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
+    <>
       <main>
         <h2 className='mb-10 px-5 text-center text-lg font-semibold'>
           Update Registry
@@ -261,10 +259,11 @@ const RegistryPreviewUpdateView = () => {
               control={form.control}
               name='urgentStatus'
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className='w-full md:w-5/12 flex justify-between items-center'>
                   <FormLabel>Urgent Status</FormLabel>
                   <FormControl>
                     <Switch
+                      className='mx-2'
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
@@ -316,10 +315,11 @@ const RegistryPreviewUpdateView = () => {
               control={form.control}
               name='resultReady'
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className='w-full md:w-5/12 flex justify-between items-center'>
                   <FormLabel>Result Ready</FormLabel>
                   <FormControl>
                     <Switch
+                      className='mx-2'
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
@@ -335,7 +335,28 @@ const RegistryPreviewUpdateView = () => {
                 <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Result Ready Time</FormLabel>
                   <FormControl>
-                    <Input type='string' autoComplete='off' {...field} />
+                    <div className='flex items-center justify-around gap-2'>
+                      <DatePicker
+                        onChange={(date) => field.onChange(date?.toISOString())}
+                        value={field.value ? new Date(field.value) : undefined}
+                        className='w-2/3'
+                      />
+                      <Input
+                        className='justify-center gap-6 w-1/3'
+                        autoComplete='off'
+                        type='time'
+                        value={new Date(
+                          field.value as string,
+                        ).toLocaleTimeString()}
+                        onChange={(e) => {
+                          const time = e.target.value.split(":");
+                          const date = new Date(field.value as string);
+                          date.setHours(parseInt(time[0]));
+                          date.setMinutes(parseInt(time[1]));
+                          field.onChange(date.toISOString());
+                        }}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -393,10 +414,11 @@ const RegistryPreviewUpdateView = () => {
               control={form.control}
               name='proformaSent'
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className='w-full md:w-5/12 flex justify-between items-center'>
                   <FormLabel>Proforma Sent</FormLabel>
                   <FormControl>
                     <Switch
+                      className='mx-2'
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
@@ -549,10 +571,11 @@ const RegistryPreviewUpdateView = () => {
               control={form.control}
               name='officialInvoiceSent'
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className='w-full md:w-5/12 flex justify-between items-center'>
                   <FormLabel>Official Invoice Sent</FormLabel>
                   <FormControl>
                     <Switch
+                      className='mx-2'
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
@@ -623,7 +646,7 @@ const RegistryPreviewUpdateView = () => {
           </form>
         </Form>
       </main>
-    </SidebarProvider>
+    </>
   );
 };
 
