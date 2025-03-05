@@ -1,7 +1,11 @@
-import type { RegistryEntity, RegistryEntityWithFieldAccess } from "@/types/registry-entity.type";
+import type {
+  RegistryEntity,
+  RegistryEntityWithFieldAccess,
+} from "@/types/registry-entity.type";
 import { useApiDownload, useApiMutation } from "../use-api-mutation.hook";
 import { useSwr } from "../use-swr.hook";
 import type { AxiosResponse } from "axios";
+import { useState } from "react";
 
 export function useRegistryPreviewFindOne(id: string) {
   const {
@@ -14,35 +18,60 @@ export function useRegistryPreviewFindOne(id: string) {
 }
 
 export function useRegistryPreviewFindMany() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const [sortBy, setSortBy] = useState<{
+    direction: "asc" | "desc";
+    columnId: string;
+  }>({ columnId: "createdAt", direction: "desc" });
+
   const {
     data: registries,
     error,
     isLoading,
     mutate,
-  } = useSwr<AxiosResponse<Partial<RegistryEntity>[]>>("/registry/preview/all");
+  } = useSwr<
+    AxiosResponse<{
+      registries: Partial<RegistryEntityWithFieldAccess>[];
+      totalCount: number;
+    }>
+  >(
+    `/registry/preview/all?page=${currentPage}&limit=${pageSize}&sortingBy=${sortBy.columnId}&orderBy=${sortBy.direction}`,
+  );
 
-  return { registries, error, isLoading ,mutate };
+  return {
+    registries,
+    error,
+    isLoading,
+    mutate,
+    pageSize,
+    setPageSize,
+    currentPage,
+    setCurrentPage,
+    sortBy,
+    setSortBy,
+  };
 }
 
 export function useUpdatePreviewRegistry() {
   const { trigger } = useApiMutation<RegistryEntity>(
     "post",
-    "/registry/preview/update"
+    "/registry/preview/update",
   );
-  return {trigger};
+  return { trigger };
 }
 
 export function useRegistryFinalize() {
   const { trigger } = useApiMutation<Pick<RegistryEntity, "id">>(
     "post",
-    "/registry/preview/finalize"
+    "/registry/preview/finalize",
   );
   return { trigger };
 }
 
 export function useRegistryPreviewExportAll() {
-  const { data, error, isLoading } = useApiDownload(
-    "/registry/preview/export/all"
+  const { downloadData, error, isLoading } = useApiDownload(
+    "/registry/export/preview/all",
   );
-  return { data, error, isLoading };
+  return { downloadData, error, isLoading };
 }

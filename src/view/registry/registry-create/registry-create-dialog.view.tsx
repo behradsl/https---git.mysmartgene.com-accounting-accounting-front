@@ -10,7 +10,7 @@ import {
 import RegistryCreateView from "./registry-create.view";
 import { FC, useEffect, useState } from "react";
 
-const RegistryCreateDialogView: FC<{ onClose?: () => void }> = ({
+const RegistryPreviewCreateDialogView: FC<{ onClose?: () => void }> = ({
   onClose,
 }) => {
   const [open, setOpen] = useState(false);
@@ -22,12 +22,12 @@ const RegistryCreateDialogView: FC<{ onClose?: () => void }> = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
-        <Button variant={"outline"}>New Registry</Button>
+      <DialogTrigger asChild>
+        <Button variant={"outline"}>New Staged Registry</Button>
       </DialogTrigger>
       <DialogContent className=''>
         <DialogHeader>
-          <DialogTitle>Create a new Registry:</DialogTitle>
+          <DialogTitle>Create a new Staged Registry:</DialogTitle>
         </DialogHeader>
         <DialogDescription className='max-h-[80dvh] overflow-y-auto'>
           <RegistryCreateView onSuccessfulSubmit={() => setOpen(false)} />
@@ -37,4 +37,4 @@ const RegistryCreateDialogView: FC<{ onClose?: () => void }> = ({
   );
 };
 
-export default RegistryCreateDialogView;
+export default RegistryPreviewCreateDialogView;

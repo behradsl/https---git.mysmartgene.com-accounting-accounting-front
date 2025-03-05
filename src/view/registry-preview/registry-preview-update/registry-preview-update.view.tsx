@@ -373,7 +373,12 @@ const RegistryPreviewUpdateView = () => {
                       <SelectTrigger>
                         <SelectValue placeholder='Select Settlement Status' />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent
+                        ref={(ref) =>
+                          ref?.addEventListener("touchend", (e) =>
+                            e.preventDefault(),
+                          )
+                        }>
                         {Object.values(SettlementStatus).map((status) => (
                           <SelectItem key={status} value={status}>
                             {status.replace(/_/g, " ")}
@@ -397,7 +402,12 @@ const RegistryPreviewUpdateView = () => {
                       <SelectTrigger>
                         <SelectValue placeholder='Select Invoice Status' />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent
+                        ref={(ref) =>
+                          ref?.addEventListener("touchend", (e) =>
+                            e.preventDefault(),
+                          )
+                        }>
                         {Object.values(InvoiceStatus).map((status) => (
                           <SelectItem key={status} value={status}>
                             {status.replace(/_/g, " ")}
@@ -610,7 +620,12 @@ const RegistryPreviewUpdateView = () => {
                       <SelectTrigger>
                         <SelectValue placeholder='Select Sample Status' />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent
+                        ref={(ref) =>
+                          ref?.addEventListener("touchend", (e) =>
+                            e.preventDefault(),
+                          )
+                        }>
                         {Object.values(SampleStatus).map((status) => (
                           <SelectItem key={status} value={status}>
                             {status.replace(/_/g, " ")}

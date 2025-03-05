@@ -274,7 +274,12 @@ const LaboratoryUpdateView = () => {
                         <SelectTrigger>
                           <SelectValue placeholder='Select Laboratory Type' />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent
+                          ref={(ref) =>
+                            ref?.addEventListener("touchend", (e) =>
+                              e.preventDefault(),
+                            )
+                          }>
                           {Object.values(LaboratoriesType).map((type) => (
                             <SelectItem key={type} value={type}>
                               {type.replace(/_/g, " ")}
@@ -304,7 +309,12 @@ const LaboratoryUpdateView = () => {
                         <SelectTrigger>
                           <SelectValue placeholder='Select Laboratory Payment Type' />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent
+                          ref={(ref) =>
+                            ref?.addEventListener("touchend", (e) =>
+                              e.preventDefault(),
+                            )
+                          }>
                           {Object.values(PaymentType).map((type) => (
                             <SelectItem key={type} value={type}>
                               {type.replace(/_/g, " ")}

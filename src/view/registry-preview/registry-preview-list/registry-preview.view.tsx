@@ -1,22 +1,40 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRegistryPreviewFindMany } from "@/hooks/api";
+import {
+  useRegistryFieldAccessFindByPosition,
+  useRegistryPreviewFindMany,
+} from "@/hooks/api";
 
 import RegistryPreviewTableView from "./registry-preview-table.view";
-import { PreviewDataTableRow } from "./registry-preview-table-columns.data";
 import RegistryCreateDialogView from "@/view/registry/registry-create/registry-create-dialog.view";
+import { RegistryDataTableRow } from "@/view/registry/registry-list/registry-table-columns.data";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { useUser } from "@/store/user.store";
 
 interface RegistryViewProps {}
 
 const RegistryPreviewView = ({}: RegistryViewProps) => {
-  const [tableData, setTableData] = useState<PreviewDataTableRow[]>([]);
-  const { registries, mutate } = useRegistryPreviewFindMany();
+  const currentUser = useUser((state) => state.user);
+  const [tableData, setTableData] = useState<RegistryDataTableRow[]>([]);
+  const { fieldAccesses } = useRegistryFieldAccessFindByPosition(
+    currentUser?.position!,
+  );
+  const {
+    registries,
+    mutate,
+    currentPage,
+    pageSize,
+    setCurrentPage,
+    setPageSize,
+    setSortBy,
+    sortBy,
+  } = useRegistryPreviewFindMany();
 
   useEffect(() => {
     if (registries?.data) {
-      const formattedData: PreviewDataTableRow[] = registries.data?.map(
-        (registry: any) => ({
+      const formattedData: RegistryDataTableRow[] =
+        registries.data?.registries.map((registry: any) => ({
           id: registry.id,
           MotId: registry.MotId || "",
           name: registry.name || "",
@@ -74,26 +92,34 @@ const RegistryPreviewView = ({}: RegistryViewProps) => {
 
           registryCreatedBy: registry.registryCreatedBy || "",
           updatedBy: registry.registryUpdatedBy || "",
-        }),
-      );
+        }));
 
       setTableData(formattedData);
     }
   }, [registries]);
 
-  useEffect(() => {}, []);
-
   return (
     <main className='w-full py-4 px-2'>
       <div className='flex items-center justify-between gap-3 w-full'>
-        <h2 className='font-semibold text-xl'>Registry List</h2>
+        <header className='mb-8 flex items-center'>
+          <SidebarTrigger className='mr-4' />
+          <h1 className='text-2xl font-bold'>Registries (Staged)</h1>
+        </header>
         <div>
           <RegistryCreateDialogView onClose={mutate} />
         </div>
       </div>
       <RegistryPreviewTableView
         data={tableData}
+        fieldAccesses={fieldAccesses?.data || []}
         reloadRegistriesList={mutate}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+        allItemsCount={registries?.data?.totalCount}
       />
     </main>
   );

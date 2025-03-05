@@ -54,7 +54,7 @@ const UserCreateView = (props: {}) => {
       });
 
       toast.success("User saved.");
-      router.push("/panel/users");
+      router.push("/panel/users/profiles");
       form.reset();
     } catch (error) {
       toast.error((error as Error).message);

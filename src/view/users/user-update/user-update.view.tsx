@@ -58,12 +58,12 @@ const UserUpdateView = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const newUser = await updateUserCallback({
+      const updatedUser = await updateUserCallback({
         id: userId as string,
         ...values,
       });
 
-      router.push("/panel/users");
+      router.push("/panel/users/profiles");
       form.reset();
     } catch (error) {
       toast.error((error as Error).message);

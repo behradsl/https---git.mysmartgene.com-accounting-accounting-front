@@ -1,10 +1,15 @@
 "use client";
 
-import { useEffect, useState, type FC, type PropsWithChildren } from "react";
+import { useEffect, useState } from "react";
 import RegistryTableView from "./registry-table.view";
 
-import { useRegistryFindMany } from "@/hooks/api";
-import { DataTableRow } from "./registry-table-columns.data";
+import {
+  useRegistryFieldAccessFindByPosition,
+  useRegistryFindMany,
+} from "@/hooks/api";
+import { RegistryDataTableRow } from "./registry-table-columns.data";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { useUser } from "@/store/user.store";
 
 // import { Button } from "@/components/ui/button";
 // import Link from "next/link";
@@ -12,19 +17,30 @@ import { DataTableRow } from "./registry-table-columns.data";
 interface RegistryViewProps {}
 
 const RegistryView = ({}: RegistryViewProps) => {
-  const [tableData, setTableData] = useState<DataTableRow[]>([]);
-  const { registries, mutate } = useRegistryFindMany();
-  
+  const currentUser = useUser((state) => state.user);
+  const [tableData, setTableData] = useState<RegistryDataTableRow[]>([]);
+  const { fieldAccesses: registryFieldAccesses } =
+    useRegistryFieldAccessFindByPosition(currentUser?.position!);
+  const {
+    registries,
+    mutate,
+    pageSize,
+    setPageSize,
+    currentPage,
+    setCurrentPage,
+    sortBy,
+    setSortBy,
+  } = useRegistryFindMany();
 
   useEffect(() => {
     if (registries?.data) {
-      const formattedData: DataTableRow[] = registries.data?.map(
-        (registry: any) => ({
+      const formattedData: RegistryDataTableRow[] =
+        registries.data?.registries.map((registry: any) => ({
           id: registry.id?.value,
           MotId: registry.MotId?.value || "",
           name: registry.name?.value || "",
+          Laboratory: registry.Laboratory?.value.name || "",
           laboratoryId: registry.laboratoryId?.value || "",
-          Laboratory:registry.Laboratory?.value.name || "",
           serviceType: registry.serviceType?.value || "",
           kitType: registry.kitType?.value || "",
 
@@ -77,8 +93,7 @@ const RegistryView = ({}: RegistryViewProps) => {
 
           registryCreatedBy: registry.registryCreatedBy?.value || "",
           updatedBy: registry.registryUpdatedBy?.value || "",
-        })
-      );
+        }));
 
       setTableData(formattedData);
     }
@@ -87,16 +102,23 @@ const RegistryView = ({}: RegistryViewProps) => {
   useEffect(() => {}, []);
 
   return (
-    <main className="w-full py-4 px-2">
-      <div className="flex items-center justify-between gap-3 w-full">
-        <h2 className="font-semibold text-xl">Registry List</h2>
-        {/* <div>
-          <Button asChild variant={"default"}>
-            <Link href={`/panel/registries/create`}>Create Registry</Link>
-          </Button>
-        </div> */}
-      </div>
-      <RegistryTableView data={tableData} reloadRegistriesList={mutate} />
+    <main className='w-full py-4 px-2'>
+      <header className='mb-8 flex items-center'>
+        <SidebarTrigger className='mr-4' />
+        <h1 className='text-2xl font-bold'>Registries (Finalized)</h1>
+      </header>
+      <RegistryTableView
+        data={tableData}
+        fieldAccesses={registryFieldAccesses?.data || []}
+        reloadRegistriesList={mutate}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+        allItemsCount={registries?.data?.totalCount}
+      />
     </main>
   );
 };

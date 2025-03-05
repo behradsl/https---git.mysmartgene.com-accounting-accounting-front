@@ -42,20 +42,36 @@ export function useApiMutation<T>(
   return { trigger };
 }
 
-export function useApiDownload(route: string) {
+export function useApiDownload(
+  route: string,
+  method: "post" | "put" | "get" = "post",
+) {
   const [data, setData] = useState<Blob | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const fetchData = async () => {
+  const fetchData = async (ids?: string[]) => {
     try {
-      const response = await fetcher.get(route, {
-        responseType: "blob",
-        headers: {
-          Accept:
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Excel MIME type
-        },
-      });
+      const response =
+        method === "get"
+          ? await fetcher[method](route, {
+              responseType: "blob",
+              headers: {
+                Accept:
+                  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Excel MIME type
+              },
+            })
+          : await fetcher[method](
+              route,
+              { ids: ids || [] },
+              {
+                responseType: "blob",
+                headers: {
+                  Accept:
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Excel MIME type
+                },
+              },
+            );
 
       const blob = response.data;
       const downloadUrl = URL.createObjectURL(blob);
@@ -73,11 +89,7 @@ export function useApiDownload(route: string) {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [route]);
-
-  return { data, error, isLoading };
+  return { downloadData: fetchData, error, isLoading };
 }
 export function useApiUpload(route: string) {
   const [isLoading, setIsLoading] = useState(false);
