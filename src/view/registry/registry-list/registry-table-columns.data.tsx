@@ -1,4 +1,5 @@
 import { dataTableColumnGenerator } from "@/components/table/table-editable-column-generator";
+import { RegistryEntity } from "@/types/registry-entity.type";
 
 export type RegistrySettlementStatus = "SETTLED" | "PENDING" | "OVERDUE";
 export type RegistryInvoiceStatus = "ISSUED" | "NOT_ISSUED";
@@ -13,97 +14,67 @@ export type RegistrySampleStatus =
 
 export type RegistryDataTableRow = {
   id: string;
-  MotId: string;
-  name: string;
-
-  Laboratory: string;
-  laboratoryId: string;
-  serviceType: string;
-  kitType: string;
-  urgentStatus?: boolean;
-  price: number;
-  description?: string;
-  costumerRelationInfo?: string;
-  KoreaSendDate?: string;
-  resultReady?: boolean;
-  resultReadyTime?: string;
-  settlementStatus: RegistrySettlementStatus;
-  invoiceStatus: RegistryInvoiceStatus;
-  proformaSent?: boolean;
-  proformaSentDate?: string;
-  totalInvoiceAmount: number;
-  installmentOne?: number;
-  installmentOneDate?: string;
-  installmentTwo?: number;
-  installmentTwoDate?: string;
-  installmentThree?: number;
-  installmentThreeDate?: string;
-  totalPaid: number;
-  settlementDate?: string;
-  officialInvoiceSent?: boolean;
-  officialInvoiceSentDate?: string;
-  sampleStatus: RegistrySampleStatus;
-  sendSeries: string;
   createdAt: string;
   updatedAt: string;
 
-  registryCreatedBy: {
+  registryCreatedBy?: {
     name: string;
     email: string;
     position: string;
     id: string;
   };
 
-  updatedBy: {
+  registryUpdatedBy: {
     name: string;
     email: string;
     position: string;
     id: string;
   };
-};
+} & RegistryEntity;
 
 export const registryColumnsStructure: Parameters<
   typeof dataTableColumnGenerator<RegistryDataTableRow>
 >[0] = [
   { id: "MotId", title: "MOT ID", dataType: "text" },
-  { id: "name", title: "Name", dataType: "text" },
+  { id: "personName", title: "Persone Name", dataType: "text" },
   { id: "laboratoryId", title: "Laboratory", dataType: "select" },
+  {
+    id: "costumerRelationId",
+    alternativeId: "costumerRelation",
+    title: "costumer Relation By",
+    dataType: "user",
+    readonly: true,
+  },
+  { id: "serviceType", title: "Service Type", dataType: "text" },
   { id: "kitType", title: "Kit Type", dataType: "text" },
+  { id: "sampleType", title: "Sample Type", dataType: "select" },
   { id: "urgentStatus", title: "Urgent Status", dataType: "switch" },
-  { id: "proformaSent", title: "Proforma Sent", dataType: "switch" },
-  { id: "resultReady", title: "Result Ready", dataType: "switch" },
+  { id: "description", title: "Description", dataType: "text" },
+  { id: "productPriceUsd", title: "Product Price (USD)", dataType: "number" },
+
+  { id: "dataSampleReceived", title: "Data Sample Received", dataType: "date" },
   {
-    id: "officialInvoiceSent",
-    title: "Official Invoice Sent",
-    dataType: "switch",
-  },
-  { id: "price", title: "price", dataType: "number" },
-  {
-    id: "costumerRelationInfo",
-    title: "Costumer Relation Info",
-    dataType: "text",
-  },
-  { id: "settlementStatus", title: "Settlement Status", dataType: "text" },
-  { id: "KoreaSendDate", title: "Korea Send Date", dataType: "date" },
-  { id: "installmentOne", title: "Installment One ($)", dataType: "number" },
-  { id: "installmentOneDate", title: "Installment One Date", dataType: "date" },
-  { id: "installmentTwo", title: "Installment Two ($)", dataType: "number" },
-  { id: "installmentTwoDate", title: "Installment Two Date", dataType: "date" },
-  {
-    id: "installmentThree",
-    title: "Installment Three ($)",
-    dataType: "number",
-  },
-  {
-    id: "installmentThreeDate",
-    title: "Installment Three Date",
+    id: "sampleExtractionDate",
+    title: "Sample Extraction Date",
     dataType: "date",
   },
-  { id: "invoiceStatus", title: "Invoice Status", dataType: "select" },
-  { id: "sampleStatus", title: "Sample Status", dataType: "select" },
+
+  { id: "dataSentToKorea", title: "Data Sent To Korea", dataType: "date" },
+  {
+    id: "rawFileReceivedDate",
+    title: "Raw File Received Date",
+    dataType: "date",
+  },
+
+  {
+    id: "analysisCompletionDate",
+    title: "Analysis Completion Date",
+    dataType: "date",
+  },
+  { id: "resultReadyTime", title: "Result Ready Time", dataType: "date" },
+
   { id: "sendSeries", title: "Send Series", dataType: "text" },
-  { id: "createdAt", title: "Created At", dataType: "date", readonly: true },
-  { id: "updatedAt", title: "Updated At", dataType: "date", readonly: true },
+
   {
     id: "userIdRegistryCreatedBy",
     alternativeId: "registryCreatedBy",
@@ -113,13 +84,17 @@ export const registryColumnsStructure: Parameters<
   },
   {
     id: "userIdRegistryUpdatedBy",
-    alternativeId: "updatedBy",
+    alternativeId: "registryUpdatedBy",
     title: "Registry Updated By",
     dataType: "user",
     readonly: true,
   },
+  { id: "createdAt", title: "Created At", dataType: "date", readonly: true },
+  { id: "updatedAt", title: "Updated At", dataType: "date", readonly: true },
 ];
 
-export const registryColumns = (columnsStructure: typeof registryColumnsStructure) => {
+export const registryColumns = (
+  columnsStructure: typeof registryColumnsStructure,
+) => {
   return dataTableColumnGenerator(columnsStructure);
 };

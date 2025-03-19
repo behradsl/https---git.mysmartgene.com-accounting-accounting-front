@@ -10,6 +10,7 @@ import {
 import { RegistryDataTableRow } from "./registry-table-columns.data";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useUser } from "@/store/user.store";
+import { RegistryEntityWithFieldAccess } from "@/types/registry-entity.type";
 
 // import { Button } from "@/components/ui/button";
 // import Link from "next/link";
@@ -36,65 +37,47 @@ const RegistryView = ({}: RegistryViewProps) => {
     if (registries?.data) {
       const formattedData: RegistryDataTableRow[] =
         registries.data?.registries.map((registry: any) => ({
-          id: registry.id?.value,
+          id: registry.id?.value || "",
           MotId: registry.MotId?.value || "",
-          name: registry.name?.value || "",
-          Laboratory: registry.Laboratory?.value.name || "",
-          laboratoryId: registry.laboratoryId?.value || "",
-          serviceType: registry.serviceType?.value || "",
+          personName: registry.personName?.value || "",
           kitType: registry.kitType?.value || "",
-
-          urgentStatus: registry.urgentStatus?.value || false,
-          price: registry.price?.value || "",
-          description: registry.description?.value || "",
-          costumerRelationInfo: registry.costumerRelationInfo?.value || "",
-          KoreaSendDate: registry.KoreaSendDate?.value
-            ? new Date(registry.KoreaSendDate?.value).toISOString()
-            : "",
-          resultReady: registry.resultReady?.value || false,
-          resultReadyTime: registry.resultReadyTime?.value
-            ? new Date(registry.resultReadyTime?.value).toISOString()
-            : "",
-          settlementStatus: registry.settlementStatus?.value || "",
-          invoiceStatus: registry.invoiceStatus?.value || "",
-          proformaSent: registry.proformaSent?.value || false,
-          proformaSentDate: registry.proformaSentDate?.value
-            ? new Date(registry.proformaSentDate?.value).toISOString()
-            : "",
-          totalInvoiceAmount: registry.totalInvoiceAmount?.value || "",
-          installmentOne: registry.installmentOne?.value || "",
-          installmentOneDate: registry.installmentOneDate?.value
-            ? new Date(registry.installmentOneDate?.value).toISOString()
-            : "",
-          installmentTwo: registry.installmentTwo?.value || "",
-          installmentTwoDate: registry.installmentTwoDate?.value
-            ? new Date(registry.installmentTwoDate?.value).toISOString()
-            : "",
-          installmentThree: registry.installmentThree?.value || "",
-          installmentThreeDate: registry.installmentThreeDate?.value
-            ? new Date(registry.installmentThreeDate?.value).toISOString()
-            : "",
-          totalPaid: registry.totalPaid?.value || "",
-          settlementDate: registry.settlementDate?.value
-            ? new Date(registry.settlementDate?.value).toISOString()
-            : "",
-          officialInvoiceSent: registry.officialInvoiceSent?.value || false,
-          officialInvoiceSentDate: registry.officialInvoiceSentDate?.value
-            ? new Date(registry.officialInvoiceSentDate?.value).toISOString()
-            : "",
-          sampleStatus: registry.sampleStatus?.value || "",
+          laboratoryId: registry.laboratoryId?.value || "",
+          productPriceUsd: registry.productPriceUsd?.value || "",
+          sampleType: registry.sampleType?.value || "",
           sendSeries: registry.sendSeries?.value || "",
+          serviceType: registry.serviceType?.value || "",
+          analysisCompletionDate: registry.analysisCompletionDate?.value
+            ? new Date(registry.analysisCompletionDate?.value).toISOString()
+            : "",
+          dataSampleReceived: registry.dataSampleReceived?.value
+            ? new Date(registry.dataSampleReceived?.value).toISOString()
+            : "",
+          dataSentToKorea: registry.dataSentToKorea?.value
+            ? new Date(registry.dataSentToKorea?.value).toISOString()
+            : "",
+          rawFileReceivedDate: registry.rawFileReceivedDate?.value
+            ? new Date(registry.rawFileReceivedDate?.value).toISOString()
+            : "",
+          sampleExtractionDate: registry.sampleExtractionDate?.value
+            ? new Date(registry.sampleExtractionDate?.value).toISOString()
+            : "",
+          resultReadyTime: registry.sampleExtractionDate?.value
+            ? new Date(registry.sampleExtractionDate?.value).toISOString()
+            : "",
+          description: registry.description?.value || "",
+          costumerRelationId: registry.costumerRelationId?.value || "",
+          urgentStatus: registry.urgentStatus?.value || undefined,
+
           createdAt: registry.createdAt?.value
             ? new Date(registry.createdAt?.value).toISOString()
             : "",
-          updatedAt: registry.createdAt?.value
-            ? new Date(registry.createdAt?.value).toISOString()
+          updatedAt: registry.updatedAt
+            ? new Date(registry.updatedAt?.value).toISOString()
             : "",
-
-          registryCreatedBy: registry.registryCreatedBy?.value || "",
-          updatedBy: registry.registryUpdatedBy?.value || "",
+          Laboratory: registry.laboratory || undefined,
+          registryCreatedBy: registry.registryCreatedBy?.value || {},
+          registryUpdatedBy: registry.registryUpdatedBy?.value || {},
         }));
-
       setTableData(formattedData);
     }
   }, [registries]);

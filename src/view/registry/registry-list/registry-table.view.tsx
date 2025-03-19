@@ -29,10 +29,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown, DownloadIcon } from "lucide-react";
 import {
-  InvoiceStatus,
   RegistryEntity,
   RegistryFieldAccessType,
   SampleStatus,
+  SampleType,
   SettlementStatus,
 } from "@/types/registry-entity.type";
 import {
@@ -40,9 +40,15 @@ import {
   registryColumnsStructure,
   RegistryDataTableRow,
 } from "@/view/registry/registry-list/registry-table-columns.data";
-import { useRegistryExportAll, useUpdateRegistry } from "@/hooks/api";
+import {
+  useDeleteRegistry,
+  useRegistryExportAll,
+  useUpdateRegistry,
+} from "@/hooks/api";
 import { useLaboratoryFindMany } from "@/hooks/api/use-laboratory.hook";
 import { removeEmptyObjectsByKeys } from "@/utilities/object";
+import { useUser } from "@/store/user.store";
+import { UserPosition } from "@/types/user-entity.type";
 
 function RegistryTableView({
   data,
@@ -69,8 +75,10 @@ function RegistryTableView({
     SetStateAction<{ direction: "asc" | "desc"; columnId: string }>
   >;
 }) {
+  const user = useUser((state) => state.user);
   const { laboratories } = useLaboratoryFindMany();
   const { trigger: updateRegistryCallback } = useUpdateRegistry();
+  const { trigger: deleteRegistryCallback } = useDeleteRegistry();
   const { downloadData: downloadRegistryExport } = useRegistryExportAll();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -116,6 +124,7 @@ function RegistryTableView({
       {
         id: "actions",
         accessorKey: "actions",
+
         header: "",
         cell: ({ row }) => (
           <div className='flex gap-2 items-center justify-center'>
@@ -126,44 +135,45 @@ function RegistryTableView({
                   size={"sm"}
                   className='text-green-700 border-1 border-transparent hover:border-green-700/20 hover:text-green-700'
                   onClick={async () => {
-                    if (table?.getSelectedRowModel().rows.length) {
-                      const { registryCreatedBy, updatedBy, ...values } =
-                        editedRows.selectedRows || {};
-                      for (
-                        let idx = 0;
-                        idx < table?.getSelectedRowModel().rows.length;
-                        idx++
-                      ) {
-                        const element = table?.getSelectedRowModel().rows[idx];
-                        const { registryCreatedBy, updatedBy, ...rowValues } =
-                          element.original;
-                        const newRegistry = await updateRegistryCallback({
-                          ...(removeEmptyObjectsByKeys(
-                            rowValues,
-                          ) as unknown as RegistryEntity),
-                          ...(removeEmptyObjectsByKeys(
-                            values,
-                          ) as unknown as RegistryEntity),
-                          id: element.original.id,
-                        });
+                    const {
+                      registryCreatedBy,
+                      registryUpdatedBy,
+                      productPriceUsd,
+                      sendSeries,
+                      id,
+                      ...values
+                    } = editedRows[row.id];
 
-                        reloadRegistriesList();
-                      }
+                    setEditedRows((prevEditedRows) => {
+                      const { [row.id]: _, ...rest } = prevEditedRows;
+                      return rest;
+                    });
+                    reloadRegistriesList();
+                    const ids = new Set<string>();
+                    table
+                      ?.getSelectedRowModel()
+                      .rows.forEach((row) => ids.add(row.original.id));
+                    ids.add(row.original.id);
+                    await updateRegistryCallback({
+                      ...(removeEmptyObjectsByKeys({
+                        ...values,
+                        sendSeries: sendSeries ? Number(sendSeries) : undefined,
+                        productPriceUsd: productPriceUsd
+                          ? Number(productPriceUsd)
+                          : undefined,
+                      }) as unknown as RegistryEntity),
+                      ids: [...ids],
+                    });
+                    if (table?.getSelectedRowModel().rows.length) {
                       setEditedRows({ selectedRows: {} });
                     } else {
-                      const { registryCreatedBy, updatedBy, ...values } =
-                        editedRows[row.id];
-                      const newRegistry = await updateRegistryCallback({
-                        ...(removeEmptyObjectsByKeys(
-                          values,
-                        ) as unknown as RegistryEntity),
-                      });
                       setEditedRows((prevEditedRows) => {
                         const { [row.id]: _, ...rest } = prevEditedRows;
                         return rest;
                       });
-                      reloadRegistriesList();
                     }
+
+                    reloadRegistriesList();
                   }}>
                   {table?.getSelectedRowModel().rows.length
                     ? "Save All"
@@ -184,7 +194,7 @@ function RegistryTableView({
                   }}>
                   {table?.getSelectedRowModel().rows.length
                     ? "Cancel All"
-                    : "CAncel"}
+                    : "Cancel"}
                 </Button>
               </>
             ) : (
@@ -197,12 +207,33 @@ function RegistryTableView({
                     // Use a functional update for editedRows to ensure you're working with the latest state.
                     setEditedRows((prevEditedRows) => ({
                       ...prevEditedRows,
-                      [row.id]: { ...row.original },
+                      [row.id]: { ...removeEmptyObjectsByKeys(row.original) },
                     }));
                   }}>
                   Edit
                 </Button>
               </>
+            )}
+
+            {user?.position === UserPosition.ADMIN && (
+              <Button
+                variant={"ghost"}
+                size={"sm"}
+                className='text-destructive border-1 border-transparent hover:border-destructive/20 hover:text-destructive'
+                onClick={async () => {
+                  const ids = new Set<string>();
+                  table
+                    ?.getSelectedRowModel()
+                    .rows.forEach((row) => ids.add(row.original.id));
+                  ids.add(row.original.id);
+
+                  await deleteRegistryCallback({ ids: [...ids] });
+                  reloadRegistriesList();
+                }}>
+                {table?.getSelectedRowModel().rows.length
+                  ? "Delete All"
+                  : "Delete"}
+              </Button>
             )}
           </div>
         ),
@@ -247,25 +278,11 @@ function RegistryTableView({
         }
       },
       editableCellOptions: {
-        sampleStatus: {
+        sampleType: {
           type: "select",
-          options: Object.keys(SampleStatus).map((sampleStatus) => ({
-            label: sampleStatus.replace(/_/g, " "),
-            value: sampleStatus,
-          })),
-        },
-        invoiceStatus: {
-          type: "select",
-          options: Object.keys(InvoiceStatus).map((invoiceStatus) => ({
-            label: invoiceStatus.replace(/_/g, " "),
-            value: invoiceStatus,
-          })),
-        },
-        settlementStatus: {
-          type: "select",
-          options: Object.keys(SettlementStatus).map((settlementStatus) => ({
-            label: settlementStatus.replace(/_/g, " "),
-            value: settlementStatus,
+          options: Object.keys(SampleType).map((sampleType) => ({
+            label: sampleType.replace(/_/g, " "),
+            value: sampleType,
           })),
         },
         laboratoryId: {

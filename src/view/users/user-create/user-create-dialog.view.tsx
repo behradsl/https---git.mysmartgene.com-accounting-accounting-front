@@ -7,12 +7,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import RegistryCreateView from "./registry-create.view";
+import UserCreateView from "./user-create.view";
 import { FC, useEffect, useState } from "react";
 
-const RegistryPreviewCreateDialogView: FC<{ onClose?: () => void }> = ({
-  onClose,
-}) => {
+const UserCreateDialogView: FC<{ onClose?: () => void }> = ({ onClose }) => {
   const [open, setOpen] = useState(false);
   const [initialTrigger, setInitialTrigger] = useState<void | string>();
   useEffect(() => {
@@ -23,15 +21,15 @@ const RegistryPreviewCreateDialogView: FC<{ onClose?: () => void }> = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={"outline"}>New Staged Registry</Button>
+        <Button variant={"outline"}>New User</Button>
       </DialogTrigger>
       <DialogContent className=''>
         <DialogHeader>
-          <DialogTitle>Create a new Staged Registry:</DialogTitle>
+          <DialogTitle>Create a User:</DialogTitle>
         </DialogHeader>
         <DialogDescription asChild className=''>
           <div className='max-h-[80dvh] overflow-y-auto'>
-            <RegistryCreateView onSuccessfulSubmit={() => setOpen(false)} />
+            <UserCreateView onSuccessfulSubmit={() => setOpen(false)} />
           </div>
         </DialogDescription>
       </DialogContent>
@@ -39,4 +37,4 @@ const RegistryPreviewCreateDialogView: FC<{ onClose?: () => void }> = ({
   );
 };
 
-export default RegistryPreviewCreateDialogView;
+export default UserCreateDialogView;

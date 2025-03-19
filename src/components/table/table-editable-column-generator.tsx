@@ -262,7 +262,7 @@ const dataTableColumnGenerator = <T = Record<string, any>,>(
                           <SelectItem
                             key={`${
                               alternativeId || columnId
-                            }-${rowIndex} - ${value}`}
+                            }-${rowIndex} - ${value}-${Math.random() * 100000}`}
                             value={value}>
                             {label || value}
                           </SelectItem>

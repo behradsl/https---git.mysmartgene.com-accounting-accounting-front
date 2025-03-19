@@ -1,54 +1,27 @@
 import type { UserPosition } from "./user-entity.type";
 
 export interface RegistryEntity {
-  id: string;
+  id?: string;
+  ids?: string[];
   MotId: string;
-  name: string;
-
+  personName: string;
   laboratoryId: string;
   Laboratory?: { editable: boolean; value: { name: string } };
-
+  costumerRelationId: string;
   serviceType: string;
   kitType: string;
+  sampleType: SampleType;
   urgentStatus?: boolean;
-
-  price: string;
-
   description?: string;
+  productPriceUsd: number;
 
-  costumerRelationInfo?: string;
-  KoreaSendDate?: string;
-
-  resultReady?: boolean;
+  dataSampleReceived?: string;
+  sampleExtractionDate?: string;
+  dataSentToKorea?: string;
+  rawFileReceivedDate?: string;
+  analysisCompletionDate?: string;
   resultReadyTime?: string;
-
-  settlementStatus: SettlementStatus;
-  invoiceStatus: InvoiceStatus;
-
-  proformaSent?: boolean;
-  proformaSentDate?: string;
-
-  totalInvoiceAmount: string;
-
-  installmentOne?: string;
-  installmentOneDate?: string;
-
-  installmentTwo?: string;
-  installmentTwoDate?: string;
-
-  installmentThree?: string;
-  installmentThreeDate?: string;
-
-  totalPaid: string;
-
-  settlementDate?: string;
-
-  officialInvoiceSent?: boolean;
-  officialInvoiceSentDate?: string;
-
-  sampleStatus: SampleStatus;
-
-  sendSeries: string;
+  sendSeries: number;
 }
 
 export enum SampleStatus {
@@ -61,9 +34,10 @@ export enum SampleStatus {
   "DELIVERED" = "DELIVERED",
 }
 
-export enum InvoiceStatus {
-  "ISSUED" = "ISSUED",
-  "NOT_ISSUED" = "NOT_ISSUED",
+export enum SampleType {
+  BLOOD_DNA = "BLOOD_DNA",
+  TISSUE = "TISSUE",
+  EMBRYO = "EMBRYO",
 }
 
 export enum SettlementStatus {
@@ -75,52 +49,44 @@ export enum SettlementStatus {
 export interface RegistryEntityWithFieldAccess {
   id: { editable: boolean; value: string };
   MotId: { editable: boolean; value: string };
-  name: { editable: boolean; value: string };
-
+  personName: { editable: boolean; value: string };
   laboratoryId: { editable: boolean; value: string };
-  Laboratory?: { editable: boolean; value: { name: string } };
-
+  costumerRelationId: { editable: boolean; value: string };
+  costumerRelationInfo: { editable: boolean; value: any };
   serviceType: { editable: boolean; value: string };
   kitType: { editable: boolean; value: string };
-  urgentStatus?: { editable: boolean; value: boolean };
-
-  price: { editable: boolean; value: string };
-
-  description?: { editable: boolean; value: string };
-
-  costumerRelationInfo?: { editable: boolean; value: string };
-  KoreaSendDate?: { editable: boolean; value: string };
-
-  resultReady?: { editable: boolean; value: boolean };
-  resultReadyTime?: { editable: boolean; value: string };
-
-  settlementStatus: { editable: boolean; value: SettlementStatus };
-  invoiceStatus: { editable: boolean; value: SettlementStatus };
-
-  proformaSent?: { editable: boolean; value: boolean };
-  proformaSentDate?: { editable: boolean; value: string };
-
-  totalInvoiceAmount: { editable: boolean; value: string };
-
-  installmentOne?: { editable: boolean; value: string };
-  installmentOneDate?: { editable: boolean; value: string };
-
-  installmentTwo?: { editable: boolean; value: string };
-  installmentTwoDate?: { editable: boolean; value: string };
-
-  installmentThree?: { editable: boolean; value: string };
-  installmentThreeDate?: { editable: boolean; value: string };
-
-  totalPaid: { editable: boolean; value: string };
-
-  settlementDate?: { editable: boolean; value: string };
-
-  officialInvoiceSent?: { editable: boolean; value: boolean };
-  officialInvoiceSentDate?: { editable: boolean; value: string };
-
-  sampleStatus: { editable: boolean; value: SettlementStatus };
-
+  sampleType: { editable: boolean; value: string };
+  urgentStatus: { editable: boolean; value: string };
+  description: { editable: boolean; value: string };
+  productPriceUsd: { editable: boolean; value: string };
+  dataSampleReceived: { editable: boolean; value: string };
+  sampleExtractionDate: { editable: boolean; value: string };
+  dataSentToKorea: { editable: boolean; value: string };
+  rawFileReceivedDate: { editable: boolean; value: string };
+  analysisCompletionDate: { editable: boolean; value: string };
+  resultReadyTime: { editable: boolean; value: string };
   sendSeries: { editable: boolean; value: string };
+  Laboratory?: { editable: boolean; value: { name: string } };
+  createdAt?: { editable: boolean; value: string };
+  updatedAt?: { editable: boolean; value: string };
+  registryCreatedBy?: {
+    editable: boolean;
+    value?: {
+      name: string;
+      email: string;
+      position: string;
+      id: string;
+    };
+  };
+  registryUpdatedBy?: {
+    editable: boolean;
+    value?: {
+      name: string;
+      email: string;
+      position: string;
+      id: string;
+    };
+  };
 }
 
 export interface RegistryFieldAccessType {

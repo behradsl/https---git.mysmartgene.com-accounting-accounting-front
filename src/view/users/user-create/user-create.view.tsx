@@ -24,6 +24,7 @@ import { toast } from "@/components/ui/toaster";
 import { UserPosition } from "@/types/user-entity.type";
 import { useCreateUser } from "@/hooks/api";
 import { useRouter } from "next/navigation";
+import { FC } from "react";
 
 const formSchema = z.object({
   name: z.string().min(2, {}),
@@ -33,7 +34,9 @@ const formSchema = z.object({
   password: z.string({}).min(5, {}),
 });
 
-const UserCreateView = (props: {}) => {
+const UserCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
+  onSuccessfulSubmit,
+}) => {
   const { trigger: createUserCallback } = useCreateUser();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -56,6 +59,7 @@ const UserCreateView = (props: {}) => {
       toast.success("User saved.");
       router.push("/panel/users/profiles");
       form.reset();
+      onSuccessfulSubmit?.();
     } catch (error) {
       toast.error((error as Error).message);
     }
@@ -63,14 +67,11 @@ const UserCreateView = (props: {}) => {
 
   return (
     <>
-      <main>
-        <h2 className='mb-10 px-5 text-center text-lg font-semibold'>
-          New User
-        </h2>
+      <main className='my-6'>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='spsace-y-8 flex flex-wrap justify-between gap-2.5 px-5'>
+            className='space-y-6 flex flex-wrap justify-between gap-2.5 px-5 pb-10'>
             <FormField
               control={form.control}
               name='name'
@@ -164,11 +165,15 @@ const UserCreateView = (props: {}) => {
                 </FormItem>
               )}
             />
-            <Separator className='mx-auto my-2 w-8/12 opacity-0' />
 
-            <div className='flex w-full justify-end'>
-              <Button type='submit' className='mx-auto w-full max-w-2xs'>
-                Save
+            <Separator className='mt-5 opacity-0' />
+
+            <div className='ms-auto w-full md:w-5/12 px-6 flex justify-end'>
+              <Button
+                type='submit'
+                className='w-full md:w-1/2 text-green-700 hover:text-green-700 outline-green-700 border-green-700 hover:bg-green-700/10'
+                variant={"outline"}>
+                Create User
               </Button>
             </div>
           </form>

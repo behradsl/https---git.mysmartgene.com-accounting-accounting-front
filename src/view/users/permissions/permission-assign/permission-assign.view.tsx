@@ -33,42 +33,35 @@ import {
   PermissionsDataTableRow,
   registryFields,
 } from "../permissions-list/permissions-table-columns.data";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const formSchema = z.object({
   position: z.nativeEnum(UserPosition, {}),
   MotId: z.nativeEnum(AccessType, {}),
-  name: z.nativeEnum(AccessType, {}),
+
   Laboratory: z.nativeEnum(AccessType, {}),
   serviceType: z.nativeEnum(AccessType, {}),
   kitType: z.nativeEnum(AccessType, {}),
   urgentStatus: z.nativeEnum(AccessType, {}),
-  price: z.nativeEnum(AccessType, {}),
   description: z.nativeEnum(AccessType, {}),
-  costumerRelationInfo: z.nativeEnum(AccessType, {}),
-  KoreaSendDate: z.nativeEnum(AccessType, {}),
-  resultReady: z.nativeEnum(AccessType, {}),
   resultReadyTime: z.nativeEnum(AccessType, {}),
-  settlementStatus: z.nativeEnum(AccessType, {}),
-  invoiceStatus: z.nativeEnum(AccessType, {}),
-  proformaSent: z.nativeEnum(AccessType, {}),
-  proformaSentDate: z.nativeEnum(AccessType, {}),
-  totalInvoiceAmount: z.nativeEnum(AccessType, {}),
-  installmentOne: z.nativeEnum(AccessType, {}),
-  installmentOneDate: z.nativeEnum(AccessType, {}),
-  installmentTwo: z.nativeEnum(AccessType, {}),
-  installmentTwoDate: z.nativeEnum(AccessType, {}),
-  installmentThree: z.nativeEnum(AccessType, {}),
-  installmentThreeDate: z.nativeEnum(AccessType, {}),
-  totalPaid: z.nativeEnum(AccessType, {}),
-  settlementDate: z.nativeEnum(AccessType, {}),
-  officialInvoiceSent: z.nativeEnum(AccessType, {}),
-  officialInvoiceSentDate: z.nativeEnum(AccessType, {}),
-  sampleStatus: z.nativeEnum(AccessType, {}),
   sendSeries: z.nativeEnum(AccessType, {}),
   createdAt: z.nativeEnum(AccessType, {}),
   updatedAt: z.nativeEnum(AccessType, {}),
   registryCreatedBy: z.nativeEnum(AccessType, {}),
   registryUpdatedBy: z.nativeEnum(AccessType, {}),
+  sampleType: z.nativeEnum(AccessType, {}),
+
+  personName: z.nativeEnum(AccessType, {}),
+  laboratoryId: z.nativeEnum(AccessType, {}),
+  costumerRelationId: z.nativeEnum(AccessType, {}),
+  productPriceUsd: z.nativeEnum(AccessType, {}),
+
+  dataSampleReceived: z.nativeEnum(AccessType, {}),
+  sampleExtractionDate: z.nativeEnum(AccessType, {}),
+  dataSentToKorea: z.nativeEnum(AccessType, {}),
+  rawFileReceivedDate: z.nativeEnum(AccessType, {}),
+  analysisCompletionDate: z.nativeEnum(AccessType, {}),
 });
 
 const PermissionAssignView = () => {
@@ -94,48 +87,38 @@ const PermissionAssignView = () => {
       const formattedFieldAccesses = fieldAccessMap
         ? {
             position: UserPosition[positionName as keyof typeof UserPosition],
+
             MotId: fieldAccessMap.MotId || AccessType.HIDDEN,
-            name: fieldAccessMap.name || AccessType.HIDDEN,
+
+            personName: fieldAccessMap.personName || AccessType.HIDDEN,
+            laboratoryId: fieldAccessMap.laboratoryId || AccessType.HIDDEN,
             Laboratory: fieldAccessMap.Laboratory || AccessType.HIDDEN,
+            costumerRelationId:
+              fieldAccessMap.costumerRelationId || AccessType.HIDDEN,
             serviceType: fieldAccessMap.serviceType || AccessType.HIDDEN,
             kitType: fieldAccessMap.kitType || AccessType.HIDDEN,
+            sampleType: fieldAccessMap.sampleType || AccessType.HIDDEN,
             urgentStatus: fieldAccessMap.urgentStatus || AccessType.HIDDEN,
-            price: fieldAccessMap.price || AccessType.HIDDEN,
             description: fieldAccessMap.description || AccessType.HIDDEN,
-            costumerRelationInfo:
-              fieldAccessMap.costumerRelationInfo || AccessType.HIDDEN,
-            KoreaSendDate: fieldAccessMap.KoreaSendDate || AccessType.HIDDEN,
-            resultReady: fieldAccessMap.resultReady || AccessType.HIDDEN,
+            productPriceUsd:
+              fieldAccessMap.productPriceUsd || AccessType.HIDDEN,
+            dataSampleReceived:
+              fieldAccessMap.dataSampleReceived || AccessType.HIDDEN,
+            sampleExtractionDate:
+              fieldAccessMap.sampleExtractionDate || AccessType.HIDDEN,
+            dataSentToKorea:
+              fieldAccessMap.dataSentToKorea || AccessType.HIDDEN,
+            rawFileReceivedDate:
+              fieldAccessMap.rawFileReceivedDate || AccessType.HIDDEN,
+            analysisCompletionDate:
+              fieldAccessMap.analysisCompletionDate || AccessType.HIDDEN,
             resultReadyTime:
               fieldAccessMap.resultReadyTime || AccessType.HIDDEN,
-            settlementStatus:
-              fieldAccessMap.settlementStatus || AccessType.HIDDEN,
-            invoiceStatus: fieldAccessMap.invoiceStatus || AccessType.HIDDEN,
-            proformaSent: fieldAccessMap.proformaSent || AccessType.HIDDEN,
-            proformaSentDate:
-              fieldAccessMap.proformaSentDate || AccessType.HIDDEN,
-            totalInvoiceAmount:
-              fieldAccessMap.totalInvoiceAmount || AccessType.HIDDEN,
-            installmentOne: fieldAccessMap.installmentOne || AccessType.HIDDEN,
-            installmentOneDate:
-              fieldAccessMap.installmentOneDate || AccessType.HIDDEN,
-            installmentTwo: fieldAccessMap.installmentTwo || AccessType.HIDDEN,
-            installmentTwoDate:
-              fieldAccessMap.installmentTwoDate || AccessType.HIDDEN,
-            installmentThree:
-              fieldAccessMap.installmentThree || AccessType.HIDDEN,
-            installmentThreeDate:
-              fieldAccessMap.installmentThreeDate || AccessType.HIDDEN,
-            totalPaid: fieldAccessMap.totalPaid || AccessType.HIDDEN,
-            settlementDate: fieldAccessMap.settlementDate || AccessType.HIDDEN,
-            officialInvoiceSent:
-              fieldAccessMap.officialInvoiceSent || AccessType.HIDDEN,
-            officialInvoiceSentDate:
-              fieldAccessMap.officialInvoiceSentDate || AccessType.HIDDEN,
-            sampleStatus: fieldAccessMap.sampleStatus || AccessType.HIDDEN,
             sendSeries: fieldAccessMap.sendSeries || AccessType.HIDDEN,
+
             createdAt: fieldAccessMap.createdAt || AccessType.HIDDEN,
             updatedAt: fieldAccessMap.updatedAt || AccessType.HIDDEN,
+            updatedBy: fieldAccessMap.updatedBy || AccessType.HIDDEN,
             registryCreatedBy:
               fieldAccessMap.registryCreatedBy || AccessType.HIDDEN,
             registryUpdatedBy:
@@ -151,6 +134,7 @@ const PermissionAssignView = () => {
       const fields = Object.keys(values).filter(
         (value) => value !== "position",
       );
+      console.log({ values, fields });
       const permissions = fields.map((field) => {
         const permissionToAssign = {
           position: values.position,
@@ -173,15 +157,20 @@ const PermissionAssignView = () => {
 
   return (
     <>
-      <main>
-        <h2 className='mb-10 px-5 text-center text-lg font-semibold'>
-          New Permission
-        </h2>
+      <main className='my-6'>
+        <header className='mb-8 flex items-center'>
+          <SidebarTrigger className='mr-4' />
+          <h1 className='text-2xl font-bold'>
+            User Access Permissions ({form.getValues().position})
+          </h1>
+        </header>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-6 flex flex-wrap justify-between gap-2.5 px-5'>
-            <FormField
+            onSubmit={form.handleSubmit(onSubmit, (data) =>
+              console.warn({ data }),
+            )}
+            className='space-y-6 flex flex-wrap justify-between gap-2.5 px-5 pb-10'>
+            {/* <FormField
               control={form.control}
               name='position'
               render={({ field }) => (
@@ -198,7 +187,7 @@ const PermissionAssignView = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <FormField
               control={form.control}
               name='MotId'
@@ -233,13 +222,12 @@ const PermissionAssignView = () => {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
-              name='name'
+              name='personName'
               render={({ field }) => (
                 <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Person Name</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
@@ -268,7 +256,74 @@ const PermissionAssignView = () => {
                 </FormItem>
               )}
             />
-
+            <FormField
+              control={form.control}
+              name='laboratoryId'
+              render={({ field }) => (
+                <FormItem className='w-full md:w-5/12'>
+                  <FormLabel>Laboratory</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || ""}
+                    dir='rtl'>
+                    <FormControl>
+                      <SelectTrigger className='w-full'>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent
+                      ref={(ref) =>
+                        ref?.addEventListener("touchend", (e) =>
+                          e.preventDefault(),
+                        )
+                      }>
+                      {Object.keys(AccessType).map((access) => (
+                        <SelectItem
+                          key={`user-update-position-${access}`}
+                          value={access}>
+                          {access}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='costumerRelationId'
+              render={({ field }) => (
+                <FormItem className='w-full md:w-5/12'>
+                  <FormLabel>costumer Relation Agent</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || ""}
+                    dir='rtl'>
+                    <FormControl>
+                      <SelectTrigger className='w-full'>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent
+                      ref={(ref) =>
+                        ref?.addEventListener("touchend", (e) =>
+                          e.preventDefault(),
+                        )
+                      }>
+                      {Object.keys(AccessType).map((access) => (
+                        <SelectItem
+                          key={`user-update-position-${access}`}
+                          value={access}>
+                          {access}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name='serviceType'
@@ -303,83 +358,12 @@ const PermissionAssignView = () => {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name='kitType'
               render={({ field }) => (
                 <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Kit Type</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='Laboratory'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Laboratory</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='price'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Price</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
@@ -444,6 +428,40 @@ const PermissionAssignView = () => {
             />
             <FormField
               control={form.control}
+              name='sampleType'
+              render={({ field }) => (
+                <FormItem className='w-full md:w-5/12'>
+                  <FormLabel>Sample Type</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || ""}
+                    dir='rtl'>
+                    <FormControl>
+                      <SelectTrigger className='w-full'>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent
+                      ref={(ref) =>
+                        ref?.addEventListener("touchend", (e) =>
+                          e.preventDefault(),
+                        )
+                      }>
+                      {Object.keys(AccessType).map((access) => (
+                        <SelectItem
+                          key={`user-update-position-${access}`}
+                          value={access}>
+                          {access}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name='description'
               render={({ field }) => (
                 <FormItem className='w-full md:w-5/12'>
@@ -478,10 +496,10 @@ const PermissionAssignView = () => {
             />
             <FormField
               control={form.control}
-              name='costumerRelationInfo'
+              name='productPriceUsd'
               render={({ field }) => (
                 <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Customer Relation Info</FormLabel>
+                  <FormLabel>Product Price (USD)</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
@@ -512,10 +530,10 @@ const PermissionAssignView = () => {
             />
             <FormField
               control={form.control}
-              name='KoreaSendDate'
+              name='dataSampleReceived'
               render={({ field }) => (
                 <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Korea Send Date</FormLabel>
+                  <FormLabel>Data Sample Received</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
@@ -546,10 +564,112 @@ const PermissionAssignView = () => {
             />
             <FormField
               control={form.control}
-              name='resultReady'
+              name='sampleExtractionDate'
               render={({ field }) => (
                 <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Result Ready</FormLabel>
+                  <FormLabel>Sample Extraction Date</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || ""}
+                    dir='rtl'>
+                    <FormControl>
+                      <SelectTrigger className='w-full'>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent
+                      ref={(ref) =>
+                        ref?.addEventListener("touchend", (e) =>
+                          e.preventDefault(),
+                        )
+                      }>
+                      {Object.keys(AccessType).map((access) => (
+                        <SelectItem
+                          key={`user-update-position-${access}`}
+                          value={access}>
+                          {access}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='dataSentToKorea'
+              render={({ field }) => (
+                <FormItem className='w-full md:w-5/12'>
+                  <FormLabel>Data Sent To Korea</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || ""}
+                    dir='rtl'>
+                    <FormControl>
+                      <SelectTrigger className='w-full'>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent
+                      ref={(ref) =>
+                        ref?.addEventListener("touchend", (e) =>
+                          e.preventDefault(),
+                        )
+                      }>
+                      {Object.keys(AccessType).map((access) => (
+                        <SelectItem
+                          key={`user-update-position-${access}`}
+                          value={access}>
+                          {access}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='rawFileReceivedDate'
+              render={({ field }) => (
+                <FormItem className='w-full md:w-5/12'>
+                  <FormLabel>Raw File Received Date</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || ""}
+                    dir='rtl'>
+                    <FormControl>
+                      <SelectTrigger className='w-full'>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent
+                      ref={(ref) =>
+                        ref?.addEventListener("touchend", (e) =>
+                          e.preventDefault(),
+                        )
+                      }>
+                      {Object.keys(AccessType).map((access) => (
+                        <SelectItem
+                          key={`user-update-position-${access}`}
+                          value={access}>
+                          {access}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='analysisCompletionDate'
+              render={({ field }) => (
+                <FormItem className='w-full md:w-5/12'>
+                  <FormLabel>Analysis Completion Date</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
@@ -614,563 +734,6 @@ const PermissionAssignView = () => {
             />
             <FormField
               control={form.control}
-              name='settlementStatus'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Settlement Status</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='invoiceStatus'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Invoice Status</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='proformaSent'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Proforma Sent</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='proformaSentDate'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Proforma Sent Date</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='totalInvoiceAmount'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Total Invoice Amount</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='installmentOne'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Installment One</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='installmentOneDate'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Installment One Date</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='installmentTwo'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Installment Two</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='installmentTwoDate'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Installment Two Date</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='installmentThree'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Installment Three</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='installmentThreeDate'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Installment Three Date</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='totalPaid'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Total Paid</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='settlementDate'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Settlement Date</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='officialInvoiceSent'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Official Invoice Sent</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='officialInvoiceSentDate'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Official Invoice Sent Date</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='sampleStatus'
-              render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
-                  <FormLabel>Sample Status</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || ""}
-                    dir='rtl'>
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent
-                      ref={(ref) =>
-                        ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
-                        )
-                      }>
-                      {Object.keys(AccessType).map((access) => (
-                        <SelectItem
-                          key={`user-update-position-${access}`}
-                          value={access}>
-                          {access}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
               name='sendSeries'
               render={({ field }) => (
                 <FormItem className='w-full md:w-5/12'>
@@ -1203,12 +766,151 @@ const PermissionAssignView = () => {
                 </FormItem>
               )}
             />
-
-            <Separator className='my-10' />
-
-            <Button type='submit' className='w-full md:w-2/12'>
-              Submit
-            </Button>
+            <FormField
+              control={form.control}
+              name='registryCreatedBy'
+              render={({ field }) => (
+                <FormItem className='w-full md:w-5/12'>
+                  <FormLabel>Registry Created By</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || ""}
+                    dir='rtl'>
+                    <FormControl>
+                      <SelectTrigger className='w-full'>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent
+                      ref={(ref) =>
+                        ref?.addEventListener("touchend", (e) =>
+                          e.preventDefault(),
+                        )
+                      }>
+                      {Object.keys(AccessType).map((access) => (
+                        <SelectItem
+                          key={`user-update-position-${access}`}
+                          value={access}>
+                          {access}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />{" "}
+            <FormField
+              control={form.control}
+              name='registryUpdatedBy'
+              render={({ field }) => (
+                <FormItem className='w-full md:w-5/12'>
+                  <FormLabel>Registry Updated By</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || ""}
+                    dir='rtl'>
+                    <FormControl>
+                      <SelectTrigger className='w-full'>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent
+                      ref={(ref) =>
+                        ref?.addEventListener("touchend", (e) =>
+                          e.preventDefault(),
+                        )
+                      }>
+                      {Object.keys(AccessType).map((access) => (
+                        <SelectItem
+                          key={`user-update-position-${access}`}
+                          value={access}>
+                          {access}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='createdAt'
+              render={({ field }) => (
+                <FormItem className='w-full md:w-5/12'>
+                  <FormLabel>created At</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || ""}
+                    dir='rtl'>
+                    <FormControl>
+                      <SelectTrigger className='w-full'>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent
+                      ref={(ref) =>
+                        ref?.addEventListener("touchend", (e) =>
+                          e.preventDefault(),
+                        )
+                      }>
+                      {Object.keys(AccessType).map((access) => (
+                        <SelectItem
+                          key={`user-update-position-${access}`}
+                          value={access}>
+                          {access}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='updatedAt'
+              render={({ field }) => (
+                <FormItem className='w-full md:w-5/12'>
+                  <FormLabel>Updated At</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || ""}
+                    dir='rtl'>
+                    <FormControl>
+                      <SelectTrigger className='w-full'>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent
+                      ref={(ref) =>
+                        ref?.addEventListener("touchend", (e) =>
+                          e.preventDefault(),
+                        )
+                      }>
+                      {Object.keys(AccessType).map((access) => (
+                        <SelectItem
+                          key={`user-update-position-${access}`}
+                          value={access}>
+                          {access}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Separator className='mt-5 opacity-0' />
+            <div className='ms-auto w-full md:w-5/12 px-6 flex justify-end'>
+              <Button
+                type='submit'
+                className='w-full md:w-1/2 text-green-700 hover:text-green-700 outline-green-700 border-green-700 hover:bg-green-700/10'
+                variant={"outline"}>
+                Submit
+              </Button>
+            </div>
           </form>
         </Form>
       </main>

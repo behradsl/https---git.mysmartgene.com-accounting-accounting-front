@@ -20,17 +20,23 @@ import {
 } from "@/components/ui/table";
 
 import { useState } from "react";
-import { userColumns, UsersDataTableRow } from "./users-table-columns.data";
+import {
+  userColumns,
+  UserDataTableRow,
+  userColumnsStructure,
+} from "./users-table-columns.data";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useDeleteUser } from "@/hooks/api";
 import { useUser } from "@/store/user.store";
+import UserUpdateDialogView from "../user-update/user-update-dialog.view";
+import { UserPosition } from "@/types/user-entity.type";
 
 function UsersTableView({
   data,
   reloadUsersList,
 }: {
-  data: UsersDataTableRow[];
+  data: UserDataTableRow[];
   reloadUsersList: () => void;
 }) {
   const { user } = useUser();
@@ -44,20 +50,17 @@ function UsersTableView({
   const table = useReactTable({
     data,
     columns: [
-      ...userColumns,
+      ...userColumns(userColumnsStructure),
       {
         id: "actions",
         accessorKey: "actions",
         header: "",
         cell: ({ row }) => (
           <div className='flex gap-2 items-center justify-center'>
-            <Button
-              variant={"outline"}
-              onClick={() =>
-                router.push(`/panel/users/update/${row.original.id}`)
-              }>
-              Edit
-            </Button>
+            <UserUpdateDialogView
+              userId={row.original.id}
+              onClose={reloadUsersList}
+            />
             {user?.id === row.original.id ? null : (
               <Button
                 variant={"destructive"}
@@ -86,6 +89,37 @@ function UsersTableView({
       columnVisibility,
       rowSelection,
     },
+    meta: {
+      // updateData: (
+      //   rowIndex: number,
+      //   columnId: string,
+      //   value: string | boolean | number,
+      // ) => {
+      //   console.log({ editedRows });
+      //   const rowId = table?.getSelectedRowModel().rows.length
+      //     ? "selectedRows"
+      //     : table.getRowModel().rows[rowIndex]?.id;
+      //   if (rowId) {
+      //     setEditedRows((prev) => ({
+      //       ...prev,
+      //       [rowId]: {
+      //         ...prev[rowId],
+      //         [columnId]: value,
+      //       },
+      //     }));
+      //   }
+      // },
+      editableCellOptions: {
+        position: {
+          type: "select",
+          options: Object.keys(UserPosition).map((UserPosition) => ({
+            label: UserPosition.replace(/_/g, " "),
+            value: UserPosition,
+          })),
+        },
+      },
+      editedRows: {},
+    },
   });
   return (
     <Table className='w-full'>
@@ -113,10 +147,10 @@ function UsersTableView({
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row) => (
             <TableRow
-              key={row.id}
+              key={`${row.id}-${Math.random() * 100000}`}
               data-state={row.getIsSelected() && "selected"}>
               {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
+                <TableCell key={`${cell.id}-${Math.random() * 100000}`}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>
               ))}

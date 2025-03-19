@@ -17,6 +17,16 @@ export const menuItems: SidebarMenuItemType[] = [
     ],
   },
   {
+    title: "Laboratories",
+    icon: Atom,
+    items: [
+      {
+        title: "Laboratory Profiles",
+        href: "/panel/laboratories",
+      },
+    ],
+  },
+  {
     title: "Users",
     icon: Users,
     items: [
@@ -30,16 +40,6 @@ export const menuItems: SidebarMenuItemType[] = [
             href: "/panel/users/permissions",
           },
         ],
-      },
-    ],
-  },
-  {
-    title: "Laboratories",
-    icon: Atom,
-    items: [
-      {
-        title: "Laboratory Profiles",
-        href: "/panel/laboratories",
       },
     ],
   },

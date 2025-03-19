@@ -11,7 +11,17 @@ export function useApiMutation<T>(
 ) {
   const trigger = async (payload?: T) => {
     try {
-      const response = await fetcher[method](route, payload as any, config);
+      const response = await fetcher[method](
+        route,
+        method === "delete"
+          ? {
+              ...config,
+              params: payload,
+            }
+          : (payload as any),
+
+        config,
+      );
 
       toast.success(`Successfully ${method.toUpperCase()}ED: ${route}`);
 

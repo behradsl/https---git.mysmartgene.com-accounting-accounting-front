@@ -5,7 +5,7 @@ export const removeEmptyObjectsByKeys = (object: Record<string, any>) => {
 
   let newObject: Record<string, any> = {};
   Object.keys(object).forEach((key) => {
-    if (object[key]) {
+    if (!["", undefined, null].includes(object[key])) {
       newObject[key] = object[key];
     }
   });

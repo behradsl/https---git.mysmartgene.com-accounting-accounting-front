@@ -37,61 +37,44 @@ const RegistryPreviewView = ({}: RegistryViewProps) => {
         registries.data?.registries.map((registry: any) => ({
           id: registry.id,
           MotId: registry.MotId || "",
-          name: registry.name || "",
-          laboratoryId: registry.laboratoryId || "",
-          Laboratory: registry.Laboratory.name || "",
-          serviceType: registry.serviceType || "",
+          personName: registry.personName || "",
           kitType: registry.kitType || "",
-
-          urgentStatus: registry.urgentStatus || false,
-          price: registry.price || 0,
-          description: registry.description || "",
-          costumerRelationInfo: registry.costumerRelationInfo || "",
-          KoreaSendDate: registry.KoreaSendDate
-            ? new Date(registry.KoreaSendDate).toISOString()
-            : "",
-          resultReady: registry.resultReady || false,
-          resultReadyTime: registry.resultReadyTime
-            ? new Date(registry.resultReadyTime).toISOString()
-            : "",
-          settlementStatus: registry.settlementStatus || "",
-          invoiceStatus: registry.invoiceStatus || "",
-          proformaSent: registry.proformaSent || false,
-          proformaSentDate: registry.proformaSentDate
-            ? new Date(registry.proformaSentDate).toISOString()
-            : "",
-          totalInvoiceAmount: registry.totalInvoiceAmount || 0,
-          installmentOne: registry.installmentOne || 0,
-          installmentOneDate: registry.installmentOneDate
-            ? new Date(registry.installmentOneDate).toISOString()
-            : "",
-          installmentTwo: registry.installmentTwo || 0,
-          installmentTwoDate: registry.installmentTwoDate
-            ? new Date(registry.installmentTwoDate).toISOString()
-            : "",
-          installmentThree: registry.installmentThree || 0,
-          installmentThreeDate: registry.installmentThreeDate
-            ? new Date(registry.installmentThreeDate).toISOString()
-            : "",
-          totalPaid: registry.totalPaid || 0,
-          settlementDate: registry.settlementDate
-            ? new Date(registry.settlementDate).toISOString()
-            : "",
-          officialInvoiceSent: registry.officialInvoiceSent || false,
-          officialInvoiceSentDate: registry.officialInvoiceSentDate
-            ? new Date(registry.officialInvoiceSentDate).toISOString()
-            : "",
-          sampleStatus: registry.sampleStatus || "",
+          laboratoryId: registry.laboratoryId || "",
+          productPriceUsd: registry.productPriceUsd || "",
+          sampleType: registry.sampleType || "",
           sendSeries: registry.sendSeries || "",
+          serviceType: registry.serviceType || "",
+          analysisCompletionDate: registry.analysisCompletionDate
+            ? new Date(registry.analysisCompletionDate).toISOString()
+            : "",
+          dataSampleReceived: registry.dataSampleReceived
+            ? new Date(registry.dataSampleReceived).toISOString()
+            : "",
+          dataSentToKorea: registry.dataSentToKorea
+            ? new Date(registry.dataSentToKorea).toISOString()
+            : "",
+          rawFileReceivedDate: registry.rawFileReceivedDate
+            ? new Date(registry.rawFileReceivedDate).toISOString()
+            : "",
+          sampleExtractionDate: registry.sampleExtractionDate
+            ? new Date(registry.sampleExtractionDate).toISOString()
+            : "",
+          resultReadyTime: registry.sampleExtractionDate
+            ? new Date(registry.sampleExtractionDate).toISOString()
+            : "",
+          description: registry.description || "",
+          costumerRelationId: registry.costumerRelationId || "",
+          urgentStatus: registry.urgentStatus || undefined,
+
           createdAt: registry.createdAt
             ? new Date(registry.createdAt).toISOString()
             : "",
           updatedAt: registry.createdAt
             ? new Date(registry.createdAt).toISOString()
             : "",
-
+          Laboratory: registry.laboratory || undefined,
           registryCreatedBy: registry.registryCreatedBy || "",
-          updatedBy: registry.registryUpdatedBy || "",
+          registryUpdatedBy: registry.registryUpdatedBy || "",
         }));
 
       setTableData(formattedData);

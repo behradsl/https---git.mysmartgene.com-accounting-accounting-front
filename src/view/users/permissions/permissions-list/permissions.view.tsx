@@ -5,6 +5,7 @@ import { PermissionsDataTableRow } from "./permissions-table-columns.data";
 import PermissionsTableView from "./permissions-table.view";
 import { AccessType } from "@/types/registry-entity.type";
 import { UserPosition } from "@/types/user-entity.type";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 interface UsersViewProps {}
 
@@ -22,8 +23,10 @@ const PermissionsView = ({}: UsersViewProps) => {
 
   useEffect(() => {
     const formattedData: PermissionsDataTableRow[] = Object.values(
-      UserPosition
+      UserPosition,
     ).map((position) => {
+      console.log({ position, fieldAccesses: fieldAccesses?.data });
+
       if (fieldAccesses?.data.length) {
         const fieldAccessMap = fieldAccesses.data
           .filter((fa) => fa.position === position)
@@ -34,48 +37,35 @@ const PermissionsView = ({}: UsersViewProps) => {
           }, {} as Record<keyof PermissionsDataTableRow, AccessType>);
 
         return {
-          position,
+          position: position as any,
           MotId: fieldAccessMap.MotId || AccessType.HIDDEN,
-          name: fieldAccessMap.name || AccessType.HIDDEN,
+
+          personName: fieldAccessMap.personName || AccessType.HIDDEN,
+          laboratoryId: fieldAccessMap.laboratoryId || AccessType.HIDDEN,
           Laboratory: fieldAccessMap.Laboratory || AccessType.HIDDEN,
+          costumerRelationId:
+            fieldAccessMap.costumerRelationId || AccessType.HIDDEN,
           serviceType: fieldAccessMap.serviceType || AccessType.HIDDEN,
           kitType: fieldAccessMap.kitType || AccessType.HIDDEN,
+          sampleType: fieldAccessMap.sampleType || AccessType.HIDDEN,
           urgentStatus: fieldAccessMap.urgentStatus || AccessType.HIDDEN,
-          price: fieldAccessMap.price || AccessType.HIDDEN,
           description: fieldAccessMap.description || AccessType.HIDDEN,
-          costumerRelationInfo:
-            fieldAccessMap.costumerRelationInfo || AccessType.HIDDEN,
-          KoreaSendDate: fieldAccessMap.KoreaSendDate || AccessType.HIDDEN,
-          resultReady: fieldAccessMap.resultReady || AccessType.HIDDEN,
+          productPriceUsd: fieldAccessMap.productPriceUsd || AccessType.HIDDEN,
+          dataSampleReceived:
+            fieldAccessMap.dataSampleReceived || AccessType.HIDDEN,
+          sampleExtractionDate:
+            fieldAccessMap.sampleExtractionDate || AccessType.HIDDEN,
+          dataSentToKorea: fieldAccessMap.dataSentToKorea || AccessType.HIDDEN,
+          rawFileReceivedDate:
+            fieldAccessMap.rawFileReceivedDate || AccessType.HIDDEN,
+          analysisCompletionDate:
+            fieldAccessMap.analysisCompletionDate || AccessType.HIDDEN,
           resultReadyTime: fieldAccessMap.resultReadyTime || AccessType.HIDDEN,
-          settlementStatus:
-            fieldAccessMap.settlementStatus || AccessType.HIDDEN,
-          invoiceStatus: fieldAccessMap.invoiceStatus || AccessType.HIDDEN,
-          proformaSent: fieldAccessMap.proformaSent || AccessType.HIDDEN,
-          proformaSentDate:
-            fieldAccessMap.proformaSentDate || AccessType.HIDDEN,
-          totalInvoiceAmount:
-            fieldAccessMap.totalInvoiceAmount || AccessType.HIDDEN,
-          installmentOne: fieldAccessMap.installmentOne || AccessType.HIDDEN,
-          installmentOneDate:
-            fieldAccessMap.installmentOneDate || AccessType.HIDDEN,
-          installmentTwo: fieldAccessMap.installmentTwo || AccessType.HIDDEN,
-          installmentTwoDate:
-            fieldAccessMap.installmentTwoDate || AccessType.HIDDEN,
-          installmentThree:
-            fieldAccessMap.installmentThree || AccessType.HIDDEN,
-          installmentThreeDate:
-            fieldAccessMap.installmentThreeDate || AccessType.HIDDEN,
-          totalPaid: fieldAccessMap.totalPaid || AccessType.HIDDEN,
-          settlementDate: fieldAccessMap.settlementDate || AccessType.HIDDEN,
-          officialInvoiceSent:
-            fieldAccessMap.officialInvoiceSent || AccessType.HIDDEN,
-          officialInvoiceSentDate:
-            fieldAccessMap.officialInvoiceSentDate || AccessType.HIDDEN,
-          sampleStatus: fieldAccessMap.sampleStatus || AccessType.HIDDEN,
           sendSeries: fieldAccessMap.sendSeries || AccessType.HIDDEN,
+
           createdAt: fieldAccessMap.createdAt || AccessType.HIDDEN,
           updatedAt: fieldAccessMap.updatedAt || AccessType.HIDDEN,
+          updatedBy: fieldAccessMap.updatedBy || AccessType.HIDDEN,
           registryCreatedBy:
             fieldAccessMap.registryCreatedBy || AccessType.HIDDEN,
           registryUpdatedBy:
@@ -85,36 +75,27 @@ const PermissionsView = ({}: UsersViewProps) => {
         return {
           position,
           MotId: AccessType.HIDDEN,
-          name: AccessType.HIDDEN,
+          personName: AccessType.HIDDEN,
+          laboratoryId: AccessType.HIDDEN,
           Laboratory: AccessType.HIDDEN,
+          costumerRelationId: AccessType.HIDDEN,
           serviceType: AccessType.HIDDEN,
           kitType: AccessType.HIDDEN,
+          sampleType: AccessType.HIDDEN,
           urgentStatus: AccessType.HIDDEN,
-          price: AccessType.HIDDEN,
           description: AccessType.HIDDEN,
-          costumerRelationInfo: AccessType.HIDDEN,
-          KoreaSendDate: AccessType.HIDDEN,
-          resultReady: AccessType.HIDDEN,
+          productPriceUsd: AccessType.HIDDEN,
+          dataSampleReceived: AccessType.HIDDEN,
+          sampleExtractionDate: AccessType.HIDDEN,
+          dataSentToKorea: AccessType.HIDDEN,
+          rawFileReceivedDate: AccessType.HIDDEN,
+          analysisCompletionDate: AccessType.HIDDEN,
           resultReadyTime: AccessType.HIDDEN,
-          settlementStatus: AccessType.HIDDEN,
-          invoiceStatus: AccessType.HIDDEN,
-          proformaSent: AccessType.HIDDEN,
-          proformaSentDate: AccessType.HIDDEN,
-          totalInvoiceAmount: AccessType.HIDDEN,
-          installmentOne: AccessType.HIDDEN,
-          installmentOneDate: AccessType.HIDDEN,
-          installmentTwo: AccessType.HIDDEN,
-          installmentTwoDate: AccessType.HIDDEN,
-          installmentThree: AccessType.HIDDEN,
-          installmentThreeDate: AccessType.HIDDEN,
-          totalPaid: AccessType.HIDDEN,
-          settlementDate: AccessType.HIDDEN,
-          officialInvoiceSent: AccessType.HIDDEN,
-          officialInvoiceSentDate: AccessType.HIDDEN,
-          sampleStatus: AccessType.HIDDEN,
           sendSeries: AccessType.HIDDEN,
+
           createdAt: AccessType.HIDDEN,
           updatedAt: AccessType.HIDDEN,
+          updatedBy: AccessType.HIDDEN,
           registryCreatedBy: AccessType.HIDDEN,
           registryUpdatedBy: AccessType.HIDDEN,
         };
@@ -124,10 +105,11 @@ const PermissionsView = ({}: UsersViewProps) => {
     setTableData(formattedData);
   }, [fieldAccesses?.data.length, positions]);
   return (
-    <main className="w-full py-4 px-2">
-      <div className="flex items-center justify-between gap-3 w-full">
-        <h2 className="font-semibold text-xl">permissions List</h2>
-      </div>
+    <main className='w-full py-4 px-2'>
+      <header className='mb-8 flex items-center'>
+        <SidebarTrigger className='mr-4' />
+        <h1 className='text-2xl font-bold'>User Access Permissions</h1>
+      </header>
       <PermissionsTableView data={tableData} />
     </main>
   );

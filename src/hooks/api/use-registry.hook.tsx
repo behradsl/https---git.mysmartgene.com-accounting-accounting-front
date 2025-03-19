@@ -27,6 +27,13 @@ export function useUpdateRegistry() {
   );
   return { trigger };
 }
+export function useDeleteRegistry() {
+  const { trigger } = useApiMutation<{ ids: string[] }>(
+    "post",
+    "/registry/delete",
+  );
+  return { trigger };
+}
 export function useRegistryFindMany() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(50);

@@ -62,7 +62,7 @@ export function useUpdatePreviewRegistry() {
 }
 
 export function useRegistryFinalize() {
-  const { trigger } = useApiMutation<Pick<RegistryEntity, "id">>(
+  const { trigger } = useApiMutation<{ ids: string[] }>(
     "post",
     "/registry/preview/finalize",
   );

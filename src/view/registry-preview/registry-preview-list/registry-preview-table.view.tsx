@@ -22,9 +22,7 @@ import {
 import { useState, useMemo, useEffect, Dispatch, SetStateAction } from "react";
 import { Button } from "@/components/ui/button";
 import {
-  useRegistryExportEmpty,
   useRegistryFinalize,
-  useRegistryImportXlsx,
   useRegistryPreviewExportAll,
   useUpdatePreviewRegistry,
 } from "@/hooks/api";
@@ -34,12 +32,12 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, DownloadIcon, UploadIcon } from "lucide-react";
+import { ChevronDown, DownloadIcon } from "lucide-react";
 import {
-  InvoiceStatus,
   RegistryEntity,
   RegistryFieldAccessType,
   SampleStatus,
+  SampleType,
   SettlementStatus,
 } from "@/types/registry-entity.type";
 import {
@@ -49,9 +47,7 @@ import {
 } from "@/view/registry/registry-list/registry-table-columns.data";
 import { useLaboratoryFindMany } from "@/hooks/api/use-laboratory.hook";
 import { removeEmptyObjectsByKeys } from "@/utilities/object";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { Label } from "@/components/ui/label";
+import RegistryReviewImportDialogView from "./registry-import-dialog.view";
 
 function RegistryPreviewTableView({
   data,
@@ -83,8 +79,6 @@ function RegistryPreviewTableView({
 
   const { trigger: updatePreviewRegistryCallback } = useUpdatePreviewRegistry();
   const { downloadData } = useRegistryPreviewExportAll();
-  const { uploadFile } = useRegistryImportXlsx();
-  const { downloadData: downloadEmptyExport } = useRegistryExportEmpty();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -96,7 +90,10 @@ function RegistryPreviewTableView({
   const memoizedData = useMemo(() => data, [data]);
 
   const accessibleColumns = useMemo(
-    () => fieldAccesses?.filter(({ access }) => ["VISIBLE", "EDITABLE"].includes(access)).map(({ registryField }) => registryField),
+    () =>
+      fieldAccesses
+        ?.filter(({ access }) => ["VISIBLE", "EDITABLE"].includes(access))
+        .map(({ registryField }) => registryField),
     [fieldAccesses],
   );
 
@@ -135,46 +132,46 @@ function RegistryPreviewTableView({
                   size={"sm"}
                   className='text-green-700 border-1 border-transparent hover:border-green-700/20 hover:text-green-700'
                   onClick={async () => {
-                    if (table?.getSelectedRowModel().rows.length) {
-                      const { registryCreatedBy, updatedBy, ...values } =
-                        editedRows.selectedRows || {};
-                      for (
-                        let idx = 0;
-                        idx < table?.getSelectedRowModel().rows.length;
-                        idx++
-                      ) {
-                        const element = table?.getSelectedRowModel().rows[idx];
-                        const { registryCreatedBy, updatedBy, ...rowValues } =
-                          element.original;
-                        const newRegistry = await updatePreviewRegistryCallback(
-                          {
-                            ...(removeEmptyObjectsByKeys(
-                              rowValues,
-                            ) as unknown as RegistryEntity),
-                            ...(removeEmptyObjectsByKeys(
-                              values,
-                            ) as unknown as RegistryEntity),
-                            id: element.original.id,
-                          },
-                        );
+                    const {
+                      registryCreatedBy,
+                      registryUpdatedBy,
+                      productPriceUsd,
+                      sendSeries,
+                      id,
+                      ...values
+                    } = editedRows[row.id];
 
-                        reloadRegistriesList();
-                      }
+                    setEditedRows((prevEditedRows) => {
+                      const { [row.id]: _, ...rest } = prevEditedRows;
+                      return rest;
+                    });
+                    reloadRegistriesList();
+                    const ids = new Set<string>();
+                    table
+                      ?.getSelectedRowModel()
+                      .rows.forEach((row) => ids.add(row.original.id));
+                    ids.add(row.original.id);
+                    const newRegistry = await updatePreviewRegistryCallback({
+                      ...(removeEmptyObjectsByKeys({
+                        ...values,
+                        productPriceUsd: productPriceUsd
+                          ? Number(productPriceUsd)
+                          : undefined,
+                        sendSeries: sendSeries ? Number(sendSeries) : undefined,
+                      }) as unknown as RegistryEntity),
+                      ids: [...ids],
+                    });
+
+                    if (table?.getSelectedRowModel().rows.length) {
                       setEditedRows({ selectedRows: {} });
                     } else {
-                      const { registryCreatedBy, updatedBy, ...values } =
-                        editedRows[row.id];
-                      const newRegistry = await updatePreviewRegistryCallback({
-                        ...(removeEmptyObjectsByKeys(
-                          values,
-                        ) as unknown as RegistryEntity),
-                      });
                       setEditedRows((prevEditedRows) => {
                         const { [row.id]: _, ...rest } = prevEditedRows;
                         return rest;
                       });
-                      reloadRegistriesList();
                     }
+
+                    reloadRegistriesList();
                   }}>
                   {table?.getSelectedRowModel().rows.length
                     ? "Save All"
@@ -195,7 +192,7 @@ function RegistryPreviewTableView({
                   }}>
                   {table?.getSelectedRowModel().rows.length
                     ? "Cancel All"
-                    : "CAncel"}
+                    : "Cancel"}
                 </Button>
               </>
             ) : (
@@ -219,24 +216,14 @@ function RegistryPreviewTableView({
                   size={"sm"}
                   className='text-primary border-1 border-transparent hover:border-primary/20 hover:text-primary'
                   onClick={async () => {
-                    if (table?.getSelectedRowModel().rows.length) {
-                      const { registryCreatedBy, updatedBy, ...values } =
-                        editedRows.selectedRows || {};
-                      for (
-                        let idx = 0;
-                        idx < table?.getSelectedRowModel().rows.length;
-                        idx++
-                      ) {
-                        const element = table?.getSelectedRowModel().rows[idx];
-                        await RegistryFinalizeCallback({
-                          id: element.original.id,
-                        });
-                        reloadRegistriesList();
-                      }
-                    } else {
-                      await RegistryFinalizeCallback({ id: row.original.id });
-                      reloadRegistriesList();
-                    }
+                    const ids = new Set<string>();
+                    table
+                      ?.getSelectedRowModel()
+                      .rows.forEach((row) => ids.add(row.original.id));
+                    ids.add(row.original.id);
+
+                    await RegistryFinalizeCallback({ ids: [...ids] });
+                    reloadRegistriesList();
                   }}>
                   {table?.getSelectedRowModel().rows.length
                     ? "Finalize All"
@@ -287,32 +274,25 @@ function RegistryPreviewTableView({
         }
       },
       editableCellOptions: {
-        sampleStatus: {
-          type: "select",
-          options: Object.keys(SampleStatus).map((sampleStatus) => ({
-            label: sampleStatus.replace(/_/g, " "),
-            value: sampleStatus,
-          })),
-        },
-        invoiceStatus: {
-          type: "select",
-          options: Object.keys(InvoiceStatus).map((invoiceStatus) => ({
-            label: invoiceStatus.replace(/_/g, " "),
-            value: invoiceStatus,
-          })),
-        },
-        settlementStatus: {
-          type: "select",
-          options: Object.keys(SettlementStatus).map((settlementStatus) => ({
-            label: settlementStatus.replace(/_/g, " "),
-            value: settlementStatus,
-          })),
-        },
         laboratoryId: {
           type: "select",
           options: laboratories?.data?.map((laboratory) => ({
             label: laboratory?.name,
             value: laboratory?.id,
+          })),
+        },
+        costumerRelationId: {
+          type: "select",
+          options: laboratories?.data?.map((laboratory) => ({
+            label: laboratory?.name,
+            value: laboratory?.id,
+          })),
+        },
+        sampleType: {
+          type: "select",
+          options: Object.keys(SampleType).map((sampleType) => ({
+            label: sampleType.replace(/_/g, " "),
+            value: sampleType,
           })),
         },
       },
@@ -337,6 +317,7 @@ function RegistryPreviewTableView({
     <>
       <div className='w-full flex justify-end items-center my-3'>
         <div className='flex gap-2'>
+          <RegistryReviewImportDialogView />
           <Button
             variant='outline'
             className=''
@@ -348,12 +329,6 @@ function RegistryPreviewTableView({
               )
             }>
             Export All <DownloadIcon />
-          </Button>
-          <Button
-            variant='outline'
-            className=''
-            onClick={() => downloadEmptyExport()}>
-            Export Template <DownloadIcon />
           </Button>
         </div>
         <DropdownMenu modal>
@@ -459,29 +434,6 @@ function RegistryPreviewTableView({
             Next
           </Button>
         </div>
-      </div>
-      <div className='flex justify-end items-center gap-3 my-12'>
-        <Label className='text-nowrap'>Import Data:</Label>
-        <Input
-          type='file'
-          className='w-56'
-          placeholder='Import Registries'
-          onChange={(e) => {
-            if (e.currentTarget.files)
-              toast.promise(uploadFile(e.currentTarget.files[0]), {
-                error: () => {
-                  e.currentTarget.setAttribute("type", "text");
-                  e.currentTarget.setAttribute("type", "file");
-                  return "Error uploading file";
-                },
-                success: () => {
-                  e.currentTarget.setAttribute("type", "text");
-                  e.currentTarget.setAttribute("type", "file");
-                  return "File uploaded successfully";
-                },
-              });
-          }}
-        />
       </div>
     </>
   );
