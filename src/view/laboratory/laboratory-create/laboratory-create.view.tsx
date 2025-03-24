@@ -26,6 +26,7 @@ import { useRouter } from "next/navigation";
 import { LaboratoriesType, PaymentType } from "@/types/laboratory-entity.type";
 import { useCreateLaboratory } from "@/hooks/api/use-laboratory.hook";
 import { useUserFindMany } from "@/hooks/api";
+import { FC } from "react";
 
 const formSchema = z.object({
   name: z.string().min(2, {}),
@@ -41,7 +42,9 @@ const formSchema = z.object({
   accountManagerId: z.string().min(1, "Required"),
 });
 
-const LaboratoryCreateView = (props: {}) => {
+const LaboratoryCreateView: FC<{
+  onSuccessfulSubmit?: () => void;
+}> = ({ onSuccessfulSubmit }) => {
   const { users } = useUserFindMany();
   const { trigger: createLaboratoryCallback } = useCreateLaboratory();
   const router = useRouter();
@@ -64,13 +67,13 @@ const LaboratoryCreateView = (props: {}) => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const newUser = await createLaboratoryCallback({
+      const newLaboratory = await createLaboratoryCallback({
         ...values,
       });
 
       toast.success("Laboratory saved.");
-      router.push("/panel/laboratories");
       form.reset();
+      onSuccessfulSubmit?.();
     } catch (error) {
       toast.error((error as Error).message);
     }
@@ -78,10 +81,7 @@ const LaboratoryCreateView = (props: {}) => {
 
   return (
     <>
-      <main>
-        <h2 className='mb-10 px-5 text-center text-lg font-semibold'>
-          New Laboratory
-        </h2>
+      <main className='my-6'>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -329,11 +329,14 @@ const LaboratoryCreateView = (props: {}) => {
               }}
             />
 
-            <Separator className='mx-auto my-2 w-8/12 opacity-0' />
+            <Separator className='mt-5 opacity-0' />
 
-            <div className='flex w-full justify-end'>
-              <Button type='submit' className='mx-auto w-full max-w-2xs'>
-                Save
+            <div className='ms-auto w-full md:w-5/12 px-6 flex justify-end'>
+              <Button
+                type='submit'
+                className='w-full md:w-1/2 text-green-700 hover:text-green-700 outline-green-700 border-green-700 hover:bg-green-700/10'
+                variant={"outline"}>
+                Create Laboratory
               </Button>
             </div>
           </form>

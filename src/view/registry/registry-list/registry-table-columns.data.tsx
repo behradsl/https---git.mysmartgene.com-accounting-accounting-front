@@ -37,13 +37,18 @@ export const registryColumnsStructure: Parameters<
 >[0] = [
   { id: "MotId", title: "MOT ID", dataType: "text" },
   { id: "personName", title: "Persone Name", dataType: "text" },
-  { id: "laboratoryId", title: "Laboratory", dataType: "select" },
+  {
+    id: "laboratoryId",
+    title: "Laboratory",
+    dataType: "select",
+    placeholder: "Select a laboratory",
+  },
   {
     id: "costumerRelationId",
-    alternativeId: "costumerRelation",
+    // alternativeId: "costumerRelation",
     title: "costumer Relation By",
-    dataType: "user",
-    readonly: true,
+    dataType: "select",
+    placeholder: "Select an User",
   },
   { id: "serviceType", title: "Service Type", dataType: "text" },
   { id: "kitType", title: "Kit Type", dataType: "text" },
@@ -76,15 +81,15 @@ export const registryColumnsStructure: Parameters<
   { id: "sendSeries", title: "Send Series", dataType: "text" },
 
   {
-    id: "userIdRegistryCreatedBy",
-    alternativeId: "registryCreatedBy",
+    id: "registryCreatedBy",
+    // alternativeId: "",
     title: "Registry Created By",
     dataType: "user",
     readonly: true,
   },
   {
-    id: "userIdRegistryUpdatedBy",
-    alternativeId: "registryUpdatedBy",
+    id: "registryUpdatedBy",
+    // alternativeId: "",
     title: "Registry Updated By",
     dataType: "user",
     readonly: true,

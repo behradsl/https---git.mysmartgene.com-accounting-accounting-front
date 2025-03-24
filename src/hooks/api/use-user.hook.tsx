@@ -13,6 +13,16 @@ export function useUserFindMany() {
 
   return { users, error, isLoading, mutate };
 }
+export function useUserFindManyRestricted() {
+  const {
+    data: users,
+    error,
+    isLoading,
+    mutate,
+  } = useSwr<AxiosResponse<UserEntity[]>>("/user/all/restricted");
+
+  return { users, error, isLoading, mutate };
+}
 
 export function useUserFindOne(id: string) {
   const {

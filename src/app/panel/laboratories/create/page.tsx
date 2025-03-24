@@ -2,9 +2,7 @@ import LaboratoryCreateView from "@/view/laboratory/laboratory-create/laboratory
 import React from "react";
 
 const Page = () => {
-  return (
-    <LaboratoryCreateView/>
-  );
+  return <LaboratoryCreateView />;
 };
 
 export default Page;

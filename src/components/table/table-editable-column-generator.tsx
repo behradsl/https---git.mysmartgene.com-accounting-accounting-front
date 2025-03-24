@@ -27,6 +27,7 @@ const dataTableColumnGenerator = <T = Record<string, any>,>(
     alternativeId?: string;
     title: string;
     readonly?: boolean;
+    placeholder?: string;
     dataType:
       | "text"
       | "number"
@@ -121,7 +122,7 @@ const dataTableColumnGenerator = <T = Record<string, any>,>(
             );
             //@ts-ignore no types!
             const editDetails = meta?.editedRows?.[
-              isRowSelected > -1 && isEditMode ? "selectedRows" : rowId
+              isRowSelected > -1 && isEditMode ? "bulk" : rowId
             ] as Record<string, string | number | boolean>;
 
             //@ts-ignore no types!
@@ -148,7 +149,11 @@ const dataTableColumnGenerator = <T = Record<string, any>,>(
                     <Input
                       autoComplete='off'
                       defaultValue={
-                        (editDetails[alternativeId || columnId] as string) || ""
+                        isRowsSelected
+                          ? ""
+                          : (editDetails[
+                              alternativeId || columnId
+                            ] as string) || ""
                       }
                       type='text'
                       onBlur={(e) => {
@@ -170,7 +175,11 @@ const dataTableColumnGenerator = <T = Record<string, any>,>(
                     <Input
                       autoComplete='off'
                       defaultValue={
-                        (editDetails[alternativeId || columnId] as string) || ""
+                        isRowsSelected
+                          ? ""
+                          : (editDetails[
+                              alternativeId || columnId
+                            ] as string) || ""
                       }
                       type='text'
                       onBlur={(e) => {
@@ -248,7 +257,9 @@ const dataTableColumnGenerator = <T = Record<string, any>,>(
                       }
                       dir='rtl'>
                       <SelectTrigger className='w-full'>
-                        <SelectValue placeholder='Select a laboratory' />
+                        <SelectValue
+                          placeholder={editDetails.placeholder || "Select ..."}
+                        />
                       </SelectTrigger>
 
                       <SelectContent

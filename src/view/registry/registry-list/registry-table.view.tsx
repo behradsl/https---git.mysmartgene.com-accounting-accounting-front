@@ -44,6 +44,7 @@ import {
   useDeleteRegistry,
   useRegistryExportAll,
   useUpdateRegistry,
+  useUserFindManyRestricted,
 } from "@/hooks/api";
 import { useLaboratoryFindMany } from "@/hooks/api/use-laboratory.hook";
 import { removeEmptyObjectsByKeys } from "@/utilities/object";
@@ -77,6 +78,7 @@ function RegistryTableView({
 }) {
   const user = useUser((state) => state.user);
   const { laboratories } = useLaboratoryFindMany();
+  const { users } = useUserFindManyRestricted();
   const { trigger: updateRegistryCallback } = useUpdateRegistry();
   const { trigger: deleteRegistryCallback } = useDeleteRegistry();
   const { downloadData: downloadRegistryExport } = useRegistryExportAll();
@@ -86,7 +88,7 @@ function RegistryTableView({
   const [rowSelection, setRowSelection] = useState({});
   const [editedRows, setEditedRows] = useState<
     Record<string, Partial<RegistryDataTableRow>>
-  >({ selectedRows: {} });
+  >({ selectedRows: {}, bulk: {} });
 
   const memoizedData = useMemo(() => data, [data]);
   const accessibleColumns = useMemo(
@@ -111,7 +113,6 @@ function RegistryTableView({
             const accessType = fieldAccesses?.find(({ registryField }) =>
               [id, alternativeId].includes(registryField),
             );
-            console.log(accessType);
 
             return {
               id,
@@ -135,6 +136,7 @@ function RegistryTableView({
                   size={"sm"}
                   className='text-green-700 border-1 border-transparent hover:border-green-700/20 hover:text-green-700'
                   onClick={async () => {
+                    const selectedTableRows = table?.getSelectedRowModel().rows;
                     const {
                       registryCreatedBy,
                       registryUpdatedBy,
@@ -142,12 +144,10 @@ function RegistryTableView({
                       sendSeries,
                       id,
                       ...values
-                    } = editedRows[row.id];
+                    } = selectedTableRows.length
+                      ? editedRows["bulk"]
+                      : editedRows[row.id];
 
-                    setEditedRows((prevEditedRows) => {
-                      const { [row.id]: _, ...rest } = prevEditedRows;
-                      return rest;
-                    });
                     reloadRegistriesList();
                     const ids = new Set<string>();
                     table
@@ -164,8 +164,8 @@ function RegistryTableView({
                       }) as unknown as RegistryEntity),
                       ids: [...ids],
                     });
-                    if (table?.getSelectedRowModel().rows.length) {
-                      setEditedRows({ selectedRows: {} });
+                    if (selectedTableRows.length) {
+                      setEditedRows({ selectedRows: {}, bulk: {} });
                     } else {
                       setEditedRows((prevEditedRows) => {
                         const { [row.id]: _, ...rest } = prevEditedRows;
@@ -185,7 +185,7 @@ function RegistryTableView({
                   className='text-red-700 border-1 border-transparent hover:border-red-700/20 hover:text-red-700'
                   onClick={() => {
                     if (table?.getSelectedRowModel().rows.length)
-                      setEditedRows({ selectedRows: {} });
+                      setEditedRows({ selectedRows: {}, bulk: {} });
                     else
                       setEditedRows((prevEditedRows) => {
                         const { [row.id]: _, ...rest } = prevEditedRows;
@@ -262,11 +262,17 @@ function RegistryTableView({
         columnId: string,
         value: string | boolean | number,
       ) => {
-        console.log({ editedRows });
-
-        const rowId = table?.getSelectedRowModel().rows.length
-          ? "selectedRows"
-          : table.getRowModel().rows[rowIndex]?.id;
+        const selectedTableRows = table?.getSelectedRowModel().rows;
+        if (selectedTableRows.length) {
+          setEditedRows((prev) => ({
+            ...prev,
+            bulk: {
+              ...prev.bulk,
+              [columnId]: value,
+            },
+          }));
+        }
+        const rowId = table.getRowModel().rows[rowIndex]?.id;
         if (rowId) {
           setEditedRows((prev) => ({
             ...prev,
@@ -290,6 +296,13 @@ function RegistryTableView({
           options: laboratories?.data?.map((laboratory) => ({
             label: laboratory?.name,
             value: laboratory?.id,
+          })),
+        },
+        costumerRelationId: {
+          type: "select",
+          options: users?.data?.map((user) => ({
+            label: user?.name,
+            value: user?.id,
           })),
         },
       },

@@ -25,6 +25,7 @@ import {
   useRegistryFinalize,
   useRegistryPreviewExportAll,
   useUpdatePreviewRegistry,
+  useUserFindManyRestricted,
 } from "@/hooks/api";
 import {
   DropdownMenu,
@@ -75,6 +76,7 @@ function RegistryPreviewTableView({
   >;
 }) {
   const { laboratories } = useLaboratoryFindMany();
+  const { users } = useUserFindManyRestricted();
   const { trigger: RegistryFinalizeCallback } = useRegistryFinalize();
 
   const { trigger: updatePreviewRegistryCallback } = useUpdatePreviewRegistry();
@@ -85,7 +87,7 @@ function RegistryPreviewTableView({
   const [rowSelection, setRowSelection] = useState({});
   const [editedRows, setEditedRows] = useState<
     Record<string, Partial<RegistryDataTableRow>>
-  >({ selectedRows: {} });
+  >({ bulk: {} });
 
   const memoizedData = useMemo(() => data, [data]);
 
@@ -132,6 +134,7 @@ function RegistryPreviewTableView({
                   size={"sm"}
                   className='text-green-700 border-1 border-transparent hover:border-green-700/20 hover:text-green-700'
                   onClick={async () => {
+                    const selectedTableRows = table?.getSelectedRowModel().rows;
                     const {
                       registryCreatedBy,
                       registryUpdatedBy,
@@ -139,31 +142,28 @@ function RegistryPreviewTableView({
                       sendSeries,
                       id,
                       ...values
-                    } = editedRows[row.id];
+                    } = selectedTableRows.length
+                      ? editedRows["bulk"]
+                      : editedRows[row.id];
 
-                    setEditedRows((prevEditedRows) => {
-                      const { [row.id]: _, ...rest } = prevEditedRows;
-                      return rest;
-                    });
                     reloadRegistriesList();
                     const ids = new Set<string>();
                     table
                       ?.getSelectedRowModel()
                       .rows.forEach((row) => ids.add(row.original.id));
                     ids.add(row.original.id);
-                    const newRegistry = await updatePreviewRegistryCallback({
+                    await updatePreviewRegistryCallback({
                       ...(removeEmptyObjectsByKeys({
                         ...values,
+                        sendSeries: sendSeries ? Number(sendSeries) : undefined,
                         productPriceUsd: productPriceUsd
                           ? Number(productPriceUsd)
                           : undefined,
-                        sendSeries: sendSeries ? Number(sendSeries) : undefined,
                       }) as unknown as RegistryEntity),
                       ids: [...ids],
                     });
-
-                    if (table?.getSelectedRowModel().rows.length) {
-                      setEditedRows({ selectedRows: {} });
+                    if (selectedTableRows.length) {
+                      setEditedRows({ bulk: {} });
                     } else {
                       setEditedRows((prevEditedRows) => {
                         const { [row.id]: _, ...rest } = prevEditedRows;
@@ -183,7 +183,7 @@ function RegistryPreviewTableView({
                   className='text-red-700 border-1 border-transparent hover:border-red-700/20 hover:text-red-700'
                   onClick={() => {
                     if (table?.getSelectedRowModel().rows.length)
-                      setEditedRows({ selectedRows: {} });
+                      setEditedRows({ bulk: {} });
                     else
                       setEditedRows((prevEditedRows) => {
                         const { [row.id]: _, ...rest } = prevEditedRows;
@@ -261,7 +261,7 @@ function RegistryPreviewTableView({
         console.log({ editedRows });
 
         const rowId = table?.getSelectedRowModel().rows.length
-          ? "selectedRows"
+          ? "bulk"
           : table.getRowModel().rows[rowIndex]?.id;
         if (rowId) {
           setEditedRows((prev) => ({
@@ -283,9 +283,9 @@ function RegistryPreviewTableView({
         },
         costumerRelationId: {
           type: "select",
-          options: laboratories?.data?.map((laboratory) => ({
-            label: laboratory?.name,
-            value: laboratory?.id,
+          options: users?.data?.map((user) => ({
+            label: user?.name,
+            value: user?.id,
           })),
         },
         sampleType: {

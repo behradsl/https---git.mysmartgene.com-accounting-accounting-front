@@ -7,10 +7,21 @@ import { useLaboratoryFindMany } from "@/hooks/api/use-laboratory.hook";
 import { LaboratoriesDataTableRow } from "./laboratories-table-columns.data";
 import LaboratoriesTableView from "./laboratories-table.view";
 import { LaboratoriesType, PaymentType } from "@/types/laboratory-entity.type";
+import LaboratoryCreateDialogView from "../laboratory-create/laboratory-create-dialog.view";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const LaboratoriesView = () => {
   const [tableData, setTableData] = useState<LaboratoriesDataTableRow[]>([]);
-  const { laboratories, mutate } = useLaboratoryFindMany();
+  const {
+    laboratories,
+    mutate,
+    currentPage,
+    pageSize,
+    setCurrentPage,
+    setSortBy,
+    sortBy,
+    setPageSize,
+  } = useLaboratoryFindMany();
 
   useEffect(() => {
     if (laboratories?.data) {
@@ -41,7 +52,7 @@ const LaboratoriesView = () => {
 
           LaboratoryFormalPaymentInfo:
             laboratory?.LaboratoryFormalPaymentInfo || "",
-        })
+        }),
       );
 
       setTableData(formattedData);
@@ -49,16 +60,27 @@ const LaboratoriesView = () => {
   }, [laboratories?.data.length]);
 
   return (
-    <main className="w-full py-4 px-2">
-      <div className="flex items-center justify-between gap-3 w-full">
-        <h2 className="font-semibold text-xl">Laboratories List</h2>
+    <main className='w-full py-4 px-2'>
+      <div className='flex items-center justify-between gap-3 w-full'>
+        <header className='mb-8 flex items-center'>
+          <SidebarTrigger className='mr-4' />
+          <h1 className='text-2xl font-bold'>Laboratories</h1>
+        </header>
         <div>
-          <Button asChild variant={"default"}>
-            <Link href={`/panel/laboratories/create`}>Create Laboratory</Link>
-          </Button>
+          <LaboratoryCreateDialogView onClose={mutate} />
         </div>
       </div>
-      <LaboratoriesTableView data={tableData} reloadUsersList={mutate} />
+      <LaboratoriesTableView
+        data={tableData}
+        reloadLaboratoriesList={mutate}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+        // allItemsCount={registries?.data?.totalCount}
+      />
     </main>
   );
 };
