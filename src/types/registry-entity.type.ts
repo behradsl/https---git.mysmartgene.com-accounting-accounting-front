@@ -1,4 +1,30 @@
+import { LaboratoryInvoiceStatusType } from "./laboratory-invoice.type";
 import type { UserPosition } from "./user-entity.type";
+
+export enum RegistryServiceType {
+  WES100 = "WES100",
+  WES200 = "WES200",
+  WES300 = "WES300",
+  BRCA_1_2 = "BRCA_1_2",
+  CANCER_PANEL_16_GENES = "CANCER_PANEL_16_GENES",
+  CANCER_PANEL_69_GENES = "CANCER_PANEL_69_GENES",
+  CANCER_PANEL_88_GENES = "CANCER_PANEL_88_GENES",
+  CANCER_PANEL_171_GENES = "CANCER_PANEL_171_GENES",
+  CANCER_PANEL_554_GENES = "CANCER_PANEL_554_GENES",
+  S16S_RNA = "S16S_RNA",
+  RNA_SEQ_6G = "RNA_SEQ_6G",
+  RNA_SEQ_12G = "RNA_SEQ_12G",
+  RNA_SEQ_9G = "RNA_SEQ_9G",
+  WHOLE_GENOME_30X = "WHOLE_GENOME_30X",
+  WHOLE_GENOME_10X = "WHOLE_GENOME_10X",
+  WHOLE_GENOME_1X = "WHOLE_GENOME_1X",
+}
+
+export enum RegistryKitType {
+  AGILENT_SURESELECT_V7 = "AGILENT_SURESELECT_V7",
+  AGILENT_SURESELECT_V8 = "AGILENT_SURESELECT_V8",
+  TWIST2 = "TWIST2",
+}
 
 export interface RegistryEntity {
   id?: string;
@@ -7,31 +33,31 @@ export interface RegistryEntity {
   personName: string;
   laboratoryId: string;
   Laboratory?: { editable: boolean; value: { name: string } };
-  costumerRelationId: string;
-  serviceType: string;
-  kitType: string;
+  costumerRelationId?: string;
+  serviceType: RegistryServiceType;
+  kitType: RegistryKitType;
   sampleType: SampleType;
   urgentStatus?: boolean;
   description?: string;
-  productPriceUsd: number;
+  productPriceUsd?: string;
+  sampleStatus?: SampleStatus;
 
-  dataSampleReceived?: string;
+  dataSampleReceived: string;
   sampleExtractionDate?: string;
   dataSentToKorea?: string;
   rawFileReceivedDate?: string;
   analysisCompletionDate?: string;
   resultReadyTime?: string;
-  sendSeries: number;
+  sendSeries: string;
+  invoiceStatus?: LaboratoryInvoiceStatusType;
 }
 
 export enum SampleStatus {
-  "PENDING" = "PENDING",
-  "SHIPMENT" = "SHIPMENT",
-  "SHIPPED" = "SHIPPED",
-  "RECEIVED_AT_LIBRARY" = "RECEIVED_AT_LIBRARY",
-  "IN_TESTING" = "IN_TESTING",
-  "READY_FOR_DELIVERY" = "READY_FOR_DELIVERY",
-  "DELIVERED" = "DELIVERED",
+  SAMPLE_RECEIVED = "SAMPLE_RECEIVED",
+  DNA_EXTRACTED = "DNA_EXTRACTED",
+  SENT_TO_KOREA = "SENT_TO_KOREA",
+  RAW_FILE_RECEIVED = "RAW_FILE_RECEIVED",
+  ANALYZED = "ANALYZED",
 }
 
 export enum SampleType {
@@ -66,6 +92,7 @@ export interface RegistryEntityWithFieldAccess {
   analysisCompletionDate: { editable: boolean; value: string };
   resultReadyTime: { editable: boolean; value: string };
   sendSeries: { editable: boolean; value: string };
+  invoiceStatus: { editable: boolean; value: LaboratoryInvoiceStatusType };
   Laboratory?: { editable: boolean; value: { name: string } };
   createdAt?: { editable: boolean; value: string };
   updatedAt?: { editable: boolean; value: string };

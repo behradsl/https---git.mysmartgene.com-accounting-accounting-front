@@ -32,14 +32,19 @@ const RegistryReviewImportDialogView: FC<{ onClose?: () => void }> = ({
   const onSubmit = async () => {
     if (uploadBinary)
       toast.promise(uploadFile(uploadBinary), {
-        error: () => {
+        error: (err) => {
           fileInputRef.current?.setAttribute("type", "text");
           fileInputRef.current?.setAttribute("type", "file");
-          return "Error uploading file";
+
+          return ["Error uploading file", err.message].map((errorMessage) => (
+            <p key={`error-${errorMessage}`}>{errorMessage}</p>
+          ));
         },
         success: () => {
           fileInputRef.current?.setAttribute("type", "text");
           fileInputRef.current?.setAttribute("type", "file");
+          onClose?.();
+          setOpen(false);
           return "File uploaded successfully";
         },
       });
@@ -82,8 +87,7 @@ const RegistryReviewImportDialogView: FC<{ onClose?: () => void }> = ({
               <Button
                 variant='outline'
                 onClick={() => onSubmit()}
-                disabled={!uploadBinary}
-              >
+                disabled={!uploadBinary}>
                 Upload
                 <UploadIcon />
               </Button>

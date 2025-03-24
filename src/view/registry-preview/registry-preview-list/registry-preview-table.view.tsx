@@ -37,6 +37,8 @@ import { ChevronDown, DownloadIcon } from "lucide-react";
 import {
   RegistryEntity,
   RegistryFieldAccessType,
+  RegistryKitType,
+  RegistryServiceType,
   SampleStatus,
   SampleType,
   SettlementStatus,
@@ -49,6 +51,7 @@ import {
 import { useLaboratoryFindMany } from "@/hooks/api/use-laboratory.hook";
 import { removeEmptyObjectsByKeys } from "@/utilities/object";
 import RegistryReviewImportDialogView from "./registry-import-dialog.view";
+import { LaboratoryInvoiceStatusType } from "@/types/laboratory-invoice.type";
 
 function RegistryPreviewTableView({
   data,
@@ -138,15 +141,18 @@ function RegistryPreviewTableView({
                     const {
                       registryCreatedBy,
                       registryUpdatedBy,
-                      productPriceUsd,
                       sendSeries,
+                      updatedAt,
+                      createdAt,
+                      sampleStatus,
                       id,
                       ...values
-                    } = selectedTableRows.length
-                      ? editedRows["bulk"]
-                      : editedRows[row.id];
+                    } = editedRows[row.id];
+                    // = selectedTableRows.length
+                    //   ? editedRows["bulk"]
+                    //   : editedRows[row.id];
+                    console.log({ values });
 
-                    reloadRegistriesList();
                     const ids = new Set<string>();
                     table
                       ?.getSelectedRowModel()
@@ -155,10 +161,8 @@ function RegistryPreviewTableView({
                     await updatePreviewRegistryCallback({
                       ...(removeEmptyObjectsByKeys({
                         ...values,
-                        sendSeries: sendSeries ? Number(sendSeries) : undefined,
-                        productPriceUsd: productPriceUsd
-                          ? Number(productPriceUsd)
-                          : undefined,
+                        sampleStatus: sampleStatus,
+                        sendSeries: sendSeries ? String(sendSeries) : undefined,
                       }) as unknown as RegistryEntity),
                       ids: [...ids],
                     });
@@ -258,22 +262,37 @@ function RegistryPreviewTableView({
         columnId: string,
         value: string | boolean | number,
       ) => {
-        console.log({ editedRows });
-
         const rowId = table?.getSelectedRowModel().rows.length
           ? "bulk"
           : table.getRowModel().rows[rowIndex]?.id;
         if (rowId) {
-          setEditedRows((prev) => ({
-            ...prev,
-            [rowId]: {
-              ...prev[rowId],
-              [columnId]: value,
-            },
-          }));
+          setEditedRows((prev) => {
+            console.log({
+              ...prev,
+              [rowId]: {
+                ...prev[rowId],
+                [columnId]: value,
+              },
+            });
+
+            return {
+              ...prev,
+              [rowId]: {
+                ...prev[rowId],
+                [columnId]: value,
+              },
+            };
+          });
         }
       },
       editableCellOptions: {
+        sampleType: {
+          type: "select",
+          options: Object.keys(SampleType).map((sampleType) => ({
+            label: sampleType.replace(/_/g, " "),
+            value: sampleType,
+          })),
+        },
         laboratoryId: {
           type: "select",
           options: laboratories?.data?.map((laboratory) => ({
@@ -288,11 +307,34 @@ function RegistryPreviewTableView({
             value: user?.id,
           })),
         },
-        sampleType: {
+        invoiceStatus: {
           type: "select",
-          options: Object.keys(SampleType).map((sampleType) => ({
-            label: sampleType.replace(/_/g, " "),
-            value: sampleType,
+          options: Object.entries(LaboratoryInvoiceStatusType).map(
+            ([key, value]) => ({
+              label: value,
+              value: key,
+            }),
+          ),
+        },
+        kitType: {
+          type: "select",
+          options: Object.entries(RegistryKitType).map(([key, value]) => ({
+            label: value,
+            value: key,
+          })),
+        },
+        serviceType: {
+          type: "select",
+          options: Object.entries(RegistryServiceType).map(([key, value]) => ({
+            label: value,
+            value: key,
+          })),
+        },
+        sampleStatus: {
+          type: "select",
+          options: Object.entries(SampleStatus).map(([key, value]) => ({
+            label: value,
+            value: key,
           })),
         },
       },

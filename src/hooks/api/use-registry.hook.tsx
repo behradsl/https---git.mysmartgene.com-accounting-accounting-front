@@ -107,10 +107,9 @@ export function useRegistryFieldAccessFindByPosition(position: string) {
 }
 
 export function useRegistryUpsertFieldAccess() {
-  const { trigger } = useApiMutation<Omit<RegistryFieldAccessType, "id">[]>(
-    "post",
-    "setting/registry/access/assign",
-  );
+  const { trigger } = useApiMutation<{
+    registryFieldAccesses: Omit<RegistryFieldAccessType, "id">[];
+  }>("post", "setting/registry/access/assign");
   return { trigger };
 }
 

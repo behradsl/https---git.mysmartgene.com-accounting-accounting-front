@@ -53,6 +53,13 @@ export const permissionsColumnsStructure: Parameters<
     readonly: true,
   },
   {
+    id: "sampleStatus",
+    title: "Sample Status",
+
+    dataType: "text",
+    readonly: true,
+  },
+  {
     id: "personName",
     title: "person Name",
 
@@ -93,6 +100,14 @@ export const permissionsColumnsStructure: Parameters<
   {
     id: "urgentStatus",
     title: "Urgent Status",
+    // alternativeId: "accessType",
+
+    dataType: "text",
+    readonly: true,
+  },
+  {
+    id: "invoiceStatus",
+    title: "Invoice Status",
     // alternativeId: "accessType",
 
     dataType: "text",

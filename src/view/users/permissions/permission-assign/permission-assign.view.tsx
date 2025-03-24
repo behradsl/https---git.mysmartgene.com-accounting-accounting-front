@@ -56,6 +56,8 @@ const formSchema = z.object({
   laboratoryId: z.nativeEnum(AccessType, {}),
   costumerRelationId: z.nativeEnum(AccessType, {}),
   productPriceUsd: z.nativeEnum(AccessType, {}),
+  invoiceStatus: z.nativeEnum(AccessType, {}),
+  sampleStatus: z.nativeEnum(AccessType, {}),
 
   dataSampleReceived: z.nativeEnum(AccessType, {}),
   sampleExtractionDate: z.nativeEnum(AccessType, {}),
@@ -91,6 +93,7 @@ const PermissionAssignView = () => {
             MotId: fieldAccessMap.MotId || AccessType.HIDDEN,
 
             personName: fieldAccessMap.personName || AccessType.HIDDEN,
+            invoiceStatus: fieldAccessMap.invoiceStatus || AccessType.HIDDEN,
             laboratoryId: fieldAccessMap.laboratoryId || AccessType.HIDDEN,
             Laboratory: fieldAccessMap.Laboratory || AccessType.HIDDEN,
             costumerRelationId:
@@ -144,8 +147,9 @@ const PermissionAssignView = () => {
         return permissionToAssign;
       });
 
-      const newPermission = await assignPermissionCallBack(permissions);
-      console.log(newPermission);
+      const newPermission = await assignPermissionCallBack({
+        registryFieldAccesses: permissions,
+      });
 
       toast.success("access assigned.");
       router.push("/panel/users/permissions");
@@ -188,6 +192,40 @@ const PermissionAssignView = () => {
                 </FormItem>
               )}
             /> */}
+            <FormField
+              control={form.control}
+              name='sampleStatus'
+              render={({ field }) => (
+                <FormItem className='w-full md:w-5/12'>
+                  <FormLabel>Sample Status</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || ""}
+                    dir='rtl'>
+                    <FormControl>
+                      <SelectTrigger className='w-full'>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent
+                      ref={(ref) =>
+                        ref?.addEventListener("touchend", (e) =>
+                          e.preventDefault(),
+                        )
+                      }>
+                      {Object.keys(AccessType).map((access) => (
+                        <SelectItem
+                          key={`user-update-position-${access}`}
+                          value={access}>
+                          {access}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name='MotId'
@@ -432,6 +470,40 @@ const PermissionAssignView = () => {
               render={({ field }) => (
                 <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Sample Type</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || ""}
+                    dir='rtl'>
+                    <FormControl>
+                      <SelectTrigger className='w-full'>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent
+                      ref={(ref) =>
+                        ref?.addEventListener("touchend", (e) =>
+                          e.preventDefault(),
+                        )
+                      }>
+                      {Object.keys(AccessType).map((access) => (
+                        <SelectItem
+                          key={`user-update-position-${access}`}
+                          value={access}>
+                          {access}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='invoiceStatus'
+              render={({ field }) => (
+                <FormItem className='w-full md:w-5/12'>
+                  <FormLabel>Invoice Status</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}

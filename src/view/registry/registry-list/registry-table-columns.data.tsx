@@ -35,7 +35,13 @@ export type RegistryDataTableRow = {
 export const registryColumnsStructure: Parameters<
   typeof dataTableColumnGenerator<RegistryDataTableRow>
 >[0] = [
-  { id: "MotId", title: "MOT ID", dataType: "text" },
+  {
+    id: "sampleStatus",
+    title: "Sample Status",
+    dataType: "select",
+    readonly: true,
+  },
+  { id: "MotId", title: "MOT ID", dataType: "text", readonly: true },
   { id: "personName", title: "Persone Name", dataType: "text" },
   {
     id: "laboratoryId",
@@ -50,9 +56,14 @@ export const registryColumnsStructure: Parameters<
     dataType: "select",
     placeholder: "Select an User",
   },
-  { id: "serviceType", title: "Service Type", dataType: "text" },
-  { id: "kitType", title: "Kit Type", dataType: "text" },
-  { id: "sampleType", title: "Sample Type", dataType: "select" },
+  { id: "serviceType", title: "Service Type", dataType: "select" },
+  { id: "kitType", title: "Kit Type", dataType: "select" },
+  {
+    id: "sampleType",
+    title: "Sample Type",
+    dataType: "select",
+    readonly: true,
+  },
   { id: "urgentStatus", title: "Urgent Status", dataType: "switch" },
   { id: "description", title: "Description", dataType: "text" },
   { id: "productPriceUsd", title: "Product Price (USD)", dataType: "number" },
@@ -79,6 +90,12 @@ export const registryColumnsStructure: Parameters<
   { id: "resultReadyTime", title: "Result Ready Time", dataType: "date" },
 
   { id: "sendSeries", title: "Send Series", dataType: "text" },
+  {
+    id: "invoiceStatus",
+    title: "Invoice Status",
+    dataType: "select",
+    readonly: true,
+  },
 
   {
     id: "registryCreatedBy",

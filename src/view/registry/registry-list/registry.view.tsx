@@ -38,8 +38,10 @@ const RegistryView = ({}: RegistryViewProps) => {
       const formattedData: RegistryDataTableRow[] =
         registries.data?.registries.map((registry: any) => ({
           id: registry.id?.value || "",
+          sampleStatus: registry.sampleStatus?.value || "",
           MotId: registry.MotId?.value || "",
           personName: registry.personName?.value || "",
+          invoiceStatus: registry.invoiceStatus?.value || "",
           kitType: registry.kitType?.value || "",
           laboratoryId: registry.laboratoryId?.value || "",
           productPriceUsd: registry.productPriceUsd?.value || "",

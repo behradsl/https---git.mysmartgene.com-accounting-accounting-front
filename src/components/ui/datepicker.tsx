@@ -11,7 +11,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { DayPicker } from "react-day-picker";
+
+import type { DayPicker } from "react-day-picker";
 
 const DatePicker: FC<
   Omit<ComponentProps<typeof DayPicker>, "onChange" | "selected"> & {

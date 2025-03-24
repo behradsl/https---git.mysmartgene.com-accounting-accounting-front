@@ -227,12 +227,12 @@ const dataTableColumnGenerator = <T = Record<string, any>,>(
                     {switchData ? (
                       <>
                         <CheckIcon />
-                        Not Processed
+                        Processed
                       </>
                     ) : (
                       <>
                         <XIcon />
-                        Processed
+                        Not Processed
                       </>
                     )}
                   </Badge>

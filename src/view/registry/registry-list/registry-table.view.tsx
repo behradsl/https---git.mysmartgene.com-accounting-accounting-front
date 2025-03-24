@@ -31,9 +31,10 @@ import { ChevronDown, DownloadIcon } from "lucide-react";
 import {
   RegistryEntity,
   RegistryFieldAccessType,
+  RegistryKitType,
+  RegistryServiceType,
   SampleStatus,
   SampleType,
-  SettlementStatus,
 } from "@/types/registry-entity.type";
 import {
   registryColumns,
@@ -50,6 +51,15 @@ import { useLaboratoryFindMany } from "@/hooks/api/use-laboratory.hook";
 import { removeEmptyObjectsByKeys } from "@/utilities/object";
 import { useUser } from "@/store/user.store";
 import { UserPosition } from "@/types/user-entity.type";
+import LaboratoryInvoiceCreateDialogView from "@/view/laboratory-invoices/laboratory-invoice-create/laboratory-invoice-create-dialog.view";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { LaboratoryInvoiceStatusType } from "@/types/laboratory-invoice.type";
 
 function RegistryTableView({
   data,
@@ -140,9 +150,11 @@ function RegistryTableView({
                     const {
                       registryCreatedBy,
                       registryUpdatedBy,
-                      productPriceUsd,
                       sendSeries,
+                      updatedAt,
+                      createdAt,
                       id,
+                      
                       ...values
                     } = selectedTableRows.length
                       ? editedRows["bulk"]
@@ -157,10 +169,7 @@ function RegistryTableView({
                     await updateRegistryCallback({
                       ...(removeEmptyObjectsByKeys({
                         ...values,
-                        sendSeries: sendSeries ? Number(sendSeries) : undefined,
-                        productPriceUsd: productPriceUsd
-                          ? Number(productPriceUsd)
-                          : undefined,
+                        sendSeries: sendSeries ? String(sendSeries) : undefined,
                       }) as unknown as RegistryEntity),
                       ids: [...ids],
                     });
@@ -305,6 +314,36 @@ function RegistryTableView({
             value: user?.id,
           })),
         },
+        invoiceStatus: {
+          type: "select",
+          options: Object.entries(LaboratoryInvoiceStatusType).map(
+            ([key, value]) => ({
+              label: value,
+              value: key,
+            }),
+          ),
+        },
+        kitType: {
+          type: "select",
+          options: Object.entries(RegistryKitType).map(([key, value]) => ({
+            label: value,
+            value: key,
+          })),
+        },
+        serviceType: {
+          type: "select",
+          options: Object.entries(RegistryServiceType).map(([key, value]) => ({
+            label: value,
+            value: key,
+          })),
+        },
+        sampleStatus: {
+          type: "select",
+          options: Object.entries(SampleStatus).map(([key, value]) => ({
+            label: value,
+            value: key,
+          })),
+        },
       },
       editedRows,
     },
@@ -325,7 +364,27 @@ function RegistryTableView({
 
   return (
     <>
-      <div className='w-full flex justify-end items-center my-3'>
+      <div className='w-full flex justify-end gap-3 items-center my-3'>
+        <div className='flex items-center space-x-2'>
+          <p className='text-sm font-medium'>Rows per page</p>
+          <Select
+            value={pageSize.toString()}
+            onValueChange={(value) => {
+              setPageSize(Number(value));
+              setCurrentPage(1);
+            }}>
+            <SelectTrigger className='h-8 w-[70px]'>
+              <SelectValue placeholder={pageSize.toString()} />
+            </SelectTrigger>
+            <SelectContent side='top'>
+              {[10, 20, 30, 40, 50, 100].map((pageSize) => (
+                <SelectItem key={pageSize} value={pageSize.toString()}>
+                  {pageSize}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
         <div>
           <Button
             variant='outline'
@@ -340,6 +399,13 @@ function RegistryTableView({
             Export All <DownloadIcon />
           </Button>
         </div>
+        <LaboratoryInvoiceCreateDialogView
+          selectedRegistries={table
+            ?.getSelectedRowModel()
+            .rows.map(({ original }) => original)}
+          onClose={reloadRegistriesList}
+        />
+
         <DropdownMenu modal>
           <DropdownMenuTrigger asChild>
             <Button variant='outline' className='ml-auto'>

@@ -62,6 +62,7 @@ const PermissionsView = ({}: UsersViewProps) => {
             fieldAccessMap.analysisCompletionDate || AccessType.HIDDEN,
           resultReadyTime: fieldAccessMap.resultReadyTime || AccessType.HIDDEN,
           sendSeries: fieldAccessMap.sendSeries || AccessType.HIDDEN,
+          sampleStatus: fieldAccessMap.sampleStatus || AccessType.HIDDEN,
 
           createdAt: fieldAccessMap.createdAt || AccessType.HIDDEN,
           updatedAt: fieldAccessMap.updatedAt || AccessType.HIDDEN,
@@ -92,6 +93,7 @@ const PermissionsView = ({}: UsersViewProps) => {
           analysisCompletionDate: AccessType.HIDDEN,
           resultReadyTime: AccessType.HIDDEN,
           sendSeries: AccessType.HIDDEN,
+          sampleStatus: AccessType.HIDDEN,
 
           createdAt: AccessType.HIDDEN,
           updatedAt: AccessType.HIDDEN,

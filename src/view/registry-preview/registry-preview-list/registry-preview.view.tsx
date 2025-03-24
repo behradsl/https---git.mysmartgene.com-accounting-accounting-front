@@ -63,6 +63,7 @@ const RegistryPreviewView = ({}: RegistryViewProps) => {
             ? new Date(registry.sampleExtractionDate).toISOString()
             : "",
           description: registry.description || "",
+          sampleStatus: registry.sampleStatus || "",
           costumerRelationId: registry.costumerRelationId || "",
           urgentStatus: registry.urgentStatus || undefined,
 

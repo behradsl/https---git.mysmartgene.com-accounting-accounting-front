@@ -19,7 +19,7 @@ export function useUserFindManyRestricted() {
     error,
     isLoading,
     mutate,
-  } = useSwr<AxiosResponse<UserEntity[]>>("/user/all/restricted");
+  } = useSwr<AxiosResponse<UserEntity[]>>("/user/names");
 
   return { users, error, isLoading, mutate };
 }

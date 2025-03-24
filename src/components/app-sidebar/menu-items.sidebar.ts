@@ -1,5 +1,11 @@
 import { SidebarMenuItemType } from "@/types/global";
-import { Atom, LayoutDashboard, Users } from "lucide-react";
+import {
+  Atom,
+  LayoutDashboard,
+  Users,
+  Receipt,
+  CreditCard,
+} from "lucide-react";
 
 export const menuItems: SidebarMenuItemType[] = [
   {
@@ -23,6 +29,22 @@ export const menuItems: SidebarMenuItemType[] = [
       {
         title: "Laboratory Profiles",
         href: "/panel/laboratories",
+      },
+    ],
+  },
+  {
+    title: "Financial",
+    href: "/panel/financial",
+    icon: Receipt,
+    items: [
+      {
+        title: "Invoices",
+        href: "/panel/financial/invoices",
+      },
+      {
+        title: "Payments",
+        href: "/panel/financial/payments",
+        icon: CreditCard,
       },
     ],
   },

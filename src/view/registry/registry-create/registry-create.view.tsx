@@ -17,6 +17,8 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/toaster";
 import { useCreateRegistry, useUserFindMany } from "@/hooks/api";
 import {
+  RegistryKitType,
+  RegistryServiceType,
   SampleStatus,
   SampleType,
   SettlementStatus,
@@ -37,13 +39,13 @@ const formSchema = z.object({
   MotId: z.string().min(1),
   personName: z.string().min(1),
   laboratoryId: z.string().min(1),
-  costumerRelationId: z.string().min(1),
-  serviceType: z.string().min(1),
-  kitType: z.string().min(1),
+  costumerRelationId: z.string().min(1).optional(),
+  serviceType: z.nativeEnum(RegistryServiceType, {}),
+  kitType: z.nativeEnum(RegistryKitType, {}),
   sampleType: z.nativeEnum(SampleType, {}),
   urgentStatus: z.boolean().optional(),
   description: z.string().min(1).optional(),
-  productPriceUsd: z.string().min(1),
+  productPriceUsd: z.string().min(1).optional(),
 
   dataSampleReceived: z.string(),
   sampleExtractionDate: z.string().optional(),
@@ -69,7 +71,7 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
       laboratoryId: undefined,
       serviceType: undefined,
       kitType: undefined,
-      urgentStatus: true,
+      urgentStatus: false,
       productPriceUsd: undefined,
       description: undefined,
       costumerRelationId: undefined,
@@ -90,8 +92,6 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
     try {
       const newRegistry = await createRegistryCallback({
         ...values,
-        productPriceUsd: Number(values.productPriceUsd),
-        sendSeries: Number(values.sendSeries),
       });
 
       toast.success("registry saved as [STAGED].");
@@ -214,7 +214,31 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
                 <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Service Type</FormLabel>
                   <FormControl>
-                    <Input autoComplete='off' {...field} />
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value || ""}
+                      dir='rtl'>
+                      <FormControl>
+                        <SelectTrigger className='w-full'>
+                          <SelectValue placeholder='Select a service type' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent
+                        ref={(ref) =>
+                          // Temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
+                          ref?.addEventListener("touchend", (e) =>
+                            e.preventDefault(),
+                          )
+                        }>
+                        {Object.keys(RegistryServiceType).map((service) => (
+                          <SelectItem
+                            key={`service-type-${service}`}
+                            value={service}>
+                            {service}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -228,7 +252,29 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
                 <FormItem className='w-full md:w-5/12'>
                   <FormLabel>Kit Type</FormLabel>
                   <FormControl>
-                    <Input autoComplete='off' {...field} />
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value || ""}
+                      dir='rtl'>
+                      <FormControl>
+                        <SelectTrigger className='w-full'>
+                          <SelectValue placeholder='Select a kit type' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent
+                        ref={(ref) =>
+                          // Temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
+                          ref?.addEventListener("touchend", (e) =>
+                            e.preventDefault(),
+                          )
+                        }>
+                        {Object.keys(RegistryKitType).map((kit) => (
+                          <SelectItem key={`kit-type-${kit}`} value={kit}>
+                            {kit}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -126,6 +126,7 @@ export function useApiUpload(route: string) {
       }
     } catch (err) {
       setError("Failed to upload the file");
+      throw (err as AxiosError).response?.data;
     } finally {
       setIsLoading(false);
     }
