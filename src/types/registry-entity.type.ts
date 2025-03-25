@@ -48,7 +48,7 @@ export interface RegistryEntity {
   rawFileReceivedDate?: string;
   analysisCompletionDate?: string;
   resultReadyTime?: string;
-  sendSeries: string;
+  sendSeries: number;
   invoiceStatus?: LaboratoryInvoiceStatusType;
 }
 

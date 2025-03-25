@@ -10,7 +10,6 @@ import {
 import { RegistryDataTableRow } from "./registry-table-columns.data";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useUser } from "@/store/user.store";
-import { RegistryEntityWithFieldAccess } from "@/types/registry-entity.type";
 
 // import { Button } from "@/components/ui/button";
 // import Link from "next/link";
@@ -87,10 +86,10 @@ const RegistryView = ({}: RegistryViewProps) => {
   useEffect(() => {}, []);
 
   return (
-    <main className='w-full py-4 px-2'>
-      <header className='mb-8 flex items-center'>
-        <SidebarTrigger className='mr-4' />
-        <h1 className='text-2xl font-bold'>Registries (Finalized)</h1>
+    <main className="w-full py-4 px-2">
+      <header className="mb-8 flex items-center">
+        <SidebarTrigger className="mr-4" />
+        <h1 className="text-2xl font-bold">Registries (Finalized)</h1>
       </header>
       <RegistryTableView
         data={tableData}

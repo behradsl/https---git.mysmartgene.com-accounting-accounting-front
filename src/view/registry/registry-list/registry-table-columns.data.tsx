@@ -89,7 +89,7 @@ export const registryColumnsStructure: Parameters<
   },
   { id: "resultReadyTime", title: "Result Ready Time", dataType: "date" },
 
-  { id: "sendSeries", title: "Send Series", dataType: "text" },
+  { id: "sendSeries", title: "Send Series", dataType: "number" },
   {
     id: "invoiceStatus",
     title: "Invoice Status",

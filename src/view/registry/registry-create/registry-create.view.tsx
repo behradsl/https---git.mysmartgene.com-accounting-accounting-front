@@ -53,7 +53,7 @@ const formSchema = z.object({
   rawFileReceivedDate: z.string().optional(),
   analysisCompletionDate: z.string().optional(),
   resultReadyTime: z.string().optional(),
-  sendSeries: z.string(),
+  sendSeries: z.number(),
 });
 
 const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
@@ -104,19 +104,20 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
 
   return (
     <>
-      <main className='my-6'>
+      <main className="my-6">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-6 flex flex-wrap justify-between gap-2.5 px-5 pb-10'>
+            className="space-y-6 flex flex-wrap justify-between gap-2.5 px-5 pb-10"
+          >
             <FormField
               control={form.control}
-              name='MotId'
+              name="MotId"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className="w-full md:w-5/12">
                   <FormLabel>MOT ID</FormLabel>
                   <FormControl>
-                    <Input autoComplete='off' {...field} />
+                    <Input autoComplete="off" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -125,12 +126,12 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
 
             <FormField
               control={form.control}
-              name='personName'
+              name="personName"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className="w-full md:w-5/12">
                   <FormLabel>Person Name</FormLabel>
                   <FormControl>
-                    <Input autoComplete='off' {...field} />
+                    <Input autoComplete="off" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -138,30 +139,33 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
             />
             <FormField
               control={form.control}
-              name='laboratoryId'
+              name="laboratoryId"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className="w-full md:w-5/12">
                   <FormLabel>Laboratory</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir='rtl'>
+                    dir="rtl"
+                  >
                     <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue placeholder='Select a laboratory' />
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select a laboratory" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         // Temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
+                          e.preventDefault()
                         )
-                      }>
+                      }
+                    >
                       {(laboratories?.data ?? []).map((laboratory) => (
                         <SelectItem
                           key={`laboratory-id-${laboratory?.id}`}
-                          value={laboratory?.id ?? ""}>
+                          value={laboratory?.id ?? ""}
+                        >
                           {laboratory?.name}
                         </SelectItem>
                       ))}
@@ -173,30 +177,33 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
             />
             <FormField
               control={form.control}
-              name='costumerRelationId'
+              name="costumerRelationId"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className="w-full md:w-5/12">
                   <FormLabel>Costumer Relations Agent</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || ""}
-                    dir='rtl'>
+                    dir="rtl"
+                  >
                     <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue placeholder='Select a laboratory' />
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select a laboratory" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent
                       ref={(ref) =>
                         // Temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
                         ref?.addEventListener("touchend", (e) =>
-                          e.preventDefault(),
+                          e.preventDefault()
                         )
-                      }>
+                      }
+                    >
                       {(users?.data ?? []).map((user) => (
                         <SelectItem
                           key={`user-id-${user?.id}`}
-                          value={user?.id ?? ""}>
+                          value={user?.id ?? ""}
+                        >
                           {user?.name}
                         </SelectItem>
                       ))}
@@ -209,31 +216,34 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
 
             <FormField
               control={form.control}
-              name='serviceType'
+              name="serviceType"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className="w-full md:w-5/12">
                   <FormLabel>Service Type</FormLabel>
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
                       value={field.value || ""}
-                      dir='rtl'>
+                      dir="rtl"
+                    >
                       <FormControl>
-                        <SelectTrigger className='w-full'>
-                          <SelectValue placeholder='Select a service type' />
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a service type" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent
                         ref={(ref) =>
                           // Temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
                           ref?.addEventListener("touchend", (e) =>
-                            e.preventDefault(),
+                            e.preventDefault()
                           )
-                        }>
+                        }
+                      >
                         {Object.keys(RegistryServiceType).map((service) => (
                           <SelectItem
                             key={`service-type-${service}`}
-                            value={service}>
+                            value={service}
+                          >
                             {service}
                           </SelectItem>
                         ))}
@@ -247,27 +257,29 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
 
             <FormField
               control={form.control}
-              name='kitType'
+              name="kitType"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className="w-full md:w-5/12">
                   <FormLabel>Kit Type</FormLabel>
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
                       value={field.value || ""}
-                      dir='rtl'>
+                      dir="rtl"
+                    >
                       <FormControl>
-                        <SelectTrigger className='w-full'>
-                          <SelectValue placeholder='Select a kit type' />
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a kit type" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent
                         ref={(ref) =>
                           // Temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
                           ref?.addEventListener("touchend", (e) =>
-                            e.preventDefault(),
+                            e.preventDefault()
                           )
-                        }>
+                        }
+                      >
                         {Object.keys(RegistryKitType).map((kit) => (
                           <SelectItem key={`kit-type-${kit}`} value={kit}>
                             {kit}
@@ -282,31 +294,34 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
             />
             <FormField
               control={form.control}
-              name='sampleType'
+              name="sampleType"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className="w-full md:w-5/12">
                   <FormLabel>Sample Type</FormLabel>
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
                       value={field.value || ""}
-                      dir='rtl'>
+                      dir="rtl"
+                    >
                       <FormControl>
-                        <SelectTrigger className='w-full'>
-                          <SelectValue placeholder='Select a laboratory' />
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a laboratory" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent
                         ref={(ref) =>
                           // Temporary workaround from https://github.com/shadcn-ui/ui/issues/1220
                           ref?.addEventListener("touchend", (e) =>
-                            e.preventDefault(),
+                            e.preventDefault()
                           )
-                        }>
+                        }
+                      >
                         {Object.keys(SampleType).map((sample) => (
                           <SelectItem
                             key={`sample-type-${sample}`}
-                            value={sample}>
+                            value={sample}
+                          >
                             {sample}
                           </SelectItem>
                         ))}
@@ -319,13 +334,13 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
             />
             <FormField
               control={form.control}
-              name='urgentStatus'
+              name="urgentStatus"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12 flex justify-between items-center'>
+                <FormItem className="w-full md:w-5/12 flex justify-between items-center">
                   <FormLabel>Urgent Status</FormLabel>
                   <FormControl>
                     <Switch
-                      className='mx-2'
+                      className="mx-2"
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
@@ -336,12 +351,12 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
             />
             <FormField
               control={form.control}
-              name='description'
+              name="description"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className="w-full md:w-5/12">
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Input type='string' autoComplete='off' {...field} />
+                    <Input type="string" autoComplete="off" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -350,15 +365,15 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
 
             <FormField
               control={form.control}
-              name='productPriceUsd'
+              name="productPriceUsd"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className="w-full md:w-5/12">
                   <FormLabel>Product Price (USD)</FormLabel>
                   <FormControl>
                     <Input
-                      type='number'
-                      inputMode='numeric'
-                      autoComplete='off'
+                      type="number"
+                      inputMode="numeric"
+                      autoComplete="off"
                       {...field}
                     />
                   </FormControl>
@@ -369,9 +384,9 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
 
             <FormField
               control={form.control}
-              name='dataSampleReceived'
+              name="dataSampleReceived"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className="w-full md:w-5/12">
                   <FormLabel>Data Sample Received</FormLabel>
                   <FormControl>
                     <DatePicker
@@ -386,9 +401,9 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
 
             <FormField
               control={form.control}
-              name='sampleExtractionDate'
+              name="sampleExtractionDate"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className="w-full md:w-5/12">
                   <FormLabel>Sample Extraction Date</FormLabel>
                   <FormControl>
                     <DatePicker
@@ -402,9 +417,9 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
             />
             <FormField
               control={form.control}
-              name='dataSentToKorea'
+              name="dataSentToKorea"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className="w-full md:w-5/12">
                   <FormLabel>Data Sent To Korea</FormLabel>
                   <FormControl>
                     <DatePicker
@@ -418,9 +433,9 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
             />
             <FormField
               control={form.control}
-              name='rawFileReceivedDate'
+              name="rawFileReceivedDate"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className="w-full md:w-5/12">
                   <FormLabel>RawFile Received Date</FormLabel>
                   <FormControl>
                     <DatePicker
@@ -434,9 +449,9 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
             />
             <FormField
               control={form.control}
-              name='analysisCompletionDate'
+              name="analysisCompletionDate"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className="w-full md:w-5/12">
                   <FormLabel>Analysis Completion Date</FormLabel>
                   <FormControl>
                     <DatePicker
@@ -450,9 +465,9 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
             />
             <FormField
               control={form.control}
-              name='resultReadyTime'
+              name="resultReadyTime"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className="w-full md:w-5/12">
                   <FormLabel>Result Ready Time</FormLabel>
                   <FormControl>
                     <DatePicker
@@ -467,16 +482,18 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
 
             <FormField
               control={form.control}
-              name='sendSeries'
+              name="sendSeries"
               render={({ field }) => (
-                <FormItem className='w-full md:w-5/12'>
+                <FormItem className="w-full md:w-5/12">
                   <FormLabel>Send Series</FormLabel>
                   <FormControl>
                     <Input
-                      type='number'
-                      inputMode='numeric'
-                      autoComplete='off'
+                      type="number"
+                      inputMode="numeric"
+                      autoComplete="off"
                       {...field}
+                      value={field.value ?? ""}
+                      onChange={(e) => field.onChange(e.target.valueAsNumber)}
                     />
                   </FormControl>
                   <FormMessage />
@@ -484,13 +501,14 @@ const RegistryCreateView: FC<{ onSuccessfulSubmit?: () => void }> = ({
               )}
             />
 
-            <Separator className='mt-5 opacity-0' />
+            <Separator className="mt-5 opacity-0" />
 
-            <div className='ms-auto w-full md:w-5/12 px-6 flex justify-end'>
+            <div className="ms-auto w-full md:w-5/12 px-6 flex justify-end">
               <Button
-                type='submit'
-                className='w-full md:w-1/2 text-green-700 hover:text-green-700 outline-green-700 border-green-700 hover:bg-green-700/10'
-                variant={"outline"}>
+                type="submit"
+                className="w-full md:w-1/2 text-green-700 hover:text-green-700 outline-green-700 border-green-700 hover:bg-green-700/10"
+                variant={"outline"}
+              >
                 Submit
               </Button>
             </div>

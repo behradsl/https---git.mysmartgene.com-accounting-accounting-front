@@ -99,7 +99,7 @@ function RegistryPreviewTableView({
       fieldAccesses
         ?.filter(({ access }) => ["VISIBLE", "EDITABLE"].includes(access))
         .map(({ registryField }) => registryField),
-    [fieldAccesses],
+    [fieldAccesses]
   );
 
   const table = useReactTable({
@@ -110,11 +110,11 @@ function RegistryPreviewTableView({
           .filter(({ id }) =>
             id && accessibleColumns
               ? (accessibleColumns || [])?.includes(id)
-              : false,
+              : false
           )
           .map(({ id, alternativeId, readonly, ...columnStructure }) => {
             const accessType = fieldAccesses?.find(({ registryField }) =>
-              [id, alternativeId].includes(registryField),
+              [id, alternativeId].includes(registryField)
             );
             return {
               id,
@@ -122,20 +122,20 @@ function RegistryPreviewTableView({
               readonly: readonly || accessType?.access === "VISIBLE",
               ...columnStructure,
             };
-          }),
+          })
       ),
       {
         id: "actions",
         accessorKey: "actions",
         header: "",
         cell: ({ row }) => (
-          <div className='flex gap-2 items-center justify-center'>
+          <div className="flex gap-2 items-center justify-center">
             {editedRows[row.id] ? (
               <>
                 <Button
                   variant={"ghost"}
                   size={"sm"}
-                  className='text-green-700 border-1 border-transparent hover:border-green-700/20 hover:text-green-700'
+                  className="text-green-700 border-1 border-transparent hover:border-green-700/20 hover:text-green-700"
                   onClick={async () => {
                     const selectedTableRows = table?.getSelectedRowModel().rows;
                     const {
@@ -162,7 +162,7 @@ function RegistryPreviewTableView({
                       ...(removeEmptyObjectsByKeys({
                         ...values,
                         sampleStatus: sampleStatus,
-                        sendSeries: sendSeries ? String(sendSeries) : undefined,
+                        sendSeries: sendSeries ? sendSeries : undefined,
                       }) as unknown as RegistryEntity),
                       ids: [...ids],
                     });
@@ -176,7 +176,8 @@ function RegistryPreviewTableView({
                     }
 
                     reloadRegistriesList();
-                  }}>
+                  }}
+                >
                   {table?.getSelectedRowModel().rows.length
                     ? "Save All"
                     : "Save"}
@@ -184,7 +185,7 @@ function RegistryPreviewTableView({
                 <Button
                   variant={"ghost"}
                   size={"sm"}
-                  className='text-red-700 border-1 border-transparent hover:border-red-700/20 hover:text-red-700'
+                  className="text-red-700 border-1 border-transparent hover:border-red-700/20 hover:text-red-700"
                   onClick={() => {
                     if (table?.getSelectedRowModel().rows.length)
                       setEditedRows({ bulk: {} });
@@ -193,7 +194,8 @@ function RegistryPreviewTableView({
                         const { [row.id]: _, ...rest } = prevEditedRows;
                         return rest;
                       });
-                  }}>
+                  }}
+                >
                   {table?.getSelectedRowModel().rows.length
                     ? "Cancel All"
                     : "Cancel"}
@@ -204,21 +206,22 @@ function RegistryPreviewTableView({
                 <Button
                   variant={"ghost"}
                   size={"sm"}
-                  className='text-gray-700 border-1 border-transparent hover:border-gray-700/20 hover:text-gray-700'
+                  className="text-gray-700 border-1 border-transparent hover:border-gray-700/20 hover:text-gray-700"
                   onClick={() => {
                     // Use a functional update for editedRows to ensure you're working with the latest state.
                     setEditedRows((prevEditedRows) => ({
                       ...prevEditedRows,
                       [row.id]: { ...row.original },
                     }));
-                  }}>
+                  }}
+                >
                   Edit
                 </Button>
 
                 <Button
                   variant={"ghost"}
                   size={"sm"}
-                  className='text-primary border-1 border-transparent hover:border-primary/20 hover:text-primary'
+                  className="text-primary border-1 border-transparent hover:border-primary/20 hover:text-primary"
                   onClick={async () => {
                     const ids = new Set<string>();
                     table
@@ -228,7 +231,8 @@ function RegistryPreviewTableView({
 
                     await RegistryFinalizeCallback({ ids: [...ids] });
                     reloadRegistriesList();
-                  }}>
+                  }}
+                >
                   {table?.getSelectedRowModel().rows.length
                     ? "Finalize All"
                     : "Finalize"}
@@ -260,7 +264,7 @@ function RegistryPreviewTableView({
       updateData: (
         rowIndex: number,
         columnId: string,
-        value: string | boolean | number,
+        value: string | boolean | number
       ) => {
         const rowId = table?.getSelectedRowModel().rows.length
           ? "bulk"
@@ -313,7 +317,7 @@ function RegistryPreviewTableView({
             ([key, value]) => ({
               label: value,
               value: key,
-            }),
+            })
           ),
         },
         kitType: {
@@ -357,29 +361,30 @@ function RegistryPreviewTableView({
   }, [table.getState().sorting]);
   return (
     <>
-      <div className='w-full flex justify-end items-center my-3'>
-        <div className='flex gap-2'>
+      <div className="w-full flex justify-end items-center my-3">
+        <div className="flex gap-2">
           <RegistryReviewImportDialogView />
           <Button
-            variant='outline'
-            className=''
+            variant="outline"
+            className=""
             onClick={() =>
               downloadData(
                 table
                   ?.getSelectedRowModel()
-                  .rows.map(({ original }) => original.id),
+                  .rows.map(({ original }) => original.id)
               )
-            }>
+            }
+          >
             Export All <DownloadIcon />
           </Button>
         </div>
         <DropdownMenu modal>
           <DropdownMenuTrigger asChild>
-            <Button variant='outline' className='ml-auto'>
+            <Button variant="outline" className="ml-auto">
               Columns Visibility <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
+          <DropdownMenuContent align="end">
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
@@ -387,16 +392,17 @@ function RegistryPreviewTableView({
                 const columnStructure = registryColumnsStructure?.find(
                   ({ id, alternativeId }) => {
                     return id === column.id || alternativeId === column.id;
-                  },
+                  }
                 );
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
-                    className='capitalize'
+                    className="capitalize"
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)
-                    }>
+                    }
+                  >
                     {columnStructure?.title || column.id}
                   </DropdownMenuCheckboxItem>
                 );
@@ -415,7 +421,7 @@ function RegistryPreviewTableView({
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext(),
+                          header.getContext()
                         )}
                   </TableHead>
                 );
@@ -428,7 +434,8 @@ function RegistryPreviewTableView({
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
-                data-state={row.getIsSelected() && "selected"}>
+                data-state={row.getIsSelected() && "selected"}
+              >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -440,7 +447,8 @@ function RegistryPreviewTableView({
             <TableRow>
               <TableCell
                 colSpan={registryColumns.length}
-                className='h-24 text-center'>
+                className="h-24 text-center"
+              >
                 No results.
               </TableCell>
             </TableRow>
@@ -448,31 +456,33 @@ function RegistryPreviewTableView({
         </TableBody>
       </Table>
 
-      <div className='flex items-center justify-end space-x-2 py-4'>
-        <div className='flex-1 text-sm text-muted-foreground'>
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
-        <div className='space-x-2'>
-          <span className='text-xs text-gray-500'>
+        <div className="space-x-2">
+          <span className="text-xs text-gray-500">
             page {currentPage} of{" "}
             {Math.ceil(Number(allItemsCount) / Number(pageSize))} ({pageSize}{" "}
             items per page)
           </span>
           <Button
-            variant='outline'
-            size='sm'
+            variant="outline"
+            size="sm"
             onClick={() => setCurrentPage((prev) => prev - 1)}
-            disabled={currentPage === 1}>
+            disabled={currentPage === 1}
+          >
             Previous
           </Button>
           <Button
-            variant='outline'
-            size='sm'
+            variant="outline"
+            size="sm"
             onClick={() => setCurrentPage((prev) => prev + 1)}
             disabled={
               currentPage >= Math.ceil(Number(allItemsCount) / Number(pageSize))
-            }>
+            }
+          >
             Next
           </Button>
         </div>

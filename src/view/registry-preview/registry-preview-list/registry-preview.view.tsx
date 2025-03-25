@@ -18,7 +18,7 @@ const RegistryPreviewView = ({}: RegistryViewProps) => {
   const currentUser = useUser((state) => state.user);
   const [tableData, setTableData] = useState<RegistryDataTableRow[]>([]);
   const { fieldAccesses } = useRegistryFieldAccessFindByPosition(
-    currentUser?.position!,
+    currentUser?.position!
   );
   const {
     registries,
@@ -83,11 +83,11 @@ const RegistryPreviewView = ({}: RegistryViewProps) => {
   }, [registries]);
 
   return (
-    <main className='w-full py-4 px-2'>
-      <div className='flex items-center justify-between gap-3 w-full'>
-        <header className='mb-8 flex items-center'>
-          <SidebarTrigger className='mr-4' />
-          <h1 className='text-2xl font-bold'>Registries (Staged)</h1>
+    <main className="w-full py-4 px-2">
+      <div className="flex items-center justify-between gap-3 w-full">
+        <header className="mb-8 flex items-center">
+          <SidebarTrigger className="mr-4" />
+          <h1 className="text-2xl font-bold">Registries (Staged)</h1>
         </header>
         <div>
           <RegistryCreateDialogView onClose={mutate} />
