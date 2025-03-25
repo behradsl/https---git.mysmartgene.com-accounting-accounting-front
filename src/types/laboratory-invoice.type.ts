@@ -9,6 +9,17 @@ export enum LaboratoryInvoiceStatusType {
   ISSUED = "ISSUED",
   PAID = "PAID",
   UNPAID = "UNPAID",
+  PARTIALLY_PAID = "PARTIALLY_PAID",
+  OVERDUE = "OVERDUE",
+  CANCELLED = "CANCELLED",
+}
+
+export enum LaboratoryInvoicePaymentStatusType {
+  DRAFT = "DRAFT",
+  ISSUED = "ISSUED",
+  PAID = "PAID",
+  UNPAID = "UNPAID",
+  PARTIALLY_PAID = "PARTIALLY_PAID",
   OVERDUE = "OVERDUE",
   CANCELLED = "CANCELLED",
 }

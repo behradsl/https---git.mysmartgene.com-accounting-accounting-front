@@ -83,15 +83,12 @@ const LaboratoryInvoiceCreateDialogView = ({
           invoiceDate,
           usdExchangeRate: String(usdExchangeRate),
           notes,
-          registryPrices: updatedRegistries.map((registry) => ({
-            id: registry.id,
-            productPriceUsd: registry.productPriceUsd,
-          })),
         }) as Parameters<typeof createInvoice>[0],
       );
 
       toast.success("Invoice created successfully");
       onClose?.();
+      setOpen(false);
     } catch (error) {
       console.error("Error creating invoice:", error);
       toast.error("Failed to create invoice");

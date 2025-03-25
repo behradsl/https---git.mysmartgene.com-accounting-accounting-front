@@ -28,7 +28,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AuthLayout>{children}</AuthLayout>
-        <Toaster />
+        <Toaster className='z-[10000000]' toastOptions={{ duration: 10000 }} />
       </body>
     </html>
   );
