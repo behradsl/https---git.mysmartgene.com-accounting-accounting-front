@@ -59,8 +59,8 @@ const RegistryPreviewView = ({}: RegistryViewProps) => {
           sampleExtractionDate: registry.sampleExtractionDate
             ? new Date(registry.sampleExtractionDate).toISOString()
             : "",
-          resultReadyTime: registry.sampleExtractionDate
-            ? new Date(registry.sampleExtractionDate).toISOString()
+          resultReadyTime: registry.resultReadyTime
+            ? new Date(registry.resultReadyTime).toISOString()
             : "",
           description: registry.description || "",
           sampleStatus: registry.sampleStatus || "",

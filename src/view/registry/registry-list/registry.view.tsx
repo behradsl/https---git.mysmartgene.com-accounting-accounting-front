@@ -63,8 +63,8 @@ const RegistryView = ({}: RegistryViewProps) => {
           sampleExtractionDate: registry.sampleExtractionDate?.value
             ? new Date(registry.sampleExtractionDate?.value).toISOString()
             : "",
-          resultReadyTime: registry.sampleExtractionDate?.value
-            ? new Date(registry.sampleExtractionDate?.value).toISOString()
+          resultReadyTime: registry.resultReadyTime?.value
+            ? new Date(registry.resultReadyTime?.value).toISOString()
             : "",
           description: registry.description?.value || "",
           costumerRelationId: registry.costumerRelationId?.value || "",
